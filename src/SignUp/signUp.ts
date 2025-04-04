@@ -1,22 +1,6 @@
-import { addNewUser } from "../APIRequests/postRequest";
-import { getUserInfo } from "../APIRequests/getRequest";
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  userId: string;
-}
-export interface User {
-  userId: string;
-  fullName: string;
-  email: string;
-  password: string;
-  role: "buyer" | "seller";
-  cart: Product[];
-}
+import { GET, POST } from "../Services/methods";
+import { User } from "./commonTypeInterface";
 
 function initSignUp(): void {
   const form = document.querySelector("form") as HTMLFormElement;
@@ -63,21 +47,26 @@ function initSignUp(): void {
 
   // Real-time email uniqueness check using the API
   const checkEmailUnique = async (): Promise<boolean> => {
-    const email = emailInput.value.trim();
-    const users: User[] = await getUserInfo();
-    const emailExists = users.some((user) => user.email === email);
+    try {
+      const email = emailInput.value.trim();
+      const users = (await GET("user")) as User[];
+      const emailExists = users.some((user) => user.email === email);
 
-    if (emailExists) {
-      emailError.textContent = "This email is already registered.";
-      emailInput.classList.add("is-invalid");
-      return false;
-    } else {
-      if (validateEmail()) {
-        emailError.textContent = "";
-        emailInput.classList.remove("is-invalid");
+      if (emailExists) {
+        emailError.textContent = "This email is already registered.";
+        emailInput.classList.add("is-invalid");
+        return false;
+      } else {
+        if (validateEmail()) {
+          emailError.textContent = "";
+          emailInput.classList.remove("is-invalid");
+        }
+        return true;
       }
-      return true;
+    } catch (err) {
+      console.log(err);
     }
+    return false;
   };
 
   const validatePassword = (): boolean => {
@@ -153,7 +142,14 @@ function initSignUp(): void {
       };
       try {
         // Send the new user to the JSON server
-        await addNewUser(newUser);
+        const option = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        };
+        await POST("user", option);
         customAlert("success", "top-right", "Registration Successful");
 
         setTimeout(() => {
