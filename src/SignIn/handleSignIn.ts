@@ -28,7 +28,7 @@ async function handleClickSignIn() {
       customAlert("success", "top-right", "Login successful");
       localStorage.setItem("user-token", userObject.userId);
       setTimeout(() => {
-        if (userObject.role === "buyer") document.location.href = "#";
+        if (userObject.role === "buyer") document.location.href = "../Buyer/AllProduct/allProduct.html";
         else document.location.href = "#";
       }, 1000);
     } else {
