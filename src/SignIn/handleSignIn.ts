@@ -1,6 +1,6 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
-import { User } from "../SignUp/signUp.js";
-import { getUserInfo } from "../APIRequests/getRequest.js";
+import { User } from "../SignUp/commonTypeInterface.js";
+import { getUserInfo } from "../Services/getRequest.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeEventListener();

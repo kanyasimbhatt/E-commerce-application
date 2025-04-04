@@ -1,22 +1,7 @@
-import { addNewUser } from "../APIRequests/postRequest";
-import { getUserInfo } from "../APIRequests/getRequest";
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  userId: string;
-}
-export interface User {
-  userId: string;
-  fullName: string;
-  email: string;
-  password: string;
-  role: "buyer" | "seller";
-  cart: Product[];
-}
+import { addNewUser } from "../Services/postRequest";
+import { getUserInfo } from "../Services/getRequest";
+import { User } from "./commonTypeInterface";
 
 function initSignUp(): void {
   const form = document.querySelector("form") as HTMLFormElement;
