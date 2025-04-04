@@ -1,6 +1,7 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
 import { GET, POST } from "../Services/methods";
-import { User } from "./commonTypeInterface";
+import { User, Role } from "./commonTypeInterface";
+import { emailValidator, passwordValidator } from "./const";
 
 function initSignUp(): void {
   const form = document.querySelector("form") as HTMLFormElement;
@@ -32,7 +33,7 @@ function initSignUp(): void {
 
   // Real-time validation for email
   const validateEmail = (): boolean => {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailPattern = emailValidator;
     const email = emailInput.value.trim();
     if (!emailPattern.test(email)) {
       emailError.textContent = "Please enter a valid email address";
@@ -45,35 +46,10 @@ function initSignUp(): void {
     }
   };
 
-  // Real-time email uniqueness check using the API
-  const checkEmailUnique = async (): Promise<boolean> => {
-    try {
-      const email = emailInput.value.trim();
-      const users = (await GET("user")) as User[];
-      const emailExists = users.some((user) => user.email === email);
-
-      if (emailExists) {
-        emailError.textContent = "This email is already registered.";
-        emailInput.classList.add("is-invalid");
-        return false;
-      } else {
-        if (validateEmail()) {
-          emailError.textContent = "";
-          emailInput.classList.remove("is-invalid");
-        }
-        return true;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    return false;
-  };
-
+  // Real-time validation for password
   const validatePassword = (): boolean => {
     const password = passwordInput.value.trim();
-
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{7,}$/;
-
+    const passwordPattern = passwordValidator;
     if (!passwordPattern.test(password)) {
       passwordError.textContent =
         "Password must be at least 7 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
@@ -101,10 +77,7 @@ function initSignUp(): void {
 
   // Event listeners for real-time validation
   nameInput.addEventListener("input", validateName);
-  emailInput.addEventListener("input", async () => {
-    validateEmail();
-    await checkEmailUnique();
-  });
+  emailInput.addEventListener("input", validateEmail);
   passwordInput.addEventListener("input", validatePassword);
   roleSelect.addEventListener("change", validateRole);
 
@@ -113,48 +86,70 @@ function initSignUp(): void {
     return `user-${Date.now()}`;
   };
 
+  // Form submission handler
   form.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
 
     // Run all custom validations
     const isNameValid = validateName();
-    const isEmailValid = validateEmail() && (await checkEmailUnique());
+    const isEmailValid = validateEmail();
     const isPasswordValid = validatePassword();
     const isRoleValid = validateRole();
 
     // Proceed only if all validations pass
     if (isNameValid && isEmailValid && isPasswordValid && isRoleValid) {
-      const fullName: string = nameInput.value.trim();
-      const email: string = emailInput.value.trim();
-      const password: string = passwordInput.value.trim();
-      const role: string = roleSelect.value;
+      const email = emailInput.value.trim();
 
-      // Generate a unique userId
-      const userId = generateUserId();
-
-      const newUser: User = {
-        userId,
-        fullName,
-        email,
-        password,
-        role: role as "buyer" | "seller",
-        cart: [],
-      };
       try {
-        // Send the new user to the JSON server
-        const option = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newUser),
-        };
-        await POST("user", option);
-        customAlert("success", "top-right", "Registration Successful");
+        // Check if the email already exists in the database
+        const users = (await GET("user")) as User[];
+        const emailExists = users.some((user) => user.email === email);
 
-        setTimeout(() => {
-          document.location.href = "../SignIn/signIn.html";
-        }, 1000);
+        if (emailExists) {
+          // Show custom alert if email already exists
+          customAlert(
+            "error",
+            "top-right",
+            "Please use a different email, as this email is already in use."
+          );
+          emailError.textContent = "This email is already registered.";
+          emailInput.classList.add("is-invalid");
+          return; // Stop form submission
+        } else {
+          emailError.textContent = "";
+          emailInput.classList.remove("is-invalid");
+
+          const fullName: string = nameInput.value.trim();
+          const password: string = passwordInput.value.trim();
+          const role: string = roleSelect.value;
+
+          // Generate a unique userId
+          const userId = generateUserId();
+
+          const newUser: User = {
+            userId,
+            fullName,
+            email,
+            password,
+            role: roleSelect.value as Role, // Using Role enum here
+            cart: [],
+          };
+
+          // Send the new user to the JSON server
+          const option = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+          };
+          await POST("user", option);
+          customAlert("success", "top-right", "Registration Successful");
+
+          setTimeout(() => {
+            document.location.href = "../SignIn/signIn.html";
+          }, 1000);
+        }
       } catch (err) {
         console.log(err);
       }
