@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/kanyasimbhatt/E-commerce-application#readme",
   "dependencies": {
-    "@pranshupatel/custom-alert": "^1.0.7"
+    "@pranshupatel/custom-alert": "^1.0.7",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "parcel": "^2.14.4"
