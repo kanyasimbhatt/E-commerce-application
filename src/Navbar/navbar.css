@@ -1,4 +1,15 @@
-.profile-user-info {
+.profile-user-info-seller {
+  right: -85px;
+  margin-top: 15px;
+  height: 400px;
+  width: 300px;
+  background-color: pink;
+  position: absolute;
+  z-index: 1;
+  display: none;
+}
+
+.profile-user-info-buyer {
   right: -16px;
   margin-top: 15px;
   height: 400px;
