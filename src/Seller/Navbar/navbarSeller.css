@@ -1,0 +1,24 @@
+.profile-user-info {
+  right: -16px;
+  margin-top: 15px;
+  height: 400px;
+  width: 300px;
+  background-color: pink;
+  position: absolute;
+  z-index: 1;
+  display: none;
+}
+
+.profile-logo-info-wrapper {
+  position: relative;
+}
+
+.selected {
+  display: block;
+}
+
+@media screen and (max-width: 625px) {
+  .profile-user-info {
+    margin-top: 9px;
+  }
+}
