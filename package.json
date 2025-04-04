@@ -1,0 +1,27 @@
+{
+  "name": "e-commerce-application",
+  "version": "1.0.0",
+  "description": "#### This project is basically an e-commerce website where users can interact as either buyers or sellers. This project includes different user interfaces for both roles, including login/signup pages, product listings, product details, shopping cart, and checkout pages. The design here is responsive and user-friendly, ensuring a smooth experience for users on both desktop and mobile devices.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build ./src/SignUp/signUp.html ./src/SignIn/signIn.html",
+    "dev": "parcel ./src/SignUp/signUp.html ./src/SignIn/signIn.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanyasimbhatt/E-commerce-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanyasimbhatt/E-commerce-application/issues"
+  },
+  "homepage": "https://github.com/kanyasimbhatt/E-commerce-application#readme",
+  "dependencies": {
+    "@pranshupatel/custom-alert": "^1.0.7"
+  },
+  "devDependencies": {
+    "parcel": "^2.14.4"
+  }
+}
