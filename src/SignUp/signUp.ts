@@ -1,5 +1,5 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
-import { GET, POST } from "../Services/Service";
+import { GET, POST } from "../Services/methods";
 import { User } from "./commonTypeInterface";
 
 function initSignUp(): void {

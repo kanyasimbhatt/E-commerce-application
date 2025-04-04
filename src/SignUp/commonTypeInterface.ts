@@ -11,5 +11,5 @@ export interface User {
   email: string;
   password: string;
   role: "buyer" | "seller";
-  cart: Product[];
+  cart: Array<Product>;
 }

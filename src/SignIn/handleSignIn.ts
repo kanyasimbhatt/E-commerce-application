@@ -1,30 +1,27 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
 import { User } from "../SignUp/commonTypeInterface.js";
-import { GET } from "../Services/Service.js";
-
-document.addEventListener("DOMContentLoaded", () => {
-  initializeEventListener();
-});
+import { GET } from "../Services/methods.js";
 
 function initializeEventListener() {
   document
-    .getElementsByClassName("sign-in-form")[0]
+    .getElementById("sign-in-form")!
     .addEventListener("submit", (event) => {
       event.preventDefault();
 
-      handleSignIn();
+      handleClickSignIn();
     });
 }
 
-async function handleSignIn() {
-  const username = (document.getElementById("email") as HTMLInputElement).value;
+async function handleClickSignIn() {
+  const userEmail = (document.getElementById("email") as HTMLInputElement)
+    .value;
   const password = (document.getElementById("password") as HTMLInputElement)
     .value;
   try {
     const userData = (await GET("user")) as User[];
 
-    let userObject = userData.find(
-      (user: User) => user.email === username && user.password === password
+    const userObject = userData.find(
+      (user: User) => user.email === userEmail && user.password === password
     );
 
     if (userObject) {
@@ -35,9 +32,13 @@ async function handleSignIn() {
         else document.location.href = "#";
       }, 1000);
     } else {
-      customAlert("error", "top-right", "Invalid username and password");
+      customAlert("error", "top-right", "Invalid username or password");
     }
   } catch (err) {
     console.log(err);
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeEventListener();
+});
