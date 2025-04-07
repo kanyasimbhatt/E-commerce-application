@@ -7,6 +7,7 @@ import {
   createProduct,
 } from "../../Services/productservice";
 import { GET } from "../../Services/methods";
+import { RouteProtection } from "../../protectedRoute/routeProtection";
 
 function getProductById(productId: string): Promise<Product | undefined> {
   return getAllProducts().then((products) => {
@@ -19,6 +20,7 @@ function getProductById(productId: string): Promise<Product | undefined> {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  RouteProtection("seller");
   const form = document.getElementById("productForm") as HTMLFormElement;
   const productNameInput = document.getElementById(
     "productName"
