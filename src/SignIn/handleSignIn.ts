@@ -14,7 +14,7 @@ function initializeEventListener() {
 
 function handleRedirect(userObject: User) {
   if (userObject.role === "buyer") document.location.href = "#";
-  else document.location.href = "#";
+  else document.location.href = "../Seller/add-product-form.html";
 }
 
 async function handleClickSignIn() {
