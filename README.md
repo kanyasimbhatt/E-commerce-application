@@ -21,3 +21,8 @@
 
 - View their dashboard with product management options.
 - Add, Edit or delete products
+
+#### Live Link:
+
+- To experience the website, kindly visit: https://67ef7300fd31f5d451c9cdd8--gregarious-cannoli-34fbc1.netlify.app/signup/signup
+- backend deployed on: https://e-commerce-website-backend-9431.onrender.com/
