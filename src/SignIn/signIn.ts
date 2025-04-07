@@ -1,4 +1,4 @@
-import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
+import customAlert from "@pranshupatel/custom-alert";
 import { User } from "../SignUp/types.js";
 import { GET } from "../Services/methods.js";
 
@@ -14,7 +14,7 @@ function initializeEventListener() {
 
 function handleRedirect(userObject: User) {
   if (userObject.role === "buyer") document.location.href = "#";
-  else document.location.href = "../Seller/add-product-form.html";
+  else document.location.href = "#";
 }
 
 async function handleClickSignIn() {
@@ -46,7 +46,7 @@ async function handleClickSignIn() {
 document.addEventListener("DOMContentLoaded", async () => {
   if (localStorage.getItem("user-token")) {
     const userObject = (await GET(
-      `user/${localStorage.getItem("user-token")}`
+      `user?userId=${localStorage.getItem("user-token")}`
     )) as User;
 
     handleRedirect(userObject);
