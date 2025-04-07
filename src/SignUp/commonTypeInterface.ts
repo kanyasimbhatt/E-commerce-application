@@ -5,11 +5,16 @@ export interface Product {
   image: string;
   userId: string;
 }
+
+export enum Role {
+  Buyer = "buyer",
+  Seller = "seller",
+}
 export interface User {
   userId: string;
   fullName: string;
   email: string;
   password: string;
-  role: "buyer" | "seller";
+  role: Role;
   cart: Array<Product>;
 }
