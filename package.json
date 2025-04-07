@@ -4,8 +4,8 @@
   "description": "#### This project is basically an e-commerce website where users can interact as either buyers or sellers. This project includes different user interfaces for both roles, including login/signup pages, product listings, product details, shopping cart, and checkout pages. The design here is responsive and user-friendly, ensuring a smooth experience for users on both desktop and mobile devices.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build ./src/SignUp/signUp.html ./src/SignIn/signIn.html ./src/Seller/add-product-form/add-product-form.html ./src/Seller/seller-products/seller-products.html",
-    "dev": "parcel ./src/SignUp/signUp.html ./src/SignIn/signIn.html ./src/Seller/add-product-form/add-product-form.html ./src/Seller/seller-products/seller-products.html"
+    "build": "parcel build ./src/SignUp/signUp.html ./src/SignIn/signIn.html ./src/Buyer/allProduct/allProduct.html ./src/Seller/seller-products/seller-products.html",
+    "dev": "parcel ./src/SignUp/signUp.html ./src/SignIn/signIn.html ./src/Buyer/allProduct/allProduct.html ./src/Seller/seller-products/seller-products.html"
   },
   "repository": {
     "type": "git",

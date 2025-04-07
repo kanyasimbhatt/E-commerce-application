@@ -52,5 +52,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     handleRedirect(userObject[0]);
   }
+
   initializeEventListener();
 });
