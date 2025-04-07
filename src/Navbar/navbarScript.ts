@@ -1,14 +1,12 @@
 function induceNavbarCodeForBuyer(element: HTMLElement) {
-  element.innerHTML = `<nav class="navbar navbar-expand-lg navbar-light bg-light px-3 shadow">
+  element.innerHTML = `
       <!-- Logo  -->
       <a
         class="navbar-brand d-flex gap-2 align-items-center justify-content-center"
         href="./viewAllProducts.html"
       >
-        <img src="../images/logo.png" alt="Logo" height="40" width="40" />
+        <img src="./images/logo.png" alt="Logo" height="40" width="40" />
         <h3 class="text-primary">Shopify</h3>
-        <h5 class="text-primary seller-title">Seller</h5>
-        <h5 class="text-primary buyer-title">Buyer</h5>
       </a>
       <div class="ms-auto d-flex align-items-center gap-4">
         <!-- Search bar -->
@@ -39,21 +37,19 @@ function induceNavbarCodeForBuyer(element: HTMLElement) {
           ></i>
         </a>
       </div>
-    </nav>`;
+   `;
 }
 
 function induceNavbarCodeForSeller(element: HTMLElement) {
-  element.innerHTML = `<nav class="navbar navbar-expand-lg navbar-light bg-light px-3 shadow">
+  element.innerHTML = `
 
       <!-- Logo  -->
       <a
         class="navbar-brand d-flex gap-2 align-items-center justify-content-center"
         href="./viewAllProducts.html"
       >
-        <img src="../images/logo.png" alt="Logo" height="40" width="40" />
+        <img src="./images/logo.png" alt="Logo" height="40" width="40" />
         <h3 class="text-primary">Shopify</h3>
-        <h5 class="text-primary seller-title">Seller</h5>
-        <h5 class="text-primary buyer-title">Buyer</h5>
       </a>
       <div class="ms-auto d-flex align-items-center gap-4">
         <!-- Search bar -->
@@ -77,8 +73,7 @@ function induceNavbarCodeForSeller(element: HTMLElement) {
           </a>
           <div class="profile-user-info-seller"></div>
         </div>
-      </div>
-    </nav>`;
+      </div>`;
 }
 
 export function redirectNavbarRequest(element: HTMLElement) {
