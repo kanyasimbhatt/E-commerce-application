@@ -12,6 +12,11 @@ function initializeEventListener() {
     });
 }
 
+function handleRedirect(userObject: User) {
+  if (userObject.role === "buyer") document.location.href = "#";
+  else document.location.href = "../Seller/add-product-form.html";
+}
+
 async function handleClickSignIn() {
   const userEmail = (document.getElementById("email") as HTMLInputElement)
     .value;
@@ -28,8 +33,7 @@ async function handleClickSignIn() {
       customAlert("success", "top-right", "Login successful");
       localStorage.setItem("user-token", userObject.userId);
       setTimeout(() => {
-        if (userObject.role === "buyer") document.location.href = "#";
-        else document.location.href = "#";
+        handleRedirect(userObject);
       }, 1000);
     } else {
       customAlert("error", "top-right", "Invalid username or password");
@@ -39,6 +43,13 @@ async function handleClickSignIn() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  if (localStorage.getItem("user-token")) {
+    const userObject = (await GET(
+      `user/${localStorage.getItem("user-token")}`
+    )) as User;
+
+    handleRedirect(userObject);
+  }
   initializeEventListener();
 });

@@ -91,8 +91,6 @@ function induceNavbarCodeForSeller(element: HTMLElement) {
   )[0] as HTMLElement;
 
   profileElement.addEventListener("click", () => {
-    console.log("hello");
-
     document
       .getElementsByClassName("profile-user-info-seller")[0]
       .classList.toggle("selected");

@@ -29,7 +29,11 @@
 }
 
 @media screen and (max-width: 625px) {
-  .profile-user-info {
+  .profile-user-info-buyer {
+    margin-top: 9px;
+  }
+
+  .profile-user-info-seller {
     margin-top: 9px;
   }
 }
