@@ -13,8 +13,10 @@ function initializeEventListener() {
 }
 
 function handleRedirect(userObject: User) {
-  if (userObject.role === "buyer") document.location.href = "#";
-  else document.location.href = "#";
+  if (userObject.role === "buyer") {
+    document.location.href = "../Buyer/allProduct/allProduct.html";
+    console.log("hello");
+  } else document.location.href = "../Seller/add-product-form.html";
 }
 
 async function handleClickSignIn() {
@@ -47,9 +49,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (localStorage.getItem("user-token")) {
     const userObject = (await GET(
       `user?userId=${localStorage.getItem("user-token")}`
-    )) as User;
+    )) as User[];
 
-    handleRedirect(userObject);
+    handleRedirect(userObject[0]);
   }
+
   initializeEventListener();
 });
