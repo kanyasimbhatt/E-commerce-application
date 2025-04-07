@@ -11,7 +11,7 @@ export async function GET(
     options
   );
 
-  // ✅ Check if the response is OK
+  //  Check if the response is OK
   if (!response.ok) {
     throw new Error("couldnt fetch data");
   }

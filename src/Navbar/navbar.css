@@ -1,0 +1,39 @@
+.profile-user-info-seller {
+  right: -85px;
+  margin-top: 15px;
+  height: 400px;
+  width: 300px;
+  background-color: pink;
+  position: absolute;
+  z-index: 1;
+  display: none;
+}
+
+.profile-user-info-buyer {
+  right: -16px;
+  margin-top: 15px;
+  height: 400px;
+  width: 300px;
+  background-color: pink;
+  position: absolute;
+  z-index: 1;
+  display: none;
+}
+
+.profile-logo-info-wrapper {
+  position: relative;
+}
+
+.selected {
+  display: block;
+}
+
+@media screen and (max-width: 625px) {
+  .profile-user-info-buyer {
+    margin-top: 9px;
+  }
+
+  .profile-user-info-seller {
+    margin-top: 9px;
+  }
+}
