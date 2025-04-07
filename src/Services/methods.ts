@@ -1,9 +1,6 @@
 import { User, Product } from "../SignUp/types";
 
-export async function GET(
-  url,
-  options?
-): Promise<User[] | User | Product | Product[]> {
+export async function GET(url, options?): Promise<User[] | Product[]> {
   const response = await fetch(
     `https://e-commerce-website-backend-568s.onrender.com/${url}`
   );

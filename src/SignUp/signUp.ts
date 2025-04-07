@@ -162,12 +162,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (localStorage.getItem("user-token")) {
     const userObject = (await GET(
       `user?userId=${localStorage.getItem("user-token")}`
-    )) as User;
+    )) as User[];
 
-    if (userObject.role === "buyer") {
+    if (userObject[0].role === "buyer") {
       document.location.href = "../Buyer/allProduct/allProduct.html";
     } else {
-      document.location.href = "#";
+      document.location.href =
+        "../Seller/add-product-form/add-product-form.html";
     }
   }
 });
