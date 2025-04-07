@@ -1,4 +1,4 @@
-import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
+import customAlert from "@pranshupatel/custom-alert";
 import { User } from "../SignUp/types.js";
 import { GET } from "../Services/methods.js";
 
@@ -45,11 +45,10 @@ async function handleClickSignIn() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    if (localStorage.getItem("user-token")) {
-      const userObject = (await GET(
-        `user/${localStorage.getItem("user-token")}`
-      )) as User;
+  if (localStorage.getItem("user-token")) {
+    const userObject = (await GET(
+      `user?userId=${localStorage.getItem("user-token")}`
+    )) as User;
 
       handleRedirect(userObject);
     }

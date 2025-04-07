@@ -1,8 +1,10 @@
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
+import { RouteProtection } from "../../protectedRoute/routeProtection";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  RouteProtection("buyer");
   const productList = document.getElementById("product-list") as HTMLElement;
   const navbarElement = document.getElementsByClassName(
     "navbar"
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         displayProducts(sorted);
       });
     }
-  }, 100); 
+  }, 100);
 
   const sortOptions = document.querySelectorAll(".dropdown-item");
 
