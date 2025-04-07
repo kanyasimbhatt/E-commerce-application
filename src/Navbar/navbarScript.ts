@@ -15,11 +15,13 @@ function induceNavbarCodeForBuyer(element: HTMLElement) {
         >
           <i class="fa fa-search px-2"></i>
           <input
-            type="text"
-            class="form-control bg-light border-0"
-            placeholder="Search products..."
-            aria-label="Search products"
-          />
+  type="text"
+  id="search"
+  class="form-control bg-light border-0"
+  placeholder="Search products..."
+  aria-label="Search products"
+/>
+
         </div>
         <!-- user-info -->
         <div class="profile-logo-info-wrapper">
