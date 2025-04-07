@@ -1,5 +1,5 @@
-import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
-import { User } from "../SignUp/commonTypeInterface.js";
+import customAlert from "@pranshupatel/custom-alert";
+import { User } from "../SignUp/types.js";
 import { GET } from "../Services/methods.js";
 
 function initializeEventListener() {
@@ -13,8 +13,8 @@ function initializeEventListener() {
 }
 
 function handleRedirect(userObject: User) {
-  if (userObject.role === "buyer") document.location.href = "../Buyer/allProduct/allProduct.html";
-  else document.location.href = "../Seller/add-product-form.html";
+  if (userObject.role === "buyer") document.location.href = "#";
+  else document.location.href = "#";
 }
 
 async function handleClickSignIn() {
@@ -33,8 +33,7 @@ async function handleClickSignIn() {
       customAlert("success", "top-right", "Login successful");
       localStorage.setItem("user-token", userObject.userId);
       setTimeout(() => {
-        if (userObject.role === "buyer") document.location.href = "../Buyer/AllProduct/allProduct.html";
-        else document.location.href = "#";
+        handleRedirect(userObject);
       }, 1000);
     } else {
       customAlert("error", "top-right", "Invalid username or password");
@@ -47,7 +46,7 @@ async function handleClickSignIn() {
 document.addEventListener("DOMContentLoaded", async () => {
   if (localStorage.getItem("user-token")) {
     const userObject = (await GET(
-      `user/${localStorage.getItem("user-token")}`
+      `user?userId=${localStorage.getItem("user-token")}`
     )) as User;
 
     handleRedirect(userObject);
