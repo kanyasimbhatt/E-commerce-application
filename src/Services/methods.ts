@@ -1,4 +1,4 @@
-import { User } from "../SignUp/commonTypeInterface";
+import { User } from "../SignUp/types";
 
 export async function GET(url, options?): Promise<User[] | User> {
   const response = await fetch(

@@ -1,6 +1,6 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
 import { GET, POST } from "../Services/methods";
-import { User } from "./commonTypeInterface";
+import { User } from "./types";
 
 function initSignUp(): void {
   const form = document.querySelector("form") as HTMLFormElement;
