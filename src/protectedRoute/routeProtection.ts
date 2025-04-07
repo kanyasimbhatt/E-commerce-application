@@ -4,7 +4,7 @@ import { GET } from "../Services/methods";
 export async function RouteProtection(pageType: string) {
   const userId = localStorage.getItem("user-token");
   if (!userId) {
-    document.location.href = "../SignUn/signUn.html";
+    document.location.href = "../SignUp/signUp.html";
     return;
   }
   const userObject = (await GET(`user?userId=${userId}`)) as User[];
