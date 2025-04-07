@@ -5,7 +5,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
         class="navbar-brand d-flex gap-2 align-items-center justify-content-center"
         href=""
       >
-        <img src=""https://th.bing.com/th/id/OIP.jZz_UxnqxGF3Fa2U3mXQpAHaHa?rs=1&pid=ImgDetMain"" alt="Logo" height="40" width="40" />
+        <img src="https://th.bing.com/th/id/OIP.jZz_UxnqxGF3Fa2U3mXQpAHaHa?rs=1&pid=ImgDetMain" alt="Logo" height="40" width="40" />
         <h3 class="text-primary">Shopify</h3>
       </a>
       <div class="ms-auto d-flex align-items-center gap-4">
