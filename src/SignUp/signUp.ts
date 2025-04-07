@@ -1,6 +1,6 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
 import { GET, POST } from "../Services/methods";
-import { User, Role } from "./commonTypeInterface";
+import { User, Role } from "./types";
 import { emailValidator, passwordValidator } from "./const";
 
 function initSignUp(): void {
@@ -157,4 +157,17 @@ function initSignUp(): void {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initSignUp);
+document.addEventListener("DOMContentLoaded", async () => {
+  initSignUp();
+  if (localStorage.getItem("user-token")) {
+    const userObject = (await GET(
+      `user?userId=${localStorage.getItem("user-token")}`
+    )) as User;
+
+    if (userObject.role === "buyer") {
+      document.location.href = "../Buyer/allProduct/allProduct.html";
+    } else {
+      document.location.href = "#";
+    }
+  }
+});

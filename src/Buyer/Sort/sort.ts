@@ -1,4 +1,10 @@
-import type { Product } from "../../SignUp/commonTypeInterface";
+import type { Product } from "../../SignUp/types";
+
+export function filterProducts(query: string, products: Product[]): Product[] {
+  return products.filter((product) =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+  );
+}
 
 export function sortProducts(products: Product[], sortKey: string): Product[] {
   switch (sortKey) {
@@ -11,6 +17,6 @@ export function sortProducts(products: Product[], sortKey: string): Product[] {
     case "highToLow":
       return [...products].sort((a, b) => b.price - a.price);
     default:
-      return products;
+      return [...products];
   }
 }
