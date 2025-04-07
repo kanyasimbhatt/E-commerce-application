@@ -5,7 +5,7 @@ function induceNavbarCodeForBuyer(element: HTMLElement) {
         class="navbar-brand d-flex gap-2 align-items-center justify-content-center"
         href="./viewAllProducts.html"
       >
-        <img src="./images/logo.png" alt="Logo" height="40" width="40" />
+        <img src="https://th.bing.com/th/id/OIP.jZz_UxnqxGF3Fa2U3mXQpAHaHa?rs=1&pid=ImgDetMain" alt="Logo" height="40" width="40" />
         <h3 class="text-primary">Shopify</h3>
       </a>
       <div class="ms-auto d-flex align-items-center gap-4">
@@ -38,6 +38,18 @@ function induceNavbarCodeForBuyer(element: HTMLElement) {
         </a>
       </div>
    `;
+
+  const profileElement = document.getElementsByClassName(
+    "profile-popup"
+  )[0] as HTMLElement;
+
+  profileElement.addEventListener("click", () => {
+    console.log("hello");
+
+    document
+      .getElementsByClassName("profile-user-info-buyer")[0]
+      .classList.toggle("selected");
+  });
 }
 
 function induceNavbarCodeForSeller(element: HTMLElement) {
@@ -48,7 +60,7 @@ function induceNavbarCodeForSeller(element: HTMLElement) {
         class="navbar-brand d-flex gap-2 align-items-center justify-content-center"
         href="./viewAllProducts.html"
       >
-        <img src="./images/logo.png" alt="Logo" height="40" width="40" />
+        <img src="https://th.bing.com/th/id/OIP.jZz_UxnqxGF3Fa2U3mXQpAHaHa?rs=1&pid=ImgDetMain" alt="Logo" height="40" width="40" />
         <h3 class="text-primary">Shopify</h3>
       </a>
       <div class="ms-auto d-flex align-items-center gap-4">
@@ -74,6 +86,17 @@ function induceNavbarCodeForSeller(element: HTMLElement) {
           <div class="profile-user-info-seller"></div>
         </div>
       </div>`;
+  const profileElement = document.getElementsByClassName(
+    "profile-popup"
+  )[0] as HTMLElement;
+
+  profileElement.addEventListener("click", () => {
+    console.log("hello");
+
+    document
+      .getElementsByClassName("profile-user-info-seller")[0]
+      .classList.toggle("selected");
+  });
 }
 
 export function redirectNavbarRequest(element: HTMLElement) {
@@ -82,13 +105,7 @@ export function redirectNavbarRequest(element: HTMLElement) {
     induceNavbarCodeForBuyer(element);
   } else if (currentLink.includes("Seller")) {
     induceNavbarCodeForSeller(element);
+  } else {
+    induceNavbarCodeForBuyer(element);
   }
-
-  document
-    .getElementsByClassName("profile-popup")[0]
-    .addEventListener("click", () => {
-      document
-        .getElementsByClassName("profile-user-info")[0]
-        .classList.toggle("selected");
-    });
 }
