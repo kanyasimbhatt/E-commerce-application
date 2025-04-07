@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(
       "All products:",
       allProducts.map((p) => ({
-        productId: p.productId,
+        productId: p.id,
         userId: p.userId,
       }))
     );
@@ -130,13 +130,13 @@ function loadMoreProducts(): void {
               )}</p>
               <div class="mt-auto">
                 <button class="btn btn-sm btn-info mb-1" data-view="${
-                  product.productId
+                  product.id
                 }">View</button>
                 <button class="btn btn-sm btn-warning mb-1" data-edit="${
-                  product.productId
+                  product.id
                 }">Edit</button>
                 <button class="btn btn-sm btn-danger" data-delete="${
-                  product.productId
+                  product.id
                 }">Delete</button>
               </div>
             </div>
@@ -182,7 +182,7 @@ function handleScroll(): void {
 }
 
 function viewProduct(productId: string): void {
-  const product = sellerProducts.find((p) => p.productId === productId);
+  const product = sellerProducts.find((p) => p.id === productId);
   if (!product) return;
 
   (document.getElementById("modalProductImage") as HTMLImageElement).src =
@@ -212,10 +212,10 @@ async function deleteProduct(productId: string): Promise<void> {
   try {
     await deleteProductService(productId);
 
-    sellerProducts = sellerProducts.filter((p) => p.productId !== productId);
+    sellerProducts = sellerProducts.filter((p) => p.id !== productId);
 
     currentRenderProducts = currentRenderProducts.filter(
-      (p) => p.productId !== productId
+      (p) => p.id !== productId
     );
     resetProductsDisplay();
     loadMoreProducts();

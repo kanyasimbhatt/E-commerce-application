@@ -11,7 +11,7 @@ import { GET } from "../../Services/methods";
 function getProductById(productId: string): Promise<Product | undefined> {
   return getAllProducts().then((products) => {
     if (!products) return undefined;
-    const found = products.find((p) => p.productId === productId);
+    const found = products.find((p) => p.id === productId);
     console.log("Looking for productId:", productId);
     console.log("Matched product:", found);
     return found;
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-      const product = products.find((p) => p.productId === editingProductId);
+      const product = products.find((p) => p.id === editingProductId);
       if (product) {
         editingInternalId = product.id;
 
@@ -226,7 +226,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         image: imageValue,
         userId: String(userId),
         description: descriptionValue,
-        productId: undefined,
       };
 
       if (editingProductId && editingInternalId) {
@@ -241,7 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         editingProductId ? "Product updated!" : "Product added successfully!"
       );
       setTimeout(() => {
-        window.location.assign("./seller-products.html");
+        window.location.assign("../seller-products/seller-products.html");
       }, 1000);
     } catch (error) {
       console.error("Error adding/updating product:", error);
