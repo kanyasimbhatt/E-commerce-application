@@ -1,5 +1,5 @@
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
-import type { Product } from "../../SignUp/commonTypeInterface";
+import type { Product } from "../../SignUp/types";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const productList = document.getElementById("product-list") as HTMLElement;
