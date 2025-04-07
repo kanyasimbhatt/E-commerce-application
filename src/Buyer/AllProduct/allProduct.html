@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopify</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="./allProduct.css" />
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg px-3">
+      <!-- Logo  -->
+      <a
+        class="navbar-brand d-flex gap-2 align-items-center justify-content-center"
+        href="#"
+      >
+        <img src="./images/logo.png" alt="Logo" height="40" width="40" />
+        <h3 class="text-primary">Shopify</h3>
+      </a>
+      <div class="ms-auto d-flex align-items-center gap-4">
+        <!-- Search bar -->
+        <div
+          class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3"
+        >
+          <i class="fa fa-search px-2"></i>
+          <input
+            id="search"
+            type="text"
+            class="form-control bg-light border-0"
+            placeholder="Search products..."
+            aria-label="Search products"
+          />
+        </div>
+        <!-- user-info -->
+        <div class="profile-logo-info-wrapper">
+          <a href="#" class="me-3 profile-popup">
+            <i class="bi bi-person-circle" style="font-size: 1.7rem"></i>
+          </a>
+          <div class="profile-user-info"></div>
+        </div>
+        <!-- add to cart -->
+        <a href="#" class="me-3 position-relative">
+          <i
+            class="fa fa-shopping-cart"
+            aria-hidden="true"
+            style="font-size: 1.5rem"
+          ></i>
+          <span
+            id="cart-count"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >0</span
+          >
+        </a>
+      </div>
+    </nav>
+    <main>
+      <div
+        class="main-heading card mb-3 d-flex flex-row justify-content-between align-items-center p-3"
+      >
+        <div class="list">
+          <h3 class="text-left">Product List</h3>
+        </div>
+
+        <!-- Sort By Dropdown -->
+        <div class="sort d-flex flex-row gap-3">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              id="sortDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Sort by Name
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+              <li>
+                <a class="dropdown-item" href="#" data-sort="none">None</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" data-sort="nameAsc"
+                  >A --> Z</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" data-sort="nameDesc"
+                  >Z --> A</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              id="sortDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Sort by Price
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+              <li>
+                <a class="dropdown-item" href="#" data-sort="none">None</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" data-sort="lowToHigh"
+                  >Low to High</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" data-sort="highToLow"
+                  >High to Low</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row allProduct" id="product-list"></div>
+    </main>
+  </body>
+  <script src="./allProduct.ts" type="module"></script>
+</html>
