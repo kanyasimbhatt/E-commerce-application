@@ -1,5 +1,6 @@
 import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
-import { User, Product, Role } from "../../SignUp/commonTypeInterface";
+
+import { User, Product, Role } from "../../SignUp/types";
 import {
   getAllProducts,
   updateProduct,
@@ -219,13 +220,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       const newProduct: Product = {
-        productId: editingProductId ? editingProductId : `prod-${Date.now()}`,
+        id: editingProductId ? editingProductId : `prod-${Date.now()}`,
         name: nameValue,
         price: priceValue,
         image: imageValue,
         userId: String(userId),
         description: descriptionValue,
-        id: editingInternalId ? editingInternalId : `temp-id-${Date.now()}`,
+        productId: undefined,
       };
 
       if (editingProductId && editingInternalId) {

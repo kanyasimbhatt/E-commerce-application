@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE } from "./methods";
-import { Product } from "../SignUp/commonTypeInterface";
+import { Product } from "../SignUp/types";
 
 // Create Product
 export async function createProduct(
@@ -67,5 +67,4 @@ export async function deleteProduct(productId: string): Promise<void> {
   }
 }
 
-// Export HTTP methods if needed elsewhere
 export { GET, POST, PUT, DELETE };

@@ -4,10 +4,10 @@ declare global {
   }
 }
 
-import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
-import { GET } from "../Services/methods";
-import { deleteProduct as deleteProductService } from "../Services/productservice";
-import { Product, User, Role } from "../SignUp/commonTypeInterface";
+import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
+import { GET } from "../../Services/methods";
+import { deleteProduct as deleteProductService } from "../../Services/productservice";
+import { Product, User, Role } from "../../SignUp/types";
 
 let sellerProducts: Product[] = [];
 

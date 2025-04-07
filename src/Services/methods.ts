@@ -1,4 +1,4 @@
-import { User, Product } from "../SignUp/commonTypeInterface";
+import { User, Product } from "../SignUp/types";
 
 export async function GET(
   url: string,
