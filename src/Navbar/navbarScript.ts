@@ -28,7 +28,7 @@ function induceNavbarCodeForBuyer(element: HTMLElement) {
           <a href="#" class="me-3 profile-popup">
             <i class="bi bi-person-circle" style="font-size: 1.7rem"></i>
           </a>
-          <div class="profile-user-info"></div>
+          <div class="profile-user-info-buyer"></div>
         </div>
         <!-- add to cart -->
         <a href="./viewCart.html" class="me-3 remove">
@@ -57,7 +57,7 @@ function induceNavbarCodeForSeller(element: HTMLElement) {
       </a>
       <div class="ms-auto d-flex align-items-center gap-4">
         <!-- Search bar -->
-        
+
         <div
           class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3 remove"
         >
@@ -75,7 +75,7 @@ function induceNavbarCodeForSeller(element: HTMLElement) {
           <a href="#" class="me-3 profile-popup">
             <i class="bi bi-person-circle" style="font-size: 1.7rem"></i>
           </a>
-          <div class="profile-user-info"></div>
+          <div class="profile-user-info-seller"></div>
         </div>
       </div>
     </nav>`;
@@ -88,4 +88,12 @@ export function redirectNavbarRequest(element: HTMLElement) {
   } else if (currentLink.includes("Seller")) {
     induceNavbarCodeForSeller(element);
   }
+
+  document
+    .getElementsByClassName("profile-popup")[0]
+    .addEventListener("click", () => {
+      document
+        .getElementsByClassName("profile-user-info")[0]
+        .classList.toggle("selected");
+    });
 }
