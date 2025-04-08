@@ -8,7 +8,7 @@ export async function RouteProtection(pageType: string) {
     return;
   }
   const userObject = (await GET(`user?userId=${userId}`)) as User[];
-  if (userObject) {
+  if (userObject.length !== 0) {
     if (userObject[0].role !== pageType) {
       if (pageType === "buyer") {
         document.location.href = "../Buyer/allProduct/allProduct.html";
