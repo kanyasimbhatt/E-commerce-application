@@ -1,11 +1,9 @@
-import { User, Product } from "../SignUp/commonTypeInterface";
+import { User, Product } from "../SignUp/types";
 
 export async function GET(
-  url: string,
-  options?: object
+  url,
+  options?
 ): Promise<User[] | User | Product | Product[]> {
-  console.log(url);
-
   const response = await fetch(
     `https://e-commerce-website-backend-568s.onrender.com/${url}`,
     options

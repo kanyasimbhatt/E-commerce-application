@@ -1,5 +1,5 @@
 import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
-import { User, Product, Role } from "../../SignUp/commonTypeInterface";
+import { User, Product, Role } from "../../SignUp/types";
 import {
   getAllProducts,
   updateProduct,
