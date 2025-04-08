@@ -15,11 +15,13 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
         >
           <i class="fa fa-search px-2"></i>
           <input
-            type="text"
-            class="form-control bg-light border-0"
-            placeholder="Search products..."
-            aria-label="Search products"
-          />
+  type="text"
+  id="search"
+  class="form-control bg-light border-0"
+  placeholder="Search products..."
+  aria-label="Search products"
+/>
+
         </div>
         <!-- user-info -->
         <div class="profile-logo-info-wrapper">
@@ -67,9 +69,9 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
 
 export function redirectNavbarRequest(element: HTMLElement) {
   const currentLink: string = document.location.href;
-  if (currentLink.includes("Buyer")) {
+  if (currentLink.toLowerCase().includes("buyer")) {
     induceNavbarCode(element, "buyer");
-  } else if (currentLink.includes("Seller")) {
+  } else if (currentLink.toLowerCase().includes("seller")) {
     induceNavbarCode(element, "seller");
   }
 }
