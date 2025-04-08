@@ -8,6 +8,7 @@ import {
 } from "../../Services/productservice";
 import { GET } from "../../Services/methods";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
+import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 
 function getProductById(productId: string): Promise<Product | undefined> {
   return getAllProducts().then((products) => {
@@ -20,6 +21,10 @@ function getProductById(productId: string): Promise<Product | undefined> {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const navbarElement = document.getElementsByClassName(
+    "navbar"
+  )[0] as HTMLElement;
+  redirectNavbarRequest(navbarElement);
   RouteProtection("seller");
   const form = document.getElementById("productForm") as HTMLFormElement;
   const productNameInput = document.getElementById(

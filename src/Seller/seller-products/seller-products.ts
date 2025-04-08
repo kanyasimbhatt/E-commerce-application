@@ -8,7 +8,8 @@ import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script
 import { GET } from "../../Services/methods";
 import { deleteProduct as deleteProductService } from "../../Services/productservice";
 import { Product, User, Role } from "../../SignUp/types";
-
+import { redirectNavbarRequest } from "../../Navbar/navbarScript";
+import { RouteProtection } from "../../protectedRoute/routeProtection";
 let sellerProducts: Product[] = [];
 
 let currentRenderProducts: Product[] = [];
@@ -20,6 +21,11 @@ let searchInputEl: HTMLInputElement;
 let sortSelectEl: HTMLSelectElement;
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const navbarElement = document.getElementsByClassName(
+    "navbar"
+  )[0] as HTMLElement;
+  redirectNavbarRequest(navbarElement);
+  RouteProtection("seller");
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
@@ -123,23 +129,20 @@ function loadMoreProducts(): void {
               alt="${product.name}"
               style="object-fit: cover; height: 200px;"
             />
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">${product.name}</h5>
-              <p class="card-text text-secondary mb-1">$${product.price.toFixed(
-                2
-              )}</p>
-              <div class="mt-auto">
-                <button class="btn btn-sm btn-info mb-1" data-view="${
-                  product.id
-                }">View</button>
-                <button class="btn btn-sm btn-warning mb-1" data-edit="${
-                  product.id
-                }">Edit</button>
-                <button class="btn btn-sm btn-danger" data-delete="${
-                  product.id
-                }">Delete</button>
-              </div>
-            </div>
+            <div class="card-body d-flex flex-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;">
+  <h5 class="card-title">${product.name}</h5>
+  <p class="card-text text-secondary mb-1">$${product.price.toFixed(2)}</p>
+  <div class="mt-auto" style="display: flex; flex-direction: row; justify-content: center; gap: 10px;">
+    <button class="btn btn-sm btn-info" data-view="${product.id}">View</button>
+    <button class="btn btn-sm btn-warning" data-edit="${
+      product.id
+    }">Edit</button>
+    <button class="btn btn-sm btn-danger" data-delete="${
+      product.id
+    }">Delete</button>
+  </div>
+</div>
+
           </div>
         `;
 
