@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE } from "./methods";
-import { Product } from "../SignUp/commonTypeInterface";
+import { Product } from "../SignUp/types";
 
 // Create Product
 export async function createProduct(
@@ -33,7 +33,7 @@ export async function getProductById(
 ): Promise<Product | undefined> {
   try {
     const allProducts = (await GET("products")) as unknown as Product[];
-    return allProducts.find((p) => p.productId === productId);
+    return allProducts.find((p) => p.id === productId);
   } catch (error) {
     console.error("Error fetching product by ID:", error);
   }
