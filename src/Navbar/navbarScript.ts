@@ -11,13 +11,13 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
       <div class="ms-auto d-flex align-items-center gap-4">
         <!-- Search bar -->
         <div
-          class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3 remove"
+          class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3 remove" 
         >
-          <i class="fa fa-search px-2 remove"></i>
+          <i class="fa fa-search px-2"></i>
           <input
           type="text"
           id="search"
-          class="form-control bg-light border-0 remove"
+          class="form-control bg-light border-0"
           placeholder="Search products..."
           aria-label="Search products"
       />
@@ -33,7 +33,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
         <!-- add to cart -->
         <a href="../../allProduct/Cart/cart.html" class="me-3 remove">
           <i
-            class="fa fa-shopping-cart remove"
+            class="fa fa-shopping-cart"
             aria-hidden="true"
             style="font-size: 1.5rem"
           ></i>
@@ -43,7 +43,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
 
   if (pageType === "seller") {
     document.querySelectorAll(".remove").forEach((element) => {
-      (element as HTMLElement).style.display = "none";
+      element.classList.add("d-none");
       document
         .getElementsByClassName("toggleClass")[0]
         .classList.remove("profile-user-info-buyer");
