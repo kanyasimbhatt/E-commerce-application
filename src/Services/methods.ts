@@ -11,7 +11,7 @@ export async function GET<T>(url, options?): Promise<T> {
   return data;
 }
 
-export async function POST(url: string, options: object) {
+export async function POST(url: string, options?: object) {
   const response = await fetch(
     `https://e-commerce-website-backend-568s.onrender.com/${url}`,
     {
@@ -28,7 +28,7 @@ export async function POST(url: string, options: object) {
   }
 }
 
-export async function PUT(url: string, options: object) {
+export async function PUT(url: string, options?: object) {
   const response = await fetch(
     `https://e-commerce-website-backend-568s.onrender.com/${url}`,
     {
@@ -45,7 +45,7 @@ export async function PUT(url: string, options: object) {
   }
 }
 
-export async function DELETE(url: string, options: object) {
+export async function DELETE(url: string, options?: object) {
   const response = await fetch(
     `https://e-commerce-website-backend-568s.onrender.com/${url}`,
     {

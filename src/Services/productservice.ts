@@ -7,8 +7,6 @@ export async function createProduct(
 ): Promise<Product | undefined> {
   try {
     const response = await POST("products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product),
     });
     return response as unknown as Product;
@@ -33,7 +31,7 @@ export async function getProductById(
 ): Promise<Product | undefined> {
   try {
     const allProducts = (await GET("products")) as unknown as Product[];
-    return allProducts.find((p) => p.id === productId);
+    return allProducts.find((product) => product.id === productId);
   } catch (error) {
     console.error("Error fetching product by ID:", error);
   }
@@ -46,8 +44,6 @@ export async function updateProduct(
 ): Promise<Product | undefined> {
   try {
     const response = await PUT(`products/${productId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),
     });
     return response as unknown as Product;
@@ -59,9 +55,7 @@ export async function updateProduct(
 // Delete Product
 export async function deleteProduct(productId: string): Promise<void> {
   try {
-    await DELETE(`products/${productId}`, {
-      method: "DELETE",
-    });
+    await DELETE(`products/${productId}`);
   } catch (error) {
     console.error("Error deleting product:", error);
   }
