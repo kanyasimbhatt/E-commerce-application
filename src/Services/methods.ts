@@ -1,71 +1,63 @@
-import { User, Product } from "../SignUp/types";
-
-export async function GET(
-  url,
-  options?
-): Promise<User[] | User | Product | Product[]> {
+export async function GET<T>(url, options?): Promise<T> {
   const response = await fetch(
-    `https://e-commerce-website-backend-568s.onrender.com/${url}`,
-    options
+    `https://e-commerce-website-backend-568s.onrender.com/${url}`
   );
 
-  // ✅ Check if the response is OK
   if (!response.ok) {
-    throw new Error("couldnt fetch data");
+    throw new Error(`Couldn't fetch data`);
   }
-  return await response.json();
+
+  let data = await response.json();
+  return data;
 }
 
 export async function POST(url: string, options: object) {
-  try {
-    const response = await fetch(
-      `https://e-commerce-website-backend-568s.onrender.com/${url}`,
-      options
-    );
-
-    if (!response.ok) {
-      const errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
-      console.error("POST Request Failed:", errorMessage);
-      throw new Error(errorMessage);
+  const response = await fetch(
+    `https://e-commerce-website-backend-568s.onrender.com/${url}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      ...options,
     }
-  } catch (error) {
-    console.error("Network Error in POST Request:", error);
-    throw error;
+  );
+
+  if (!response.ok) {
+    throw new Error("Couldn't Save new User data");
   }
 }
 
 export async function PUT(url: string, options: object) {
-  try {
-    const response = await fetch(
-      `https://e-commerce-website-backend-568s.onrender.com/${url}`,
-      options
-    );
-
-    if (!response.ok) {
-      const errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
-      console.error("PUT Request Failed:", errorMessage);
-      throw new Error(errorMessage);
+  const response = await fetch(
+    `https://e-commerce-website-backend-568s.onrender.com/${url}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      ...options,
     }
-  } catch (error) {
-    console.error("Network Error in PUT Request:", error);
-    throw error;
+  );
+
+  if (!response.ok) {
+    throw new Error("Couldn't Update User data");
   }
 }
 
 export async function DELETE(url: string, options: object) {
-  try {
-    const response = await fetch(
-      `https://e-commerce-website-backend-568s.onrender.com/${url}`,
-      options
-    );
-
-    if (!response.ok) {
-      const errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
-      console.error("DELETE Request Failed:", errorMessage);
-      throw new Error(errorMessage);
+  const response = await fetch(
+    `https://e-commerce-website-backend-568s.onrender.com/${url}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "DELETE",
+      ...options,
     }
-  } catch (error) {
-    console.error("Network Error in DELETE Request:", error);
-    throw error;
+  );
+
+  if (!response.ok) {
+    throw new Error("Couldn't Delete User data");
   }
 }
