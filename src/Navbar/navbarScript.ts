@@ -71,7 +71,7 @@ export function redirectNavbarRequest(element: HTMLElement) {
   const currentLink: string = document.location.href;
   if (currentLink.toLowerCase().includes("buyer")) {
     induceNavbarCode(element, "buyer");
-  } else if (currentLink.includes("Seller")) {
+  } else if (currentLink.toLowerCase().includes("seller")) {
     induceNavbarCode(element, "seller");
   }
 }
