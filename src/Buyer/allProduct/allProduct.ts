@@ -2,6 +2,8 @@ import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
+import { GET, POST, PUT } from "../../Services/methods";
+import { User } from "../../SignUp/types";
 
 document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("buyer");
@@ -86,6 +88,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       state.products = [...state.products, ...newProducts];
 
       const searchInput = document.getElementById("search") as HTMLInputElement;
+      console.log(searchInput);
+
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
 
@@ -98,6 +102,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  async function handleAddToCart(productId: string) {
+    const userId = localStorage.getItem("user-token");
+    try {
+      const data = await GET(`user?userId=${userId}`);
+      const productData = (await GET(`products/${productId}`)) as Product;
+      data[0].cart.push(productData);
+
+      await PUT(`user/${data[0].id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data[0]),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
   function displayProducts(items: Product[]): void {
     if (items.length === 0) {
       productList.innerHTML = `
@@ -123,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               <div class="card-body text-center">
                 <h5 class="card-title">${product.name}</h5>
                 <p class="text-success fw-bold">$${product.price}</p>
-                <button class="btn btn-secondary">
+                <button class="btn btn-secondary" id = "${product.id}">
                   <i class="fa fa-shopping-cart me-2"></i> Add to Cart
                 </button>
               </div>
@@ -160,26 +180,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById("productPopup") as HTMLElement
           ).style.display = "flex";
         });
-      });
 
-      (document.getElementById("popupClose") as HTMLElement).addEventListener(
-        "click",
-        () => {
-          (
-            document.getElementById("productPopup") as HTMLElement
-          ).style.display = "none";
-        }
-      );
-
-      document
-        .getElementById("productPopup")
-        ?.addEventListener("click", (e) => {
-          if ((e.target as HTMLElement).id === "productPopup") {
-            (
-              document.getElementById("productPopup") as HTMLElement
-            ).style.display = "none";
-          }
+        const button = el.querySelector("button");
+        button?.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if ("id" in event.target!)
+            handleAddToCart(event.target!.id as string);
         });
+      });
     }, 0);
   }
 
