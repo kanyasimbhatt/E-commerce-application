@@ -203,7 +203,7 @@ function viewProduct(productId: string): void {
 }
 
 function editProduct(productId: string): void {
-  window.location.href = `../Seller/add-product-form.html?edit=${productId}`;
+  window.location.href = `../add-product-form/add-product-form.html?edit=${productId}`;
 }
 
 async function deleteProduct(productId: string): Promise<void> {
