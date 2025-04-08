@@ -13,11 +13,11 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
         <div
           class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3 remove"
         >
-          <i class="fa fa-search px-2"></i>
+          <i class="fa fa-search px-2 remove"></i>
           <input
           type="text"
           id="search"
-          class="form-control bg-light border-0"
+          class="form-control bg-light border-0 remove"
           placeholder="Search products..."
           aria-label="Search products"
       />
@@ -28,12 +28,12 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
           <a href="#" class="me-3 profile-popup">
             <i class="bi bi-person-circle" style="font-size: 1.7rem"></i>
           </a>
-          <div class="profile-user-info-buyer"></div>
+          <div class="profile-user-info-buyer toggleClass"></div>
         </div>
         <!-- add to cart -->
         <a href="./viewCart.html" class="me-3 remove">
           <i
-            class="fa fa-shopping-cart"
+            class="fa fa-shopping-cart remove"
             aria-hidden="true"
             style="font-size: 1.5rem"
           ></i>
@@ -44,8 +44,12 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
   if (pageType === "seller") {
     document.querySelectorAll(".remove").forEach((element) => {
       (element as HTMLElement).style.display = "none";
-      element.classList.remove("profile-user-info-buyer");
-      element.classList.add("profile-user-info-seller");
+      document
+        .getElementsByClassName("toggleClass")[0]
+        .classList.remove("profile-user-info-buyer");
+      document
+        .getElementsByClassName("toggleClass")[0]
+        .classList.add("profile-user-info-seller");
     });
   }
 
