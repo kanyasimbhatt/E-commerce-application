@@ -2,6 +2,7 @@ import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("buyer");
@@ -10,6 +11,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     "navbar"
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
+
+  setTimeout(() => {
+    populateUserPopup();
+    bindLogoutButton();
+  }, 0);
 
   const state = {
     products: [] as Product[],
@@ -159,6 +165,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           (
             document.getElementById("productPopup") as HTMLElement
           ).style.display = "flex";
+        });
+
+        const button = el.querySelector("button");
+        button?.addEventListener("click", (event) => {
+          event.stopPropagation(); 
         });
       });
 
