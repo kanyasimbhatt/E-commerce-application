@@ -50,28 +50,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     state.isFetching = true;
 
     try {
-      const res = await fetch(
+      // Fetch from dummyjson
+      const dummyRes = await fetch(
         `https://dummyjson.com/products?limit=${limit}&skip=${state.skip}`
       );
-      const data = await res.json();
-
-      const mappedProducts: Product[] = (data.products || []).map(
+      const dummyData = await dummyRes.json();
+      const dummyProducts: Product[] = (dummyData.products || []).map(
         (item: any) => ({
           id: item.id.toString(),
           name: item.title,
           price: item.price,
           image: item.thumbnail,
           userId: "",
-          description: item.description, // Added description
+          description: item.description,
         })
       );
 
-      state.products = [...state.products, ...mappedProducts];
+      // Fetch from your backend API
+      const backendRes = await fetch(
+        "https://e-commerce-website-backend-568s.onrender.com/products"
+      );
+      const backendData: Product[] = await backendRes.json();
 
+      // Combine products
+      const combinedProducts = [...backendData, ...dummyProducts];
+
+      // Update state
+      state.products = [...state.products, ...combinedProducts];
+
+      // Apply filter and sort
       const searchInput = document.getElementById("search") as HTMLInputElement;
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
 
+      // Display
       displayProducts(sorted);
       state.skip += limit;
     } catch (error) {
