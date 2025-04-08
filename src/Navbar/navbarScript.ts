@@ -54,7 +54,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
   )[0] as HTMLElement;
 
   profileElement.addEventListener("click", () => {
-    if (pageType === "seller") {
+    if (pageType === "buyer") {
       document
         .getElementsByClassName("profile-user-info-buyer")[0]
         .classList.toggle("selected");
