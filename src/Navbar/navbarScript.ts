@@ -15,12 +15,12 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
         >
           <i class="fa fa-search px-2"></i>
           <input
-  type="text"
-  id="search"
-  class="form-control bg-light border-0"
-  placeholder="Search products..."
-  aria-label="Search products"
-/>
+          type="text"
+          id="search"
+          class="form-control bg-light border-0"
+          placeholder="Search products..."
+          aria-label="Search products"
+      />
 
         </div>
         <!-- user-info -->
@@ -40,9 +40,8 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
         </a>
       </div>
    `;
-  let sellerFlag = 0;
+
   if (pageType === "seller") {
-    sellerFlag = 1;
     document.querySelectorAll(".remove").forEach((element) => {
       (element as HTMLElement).style.display = "none";
       element.classList.remove("profile-user-info-buyer");
@@ -55,7 +54,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
   )[0] as HTMLElement;
 
   profileElement.addEventListener("click", () => {
-    if (sellerFlag === 0) {
+    if (pageType === "buyer") {
       document
         .getElementsByClassName("profile-user-info-buyer")[0]
         .classList.toggle("selected");

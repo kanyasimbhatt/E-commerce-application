@@ -37,20 +37,13 @@ export async function POST(url: string, options: object) {
 }
 
 export async function PUT(url: string, options: object) {
-  try {
-    const response = await fetch(
-      `https://e-commerce-website-backend-568s.onrender.com/${url}`,
-      options
-    );
+  const response = await fetch(
+    `https://e-commerce-website-backend-568s.onrender.com/${url}`,
+    options
+  );
 
-    if (!response.ok) {
-      const errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
-      console.error("PUT Request Failed:", errorMessage);
-      throw new Error(errorMessage);
-    }
-  } catch (error) {
-    console.error("Network Error in PUT Request:", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Couldn't Update User data");
   }
 }
 
