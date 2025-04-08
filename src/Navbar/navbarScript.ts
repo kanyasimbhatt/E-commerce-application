@@ -31,7 +31,7 @@ function induceNavbarCodeForBuyer(element: HTMLElement) {
           <div class="profile-user-info-buyer"></div>
         </div>
         <!-- add to cart -->
-        <a href="./viewCart.html" class="me-3 remove">
+        <a href="../../allProduct/Cart/cart.html" class="me-3 remove">
           <i
             class="fa fa-shopping-cart"
             aria-hidden="true"

@@ -50,7 +50,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     state.isFetching = true;
 
     try {
-      // Fetch from dummyjson
+      let backendData: Product[] = [];
+      if (state.skip === 0) {
+        const backendRes = await fetch(
+          "https://e-commerce-website-backend-568s.onrender.com/products"
+        );
+        backendData = await backendRes.json();
+      }
+
       const dummyRes = await fetch(
         `https://dummyjson.com/products?limit=${limit}&skip=${state.skip}`
       );
@@ -66,24 +73,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
       );
 
-      // Fetch from your backend API
-      const backendRes = await fetch(
-        "https://e-commerce-website-backend-568s.onrender.com/products"
+      const combinedProducts =
+        state.skip === 0 ? [...backendData, ...dummyProducts] : dummyProducts;
+
+      const newProducts = combinedProducts.filter(
+        (newItem) =>
+          !state.products.some((existing) => existing.name === newItem.name)
       );
-      const backendData: Product[] = await backendRes.json();
 
-      // Combine products
-      const combinedProducts = [...backendData, ...dummyProducts];
+      state.products = [...state.products, ...newProducts];
 
-      // Update state
-      state.products = [...state.products, ...combinedProducts];
-
-      // Apply filter and sort
       const searchInput = document.getElementById("search") as HTMLInputElement;
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
 
-      // Display
       displayProducts(sorted);
       state.skip += limit;
     } catch (error) {
@@ -128,7 +131,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       )
       .join("");
 
-    // Attach click handlers for popup
     setTimeout(() => {
       document.querySelectorAll(".product-click").forEach((el) => {
         el.addEventListener("click", (e) => {
@@ -158,7 +160,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       });
 
-      // Close popup
       (document.getElementById("popupClose") as HTMLElement).addEventListener(
         "click",
         () => {
@@ -168,7 +169,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       );
 
-      //  close when clicking outside content
       document
         .getElementById("productPopup")
         ?.addEventListener("click", (e) => {
