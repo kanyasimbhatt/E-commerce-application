@@ -89,6 +89,27 @@
         </div>
       </div>
       <div class="row allProduct" id="product-list"></div>
+      <div id="productPopup" class="popup-overlay" style="display: none">
+        <div class="popup-content">
+          <span id="popupClose" class="popup-close"></span>
+          <div class="popup-body">
+            <img
+              id="popupProductImage"
+              class="popup-img"
+              src="https://via.placeholder.com/250"
+              alt="Product Image"
+            />
+            <div class="popup-details">
+              <h3 id="popupProductName"></h3>
+              <p id="popupProductDescription"></p>
+              <h5 class="text-success fw-bold" id="popupProductPrice"></h5>
+              <button id="popupAddToCart" class="btn btn-secondary mt-3">
+                <i class="fa fa-shopping-cart me-2"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </body>
   <script src="./allProduct.ts" type="module"></script>

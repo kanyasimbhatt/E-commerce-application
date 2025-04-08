@@ -28,7 +28,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
           <a href="#" class="me-3 profile-popup">
             <i class="bi bi-person-circle" style="font-size: 1.7rem"></i>
           </a>
-          <div class="profile-user-info-buyer"></div>
+          <div class="profile-user-info-buyer toggleClass"></div>
         </div>
         <!-- add to cart -->
         <a href="./viewCart.html" class="me-3 remove">
@@ -44,8 +44,12 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
   if (pageType === "seller") {
     document.querySelectorAll(".remove").forEach((element) => {
       (element as HTMLElement).style.display = "none";
-      element.classList.remove("profile-user-info-buyer");
-      element.classList.add("profile-user-info-seller");
+      document
+        .getElementsByClassName("toggleClass")[0]
+        .classList.remove("profile-user-info-buyer");
+      document
+        .getElementsByClassName("toggleClass")[0]
+        .classList.add("profile-user-info-seller");
     });
   }
 
@@ -54,7 +58,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
   )[0] as HTMLElement;
 
   profileElement.addEventListener("click", () => {
-    if (pageType === "seller") {
+    if (pageType === "buyer") {
       document
         .getElementsByClassName("profile-user-info-buyer")[0]
         .classList.toggle("selected");
