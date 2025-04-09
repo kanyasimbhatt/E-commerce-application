@@ -89,16 +89,27 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div
+            class="modal-body"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
             <img
               id="modalProductImage"
               src="https://placehold.co/300x300?text=Product+Image"
               alt="Product"
               class="img-fluid mb-3"
+              style="max-width: 100%; height: auto"
             />
-            <h4 id="modalProductName"></h4>
-            <p id="modalProductDescription"></p>
-            <strong>Price: $<span id="modalProductPrice"></span></strong>
+            <h4 id="modalProductName" style="text-align: center"></h4>
+            <p id="modalProductDescription" style="text-align: center"></p>
+            <strong style="text-align: center"
+              >Price: $<span id="modalProductPrice"></span
+            ></strong>
           </div>
           <div class="modal-footer">
             <button
