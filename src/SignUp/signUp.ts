@@ -136,14 +136,7 @@ function initSignUp(): void {
           };
 
           // Send the new user to the JSON server
-          const option = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newUser),
-          };
-          await POST("user", option);
+          await POST("user", { body: JSON.stringify(newUser) });
           customAlert("success", "top-right", "Registration Successful");
 
           setTimeout(() => {
