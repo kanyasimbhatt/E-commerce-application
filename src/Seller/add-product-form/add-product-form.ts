@@ -1,5 +1,4 @@
 import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
-
 import { User, Product, Role } from "../../SignUp/types";
 import {
   getAllProducts,
@@ -9,16 +8,6 @@ import {
 import { GET } from "../../Services/methods";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
-
-function getProductById(productId: string): Promise<Product | undefined> {
-  return getAllProducts().then((products) => {
-    if (!products) return undefined;
-    const found = products.find((p) => p.id === productId);
-    console.log("Looking for productId:", productId);
-    console.log("Matched product:", found);
-    return found;
-  });
-}
 
 document.addEventListener("DOMContentLoaded", async () => {
   const navbarElement = document.getElementsByClassName(
@@ -55,7 +44,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-      const product = products.find((p) => p.id === editingProductId);
+      const product = products.find(
+        (product) => product.id === editingProductId
+      );
       if (product) {
         editingInternalId = product.id;
 
@@ -86,18 +77,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Validation and UI Updates
   productNameInput.addEventListener("input", () => {
     const value = productNameInput.value.trim();
-    productNameInput.classList.toggle("is-invalid", value.length < 2);
+
+    if (value === "") {
+      productNameInput.classList.remove("is-invalid");
+    } else {
+      productNameInput.classList.toggle("is-invalid", value.length < 2);
+    }
   });
 
   productPriceInput.addEventListener("input", () => {
     const value = parseFloat(productPriceInput.value);
-    productPriceInput.classList.toggle(
-      "is-invalid",
-      isNaN(value) || value <= 0
-    );
+
+    if (productPriceInput.value.trim() === "") {
+      productPriceInput.classList.remove("is-invalid");
+    } else {
+      productPriceInput.classList.toggle(
+        "is-invalid",
+        isNaN(value) || value <= 0
+      );
+    }
   });
 
   productDescriptionInput.addEventListener("input", () => {
@@ -128,19 +128,49 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   productUrlInput.addEventListener("input", () => {
     const url = productUrlInput.value.trim();
+    const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))$/i;
+
     if (url !== "") {
       productImageInput.value = "";
-      imagePreview.src = url;
-      productUrlInput.classList.remove("is-invalid");
+
+      if (!urlPattern.test(url)) {
+        productUrlInput.classList.add("is-invalid");
+
+        let errorMsg = document.getElementById("url-error");
+        if (!errorMsg) {
+          errorMsg = document.createElement("div");
+          errorMsg.id = "url-error";
+          errorMsg.classList.add("invalid-feedback");
+          errorMsg.textContent = "Invalid image URL. Please enter a valid URL.";
+
+          if (productUrlInput.parentNode) {
+            productUrlInput.parentNode.appendChild(errorMsg);
+          } else {
+            console.warn("Parent node not found for URL error message.");
+          }
+        } else {
+          errorMsg.textContent = "Invalid image URL. Please enter a valid URL.";
+        }
+      } else {
+        productUrlInput.classList.remove("is-invalid");
+
+        const errorMsg = document.getElementById("url-error");
+        if (errorMsg) errorMsg.remove();
+
+        imagePreview.src = url;
+      }
     } else {
       imagePreview.src =
         "https://placehold.co/300x300?text=Product+Image&font=roboto";
-      productUrlInput.classList.add("is-invalid");
+      productUrlInput.classList.remove("is-invalid");
+
+      let errorMsg = document.getElementById("url-error");
+      if (errorMsg) errorMsg.remove();
     }
   });
 
   // Submit Handling
-  form.addEventListener("submit", async (event: Event) => {
+  form.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
     let isValid = true;
 
@@ -200,7 +230,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const userId = userToken;
-      const users = (await GET(`user?userId=${userId}`)) as User[];
+      const users = await GET<Array<User>>(`user?userId=${userId}`);
 
       if (users.length === 0) throw new Error("User not found.");
 
@@ -233,7 +263,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         image: imageValue,
         userId: String(userId),
         description: descriptionValue,
-        productId: undefined,
       };
 
       if (editingProductId && editingInternalId) {

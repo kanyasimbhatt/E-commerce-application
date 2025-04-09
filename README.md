@@ -24,5 +24,5 @@
 
 #### Live Link:
 
-- To experience the website, kindly visit: https://67ef7300fd31f5d451c9cdd8--gregarious-cannoli-34fbc1.netlify.app/signup/signup
-- backend deployed on: https://e-commerce-website-backend-9431.onrender.com/
+- To experience the website, kindly visit: https://wondrous-wisp-5e16e2.netlify.app/signUp/signUp
+- backend deployed on: https://e-commerce-website-backend-568s.onrender.com/
