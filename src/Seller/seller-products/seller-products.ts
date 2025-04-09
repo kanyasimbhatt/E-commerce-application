@@ -79,14 +79,19 @@ function handleSearchAndSort(): void {
     product.name.toLowerCase().includes(searchTerm)
   );
 
-  if (sortOption === "name-asc") {
-    filtered.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortOption === "name-desc") {
-    filtered.sort((a, b) => b.name.localeCompare(a.name));
-  } else if (sortOption === "price-asc") {
-    filtered.sort((a, b) => a.price - b.price);
-  } else if (sortOption === "price-desc") {
-    filtered.sort((a, b) => b.price - a.price);
+  switch (sortOption) {
+    case "name-asc":
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case "name-desc":
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case "price-asc":
+      filtered.sort((a, b) => a.price - b.price);
+      break;
+    case "price-desc":
+      filtered.sort((a, b) => b.price - a.price);
+      break;
   }
 
   currentRenderProducts = filtered;
@@ -176,7 +181,7 @@ function handleScroll(): void {
 }
 
 function viewProduct(productId: string): void {
-  const product = sellerProducts.find((p) => p.id === productId);
+  const product = sellerProducts.find((product) => product.id === productId);
   if (!product) return;
 
   (document.getElementById("modalProductImage") as HTMLImageElement).src =
