@@ -3,24 +3,17 @@ import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { updateBadgeCount } from "./cartBadgeCount";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
-import { RouteProtection } from "../../protectedRoute/routeProtection";
 import { GET, PUT } from "../../Services/methods";
 import { User } from "../../SignUp/types";
 import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 document.addEventListener("DOMContentLoaded", async () => {
   updateBadgeCount();
-  RouteProtection("buyer");
   const productList = document.getElementById("product-list") as HTMLElement;
   const navbarElement = document.getElementsByClassName(
     "navbar"
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
-
-  setTimeout(() => {
-    populateUserPopup();
-    bindLogoutButton();
-  }, 0);
 
   const state = {
     products: [] as Product[],
@@ -43,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }, 100);
 
   const sortOptions = document.querySelectorAll(".dropdown-item");
-
   sortOptions.forEach((option) => {
     option.addEventListener("click", (e) => {
       e.preventDefault();
@@ -63,38 +55,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     state.isFetching = true;
 
     try {
-      let backendData: Product[] = [];
-      if (state.skip === 0) {
-        backendData = await GET<Array<Product>>("products");
-      }
-
-      const dummyRes = await fetch(
-        `https://dummyjson.com/products?limit=${limit}&skip=${state.skip}`
+      const res = await fetch(
+        `https://e-commerce-website-backend-568s.onrender.com/products?_limit=${limit}&_start=${state.skip}`
       );
-      const dummyData = await dummyRes.json();
-      const dummyProducts: Product[] = (dummyData.products || []).map(
-        (item: any) => ({
-          id: item.id.toString(),
-          name: item.title,
-          price: item.price,
-          image: item.thumbnail,
-          userId: "",
-          description: item.description,
-        })
-      );
+      const data: Product[] = await res.json();
 
-      const combinedProducts =
-        state.skip === 0 ? [...backendData, ...dummyProducts] : dummyProducts;
-
-      const newProducts = combinedProducts.filter(
-        (newItem) =>
-          !state.products.some((existing) => existing.name === newItem.name)
-      );
-
-      state.products = [...state.products, ...newProducts];
+      state.products = [...state.products, ...data];
 
       const searchInput = document.getElementById("search") as HTMLInputElement;
-
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
 
@@ -176,8 +144,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTimeout(() => {
       document.querySelectorAll(".product-click").forEach((element) => {
         element.addEventListener("click", (e) => {
-          console.log("hello");
-
           const target = e.currentTarget as HTMLElement;
 
           const name = target.dataset.name || "";
@@ -201,27 +167,41 @@ document.addEventListener("DOMContentLoaded", async () => {
           (
             document.getElementById("productPopup") as HTMLElement
           ).style.display = "flex";
-        });
 
-        const button = element.querySelector("button");
-        button?.addEventListener("click", (event) => {
-          event.stopPropagation();
-          if ("id" in event.target!)
-            handleAddToCart(event.target!.id as string, element as HTMLElement);
+          const button = element.querySelector("button");
+          button?.addEventListener("click", (event) => {
+            event.stopPropagation();
+            if ("id" in event.target!)
+              handleAddToCart(
+                event.target!.id as string,
+                element as HTMLElement
+              );
+          });
         });
       });
+
+      // Close popup
+      (document.getElementById("popupClose") as HTMLElement).addEventListener(
+        "click",
+        () => {
+          (
+            document.getElementById("productPopup") as HTMLElement
+          ).style.display = "none";
+        }
+      );
+
+      // Close when clicking outside content
+      document
+        .getElementById("productPopup")
+        ?.addEventListener("click", (e) => {
+          if ((e.target as HTMLElement).id === "productPopup") {
+            (
+              document.getElementById("productPopup") as HTMLElement
+            ).style.display = "none";
+          }
+        });
     }, 0);
   }
-
-  // Infinite Scroll
-  window.addEventListener("scroll", () => {
-    if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 100
-    ) {
-      fetchProducts();
-    }
-  });
 
   fetchProducts();
 });
