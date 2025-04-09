@@ -1,6 +1,6 @@
-import { FETCH_URL } from "../SignUp/constants";
+import { BASE_URL } from "../SignUp/constants";
 export async function GET<T>(url: string, options: object = {}): Promise<T> {
-  const response = await fetch(`${FETCH_URL}/${url}`);
+  const response = await fetch(`${BASE_URL}/${url}`);
   console.log(response);
 
   if (!response.ok) {
@@ -12,7 +12,7 @@ export async function GET<T>(url: string, options: object = {}): Promise<T> {
 }
 
 export async function POST<T>(url: string, options: object = {}): Promise<T> {
-  const response = await fetch(`${FETCH_URL}/${url}`, {
+  const response = await fetch(`${BASE_URL}/${url}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -27,7 +27,7 @@ export async function POST<T>(url: string, options: object = {}): Promise<T> {
 }
 
 export async function PUT<T>(url: string, options: object = {}): Promise<T> {
-  const response = await fetch(`${FETCH_URL}/${url}`, {
+  const response = await fetch(`${BASE_URL}/${url}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -42,7 +42,7 @@ export async function PUT<T>(url: string, options: object = {}): Promise<T> {
 }
 
 export async function DELETE<T>(url: string, options?: object): Promise<T> {
-  const response = await fetch(`${FETCH_URL}/${url}`, {
+  const response = await fetch(`${BASE_URL}/${url}`, {
     headers: {
       "Content-Type": "application/json",
     },
