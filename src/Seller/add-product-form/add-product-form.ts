@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const userId = userToken;
-      const users = (await GET(`user?userId=${userId}`)) as User[];
+      const users = await GET<Array<User>>(`user?userId=${userId}`);
 
       if (users.length === 0) throw new Error("User not found.");
 
