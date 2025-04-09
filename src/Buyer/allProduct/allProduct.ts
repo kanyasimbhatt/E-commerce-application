@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let backendData: Product[] = [];
       if (state.skip === 0) {
         const backendRes = await fetch(
-          "https://e-commerce-website-backend-568s.onrender.com/products"
+          "https://e-commerce-website-backend-production-2211.up.railway.app/products"
         );
         backendData = await backendRes.json();
       }
