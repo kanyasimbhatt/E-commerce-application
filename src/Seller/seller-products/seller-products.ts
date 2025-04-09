@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
 
   const userToken = localStorage.getItem("user-token");
-  console.log("Logged in seller userId:", userToken);
 
   if (!userToken) {
     customAlert("error", "top-right", "You must be logged in as a Seller.");
@@ -57,18 +56,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Using the generic type parameter to get an array of Products
     const allProducts = await GET<Product[]>("products");
 
-    console.log(
-      "All products:",
-      allProducts.map((p) => ({
-        productId: p.id,
-        userId: p.userId,
-      }))
-    );
-
     sellerProducts = allProducts.filter(
       (p) => String(p.userId) === String(userToken)
     );
-    console.log("Filtered seller products:", sellerProducts);
 
     currentRenderProducts = sellerProducts;
     resetProductsDisplay();

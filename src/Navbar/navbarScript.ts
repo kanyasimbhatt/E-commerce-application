@@ -11,7 +11,7 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
       <div class="ms-auto d-flex align-items-center gap-4">
         <!-- Search bar -->
         <div
-          class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3 remove"
+          class="d-flex flex-row justify-content-center align-items-center border rounded px-2 me-3 remove" 
         >
           <i class="fa fa-search px-2 "></i>
           <input
@@ -43,15 +43,13 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
 
   if (pageType === "seller") {
     document.querySelectorAll(".remove").forEach((element) => {
-      (element as HTMLElement).style.display = "none";
-
+      element.classList.add("d-none");
       document
         .getElementsByClassName("toggleClass")[0]
         .classList.remove("profile-user-info-buyer");
       document
         .getElementsByClassName("toggleClass")[0]
         .classList.add("profile-user-info-seller");
-      console.log(element);
     });
   }
 
