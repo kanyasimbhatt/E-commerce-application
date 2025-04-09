@@ -5,6 +5,7 @@ import { RouteProtection } from "../../protectedRoute/routeProtection";
 
 document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("buyer");
+
   const productList = document.getElementById("product-list") as HTMLElement;
   const navbarElement = document.getElementsByClassName(
     "navbar"
@@ -20,27 +21,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const limit = 18;
 
-  setTimeout(() => {
-    const searchInput = document.getElementById("search") as HTMLInputElement;
-    if (searchInput) {
-      searchInput.addEventListener("input", () => {
-        const filtered = filterProducts(searchInput.value, state.products);
-        const sorted = sortProducts(filtered, state.sortKey);
-        displayProducts(sorted);
-      });
-    }
-  }, 100);
+  const searchInput = document.getElementById("search") as HTMLInputElement;
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      const filtered = filterProducts(searchInput.value, state.products);
+      const sorted = sortProducts(filtered, state.sortKey);
+      displayProducts(sorted);
+    });
+  }
 
-  const sortOptions = document.querySelectorAll(".dropdown-item");
-
-  sortOptions.forEach((option) => {
+  document.querySelectorAll(".dropdown-item").forEach((option) => {
     option.addEventListener("click", (e) => {
       e.preventDefault();
       const selectedSort = (e.target as HTMLElement).dataset.sort;
       if (!selectedSort) return;
       state.sortKey = selectedSort;
 
-      const searchInput = document.getElementById("search") as HTMLInputElement;
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
       displayProducts(sorted);
@@ -52,44 +48,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     state.isFetching = true;
 
     try {
-      let backendData: Product[] = [];
-      if (state.skip === 0) {
-        const backendRes = await fetch(
-          "https://e-commerce-website-backend-568s.onrender.com/products"
-        );
-        backendData = await backendRes.json();
-      }
-
-      const dummyRes = await fetch(
-        `https://dummyjson.com/products?limit=${limit}&skip=${state.skip}`
+      const res = await fetch(
+        `https://e-commerce-website-backend-production-2211.up.railway.app/products?_limit=${limit}&_start=${state.skip}`
       );
-      const dummyData = await dummyRes.json();
-      const dummyProducts: Product[] = (dummyData.products || []).map(
-        (item: any) => ({
-          id: item.id.toString(),
-          name: item.title,
-          price: item.price,
-          image: item.thumbnail,
-          userId: "",
-          description: item.description,
-        })
-      );
+      const data: Product[] = await res.json();
 
-      const combinedProducts =
-        state.skip === 0 ? [...backendData, ...dummyProducts] : dummyProducts;
-
-      const newProducts = combinedProducts.filter(
+      const newProducts = data.filter(
         (newItem) =>
           !state.products.some((existing) => existing.name === newItem.name)
       );
 
       state.products = [...state.products, ...newProducts];
 
-      const searchInput = document.getElementById("search") as HTMLInputElement;
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
-
       displayProducts(sorted);
+
       state.skip += limit;
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -138,27 +112,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         el.addEventListener("click", (e) => {
           const target = e.currentTarget as HTMLElement;
 
-          const name = target.dataset.name || "";
-          const image = target.dataset.image || "";
-          const description = target.dataset.description || "";
-          const price = target.dataset.price || "";
-
           (
             document.getElementById("popupProductName") as HTMLElement
-          ).textContent = name;
+          ).textContent = target.dataset.name || "";
           (
             document.getElementById("popupProductImage") as HTMLImageElement
-          ).src = image;
+          ).src = target.dataset.image || "";
           (
             document.getElementById("popupProductDescription") as HTMLElement
-          ).textContent = description;
+          ).textContent = target.dataset.description || "";
           (
             document.getElementById("popupProductPrice") as HTMLElement
-          ).textContent = price;
+          ).textContent = target.dataset.price || "";
 
           (
             document.getElementById("productPopup") as HTMLElement
           ).style.display = "flex";
+        });
+
+        el.querySelector("button")?.addEventListener("click", (event) => {
+          event.stopPropagation();
         });
       });
 
@@ -182,16 +155,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }, 0);
   }
-
-  // Infinite Scroll
-  window.addEventListener("scroll", () => {
-    if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 100
-    ) {
-      fetchProducts();
-    }
-  });
 
   fetchProducts();
 });
