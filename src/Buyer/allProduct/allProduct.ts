@@ -2,8 +2,12 @@ import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
+<<<<<<< HEAD
 import { GET, POST, PUT } from "../../Services/methods";
 import { User } from "../../SignUp/types";
+=======
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
+>>>>>>> fed099fd5a46065f99f753d84c68ca99d7496e75
 
 document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("buyer");
@@ -12,6 +16,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     "navbar"
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
+
+  setTimeout(() => {
+    populateUserPopup();
+    bindLogoutButton();
+  }, 0);
 
   const state = {
     products: [] as Product[],
@@ -105,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function handleAddToCart(productId: string) {
     const userId = localStorage.getItem("user-token");
     try {
-      const data = await GET(`user?userId=${userId}`);
+      const data = await GET<Array<User>>(`user?userId=${userId}`);
       const productData = (await GET(`products/${productId}`)) as Product;
       data[0].cart.push(productData);
 

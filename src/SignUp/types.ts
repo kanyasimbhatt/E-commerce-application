@@ -1,5 +1,4 @@
 export interface Product {
-  productId: any;
   id: string;
   name: string;
   price: number;
@@ -13,6 +12,7 @@ export enum Role {
   Seller = "seller",
 }
 export interface User {
+  id?: string;
   userId: string;
   fullName: string;
   email: string;

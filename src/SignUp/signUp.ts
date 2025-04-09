@@ -102,7 +102,7 @@ function initSignUp(): void {
 
       try {
         // Check if the email already exists in the database
-        const users = (await GET("user")) as User[];
+        const users = await GET<Array<User>>("user");
         const emailExists = users.some((user) => user.email === email);
 
         if (emailExists) {
@@ -160,9 +160,9 @@ function initSignUp(): void {
 document.addEventListener("DOMContentLoaded", async () => {
   initSignUp();
   if (localStorage.getItem("user-token")) {
-    const userObject = (await GET(
+    const userObject = await GET<Array<User>>(
       `user?userId=${localStorage.getItem("user-token")}`
-    )) as User[];
+    );
 
     if (userObject[0].role === "buyer") {
       document.location.href = "../Buyer/allProduct/allProduct.html";
