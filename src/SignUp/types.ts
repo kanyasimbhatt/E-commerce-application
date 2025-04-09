@@ -4,6 +4,7 @@ export interface Product {
   price: number;
   image: string;
   userId: string;
+  description: string;
 }
 
 export enum Role {
