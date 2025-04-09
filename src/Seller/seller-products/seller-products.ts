@@ -10,8 +10,8 @@ import { deleteProduct as deleteProductService } from "../../Services/productser
 import { Product, User, Role } from "../../SignUp/types";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
-let sellerProducts: Product[] = [];
 
+let sellerProducts: Product[] = [];
 let currentRenderProducts: Product[] = [];
 let currentDisplayIndex = 0;
 const itemsPerPage = 6;
@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
   RouteProtection("seller");
+
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
@@ -39,8 +40,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const users = (await GET(`user?userId=${userToken}`)) as User[];
-
+    // Using the generic type parameter to get a User array without type assertion
+    const users = await GET<User[]>(`user?userId=${userToken}`);
     if (users.length === 0) {
       customAlert("error", "top-right", "User not found.");
       return;
@@ -53,7 +54,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const allProducts = (await GET("products")) as unknown as Product[];
+    // Using the generic type parameter to get an array of Products
+    const allProducts = await GET<Product[]>("products");
 
     console.log(
       "All products:",
@@ -66,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     sellerProducts = allProducts.filter(
       (p) => String(p.userId) === String(userToken)
     );
-
     console.log("Filtered seller products:", sellerProducts);
 
     currentRenderProducts = sellerProducts;
@@ -75,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     searchInputEl.addEventListener("input", handleSearchAndSort);
     sortSelectEl.addEventListener("change", handleSearchAndSort);
-
     window.addEventListener("scroll", handleScroll);
   } catch (error) {
     console.error("Error loading products:", error);
@@ -122,29 +122,32 @@ function loadMoreProducts(): void {
     colDiv.className = "col-md-3 mb-4";
 
     colDiv.innerHTML = `
-          <div class="card h-100">
-            <img
-              src="${product.image}"
-              class="card-img-top"
-              alt="${product.name}"
-              style="object-fit: cover; height: 200px;"
-            />
-            <div class="card-body d-flex flex-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;">
-  <h5 class="card-title">${product.name}</h5>
-  <p class="card-text text-secondary mb-1">$${product.price.toFixed(2)}</p>
-  <div class="mt-auto" style="display: flex; flex-direction: row; justify-content: center; gap: 10px;">
-    <button class="btn btn-sm btn-info" data-view="${product.id}">View</button>
-    <button class="btn btn-sm btn-warning" data-edit="${
-      product.id
-    }">Edit</button>
-    <button class="btn btn-sm btn-danger" data-delete="${
-      product.id
-    }">Delete</button>
-  </div>
-</div>
-
+        <div class="card h-100">
+          <img
+            src="${product.image}"
+            class="card-img-top"
+            alt="${product.name}"
+            style="object-fit: cover; height: 200px;"
+          />
+          <div class="card-body d-flex flex-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text text-secondary mb-1">$${product.price.toFixed(
+              2
+            )}</p>
+            <div class="mt-auto" style="display: flex; flex-direction: row; justify-content: center; gap: 10px;">
+              <button class="btn btn-sm btn-info" data-view="${
+                product.id
+              }">View</button>
+              <button class="btn btn-sm btn-warning" data-edit="${
+                product.id
+              }">Edit</button>
+              <button class="btn btn-sm btn-danger" data-delete="${
+                product.id
+              }">Delete</button>
+            </div>
           </div>
-        `;
+        </div>
+      `;
 
     const viewBtn = colDiv.querySelector("[data-view]") as HTMLElement;
     viewBtn?.addEventListener("click", (e) => {
@@ -216,7 +219,6 @@ async function deleteProduct(productId: string): Promise<void> {
     await deleteProductService(productId);
 
     sellerProducts = sellerProducts.filter((p) => p.id !== productId);
-
     currentRenderProducts = currentRenderProducts.filter(
       (p) => p.id !== productId
     );

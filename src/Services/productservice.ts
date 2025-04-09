@@ -25,13 +25,8 @@ export async function getAllProducts(): Promise<Product[] | undefined> {
 // Get Single Product
 export async function getProductById(productId: string) {
   try {
-<<<<<<< HEAD
-    const allProducts = (await GET("products")) as unknown as Product[];
-    return allProducts.find((p) => p.id === productId);
-=======
     const allProducts = await GET<Array<Product>>("products");
     return allProducts.find((product) => product.id === productId);
->>>>>>> c39efdf619f61d083bfca38148ad65cd8e9eacb2
   } catch (error) {
     console.error("Error fetching product by ID:", error);
   }
@@ -59,8 +54,3 @@ export async function deleteProduct(productId: string): Promise<void> {
     console.error("Error deleting product:", error);
   }
 }
-<<<<<<< HEAD
-
-export { GET, POST, PUT, DELETE };
-=======
->>>>>>> c39efdf619f61d083bfca38148ad65cd8e9eacb2
