@@ -2,12 +2,9 @@ import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
-<<<<<<< HEAD
-import { GET, POST, PUT } from "../../Services/methods";
+import { GET, PUT } from "../../Services/methods";
 import { User } from "../../SignUp/types";
-=======
 import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
->>>>>>> fed099fd5a46065f99f753d84c68ca99d7496e75
 
 document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("buyer");
