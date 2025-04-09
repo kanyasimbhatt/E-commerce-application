@@ -1,0 +1,14 @@
+.inc-dec-button {
+  height: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.img-fluid {
+  max-width: 100px;
+  width: 100%;
+}
+
+td {
+  height: 80px;
+}

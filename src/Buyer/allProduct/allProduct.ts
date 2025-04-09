@@ -1,4 +1,6 @@
+import customAlert from "@pranshupatel/custom-alert";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
+import { updateBadgeCount } from "./cartBadgeCount";
 import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
@@ -7,6 +9,7 @@ import { User } from "../../SignUp/types";
 import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  updateBadgeCount();
   RouteProtection("buyer");
   const productList = document.getElementById("product-list") as HTMLElement;
   const navbarElement = document.getElementsByClassName(
@@ -62,10 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       let backendData: Product[] = [];
       if (state.skip === 0) {
-        const backendRes = await fetch(
-          "https://e-commerce-website-backend-568s.onrender.com/products"
-        );
-        backendData = await backendRes.json();
+        backendData = await GET<Array<Product>>("products");
       }
 
       const dummyRes = await fetch(
@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       state.products = [...state.products, ...newProducts];
 
       const searchInput = document.getElementById("search") as HTMLInputElement;
-      console.log(searchInput);
 
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, state.sortKey);
@@ -108,18 +107,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  async function handleAddToCart(productId: string) {
+  async function handleAddToCart(productId: string, cardElement: HTMLElement) {
     const userId = localStorage.getItem("user-token");
     try {
       const data = await GET<Array<User>>(`user?userId=${userId}`);
-      const productData = (await GET(`products/${productId}`)) as Product;
-      data[0].cart.push(productData);
+      let productData = await GET<Product>(`products/${productId}`);
+
+      let productDataIndex = data[0].cart.findIndex(
+        (product) => product.id === productData.id
+      );
+      if (productDataIndex === -1) {
+        productData = { ...productData, ...{ count: 1 } };
+        data[0].cart.push(productData);
+        console.log(data[0].cart);
+      } else {
+        data[0].cart[productDataIndex].count! += 1;
+      }
+      console.log(data[0]);
 
       await PUT(`user/${data[0].id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data[0]),
       });
+
+      customAlert("success", "top-right", "Item Added Successfully");
+
+      updateBadgeCount();
     } catch (err) {
       console.log(err);
     }
@@ -160,8 +174,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
 
     setTimeout(() => {
-      document.querySelectorAll(".product-click").forEach((el) => {
-        el.addEventListener("click", (e) => {
+      document.querySelectorAll(".product-click").forEach((element) => {
+        element.addEventListener("click", (e) => {
+          console.log("hello");
+
           const target = e.currentTarget as HTMLElement;
 
           const name = target.dataset.name || "";
@@ -187,11 +203,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           ).style.display = "flex";
         });
 
-        const button = el.querySelector("button");
+        const button = element.querySelector("button");
         button?.addEventListener("click", (event) => {
           event.stopPropagation();
           if ("id" in event.target!)
-            handleAddToCart(event.target!.id as string);
+            handleAddToCart(event.target!.id as string, element as HTMLElement);
         });
       });
     }, 0);

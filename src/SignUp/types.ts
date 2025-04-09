@@ -5,6 +5,7 @@ export interface Product {
   image: string;
   userId: string;
   description: string;
+  count?: number;
 }
 
 export enum Role {

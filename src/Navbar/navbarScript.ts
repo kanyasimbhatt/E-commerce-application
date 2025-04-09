@@ -41,8 +41,10 @@ export function induceNavbarCode(element: HTMLElement, pageType: string) {
       </div>
 
       <!-- Cart -->
-      <a href="../../allProduct/Cart/cart.html" class="me-3 remove">
-        <i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 1.5rem"></i>
+      <a href="../Cart/cart.html" class="me-3  cart">
+        <i class="fa fa-shopping-cart position-relative" aria-hidden="true" style="font-size: 1.5rem">  <span class=" cart-badge position-absolute top-0 start-100 translate-middle p-1 h-2 w-2 fs-6 badge rounded-pill bg-danger">0</span></i>
+      
+        
       </a>
     </div>
   `;
