@@ -71,8 +71,7 @@ export function induceNavbarCode(element: HTMLElement, pageType: string) {
         .classList.toggle("d-none");
     }
   });
-
-  // Call user popup logic after navbar is added
+  
   populateUserPopup();
   bindLogoutButton();
 }
