@@ -25,4 +25,4 @@
 #### Live Link:
 
 - To experience the website, kindly visit: https://wondrous-wisp-5e16e2.netlify.app/signUp/signUp
-- backend deployed on: https://e-commerce-website-backend-568s.onrender.com/
+- backend deployed on: https://e-commerce-website-backend-production-2211.up.railway.app
