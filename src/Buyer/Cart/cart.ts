@@ -3,6 +3,7 @@ import { User } from "../../SignUp/types";
 import { updateBadgeCount } from "../allProduct/cartBadgeCount";
 import { GET, PUT } from "../../Services/methods";
 import customAlert from "@pranshupatel/custom-alert";
+
 document.addEventListener("DOMContentLoaded", () => {
   const navbarElement = document.querySelector(".navbar") as HTMLElement;
   induceNavbarCode(navbarElement, "buyer");
@@ -34,7 +35,6 @@ async function handleClickOnCheckout() {
 
 async function displayCartItems() {
   const userId = localStorage.getItem("user-token");
-
   try {
     let data = await GET<Array<User>>(`user?userId=${userId}`);
     let index = 0;
@@ -46,7 +46,9 @@ async function displayCartItems() {
           "checkout-button"
         )[0] as HTMLButtonElement
       ).disabled = true;
-
+      (
+        document.getElementsByTagName("tbody") as unknown as HTMLElement
+      )[0].innerHTML = "";
       return;
     }
 
@@ -68,14 +70,12 @@ async function displayCartItems() {
                 <td>${cartItem.description}</td>
 
                 <td class = "d-flex gap-3 justify-content-center align-items-start quantity">
-                  <a href="#" class="btn btn-danger btn-sm inc-dec-button" id="${
+                  <a href="#" class="btn btn-danger btn-sm inc-dec-button decrease" id="${
                     cartItem.id
                   }"> - </a>
-                  <p class="product-quantity m-0" id="count-${cartItem.id}">${
-        cartItem.count
-      }</p>
+                  <p class="product-quantity m-0">${cartItem.count}</p>
 
-                  <a href="#" class="btn btn-primary btn-sm inc-dec-button" id="${
+                  <a href="#" class="btn btn-primary btn-sm inc-dec-button increase" id="${
                     cartItem.id
                   }"> + </a>
                 </td>
@@ -85,6 +85,52 @@ async function displayCartItems() {
     (
       document.getElementsByTagName("tbody") as unknown as HTMLElement
     )[0].innerHTML = htmlcode;
+    document.querySelectorAll(".decrease").forEach((element) => {
+      element.addEventListener("click", (event: Event) => {
+        if ("id" in event.target!)
+          incrementDecrementProductCount(
+            event.target!.id as string,
+            "decrement"
+          );
+      });
+    });
+
+    document.querySelectorAll(".increase").forEach((element) => {
+      element.addEventListener("click", (event: Event) => {
+        if ("id" in event.target!)
+          incrementDecrementProductCount(
+            event.target!.id as string,
+            "increment"
+          );
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function incrementDecrementProductCount(
+  productId: string,
+  action: string
+) {
+  let userId = localStorage.getItem("user-token");
+  let index = 0;
+  try {
+    let data = await GET<Array<User>>(`user?userId=${userId}`);
+    data[0].cart = data[0].cart.map((element) => {
+      if (element.id === productId) {
+        if (action === "decrement") element.count!--;
+        else element.count!++;
+      }
+      index++;
+      return element;
+    });
+
+    await PUT(`user/${data[0].id}`, {
+      body: JSON.stringify(data[0]),
+    });
+    updateBadgeCount();
+    displayCartItems();
   } catch (err) {
     console.log(err);
   }

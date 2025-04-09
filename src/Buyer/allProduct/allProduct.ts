@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const res = await fetch(
-        `https://e-commerce-website-backend-568s.onrender.com/products?_limit=${limit}&_start=${state.skip}`
+        `https://e-commerce-website-backend-production-2211.up.railway.app/products?_limit=${limit}&_start=${state.skip}`
       );
       const data: Product[] = await res.json();
 
@@ -150,7 +150,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           const image = target.dataset.image || "";
           const description = target.dataset.description || "";
           const price = target.dataset.price || "";
-
+          const button = element.querySelector("button");
+          button!.addEventListener("click", (event) => {
+            event.stopPropagation();
+            if ("id" in event.target!)
+              handleAddToCart(
+                event.target!.id as string,
+                element as HTMLElement
+              );
+          });
           (
             document.getElementById("popupProductName") as HTMLElement
           ).textContent = name;
@@ -167,16 +175,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           (
             document.getElementById("productPopup") as HTMLElement
           ).style.display = "flex";
-
-          const button = element.querySelector("button");
-          button?.addEventListener("click", (event) => {
-            event.stopPropagation();
-            if ("id" in event.target!)
-              handleAddToCart(
-                event.target!.id as string,
-                element as HTMLElement
-              );
-          });
         });
       });
 
