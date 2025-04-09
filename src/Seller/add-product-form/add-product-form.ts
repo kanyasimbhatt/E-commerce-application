@@ -37,9 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-      const product = products.find(
-        (product) => product.id === editingProductId
-      );
+      const product = products.find((p) => p.id === editingProductId);
       if (product) {
         editingInternalId = product.id;
 
@@ -72,7 +70,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   productNameInput.addEventListener("input", () => {
     const value = productNameInput.value.trim();
-
     if (value === "") {
       productNameInput.classList.remove("is-invalid");
     } else {
@@ -82,7 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   productPriceInput.addEventListener("input", () => {
     const value = parseFloat(productPriceInput.value);
-
     if (productPriceInput.value.trim() === "") {
       productPriceInput.classList.remove("is-invalid");
     } else {
@@ -125,39 +121,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (url !== "") {
       productImageInput.value = "";
-
       if (!urlPattern.test(url)) {
         productUrlInput.classList.add("is-invalid");
-
         let errorMsg = document.getElementById("url-error");
         if (!errorMsg) {
           errorMsg = document.createElement("div");
           errorMsg.id = "url-error";
           errorMsg.classList.add("invalid-feedback");
           errorMsg.textContent = "Invalid image URL. Please enter a valid URL.";
-
-          if (productUrlInput.parentNode) {
-            productUrlInput.parentNode.appendChild(errorMsg);
-          } else {
-            console.warn("Parent node not found for URL error message.");
-          }
+          productUrlInput.parentNode?.appendChild(errorMsg);
         } else {
           errorMsg.textContent = "Invalid image URL. Please enter a valid URL.";
         }
       } else {
         productUrlInput.classList.remove("is-invalid");
-
         const errorMsg = document.getElementById("url-error");
         if (errorMsg) errorMsg.remove();
-
         imagePreview.src = url;
       }
     } else {
       imagePreview.src =
         "https://placehold.co/300x300?text=Product+Image&font=roboto";
       productUrlInput.classList.remove("is-invalid");
-
-      let errorMsg = document.getElementById("url-error");
+      const errorMsg = document.getElementById("url-error");
       if (errorMsg) errorMsg.remove();
     }
   });
@@ -223,8 +209,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const userId = userToken;
-      const users = await GET<Array<User>>(`user?userId=${userId}`);
-
+      // Using GET with a generic to fetch an array of Users without type assertions
+      const users = await GET<User[]>(`user?userId=${userId}`);
       if (users.length === 0) throw new Error("User not found.");
 
       const user = users[0];
