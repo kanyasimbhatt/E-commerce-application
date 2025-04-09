@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    // Using the generic type parameter to get a User array without type assertion
     const users = await GET<User[]>(`user?userId=${userToken}`);
     if (users.length === 0) {
       customAlert("error", "top-right", "User not found.");
@@ -53,11 +52,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Using the generic type parameter to get an array of Products
     const allProducts = await GET<Product[]>("products");
 
     sellerProducts = allProducts.filter(
-      (p) => String(p.userId) === String(userToken)
+      (product) => String(product.userId) === String(userToken)
     );
 
     currentRenderProducts = sellerProducts;
@@ -77,8 +75,8 @@ function handleSearchAndSort(): void {
   const searchTerm = searchInputEl.value.toLowerCase();
   const sortOption = sortSelectEl.value;
 
-  let filtered = sellerProducts.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm)
+  let filtered = sellerProducts.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm)
   );
 
   if (sortOption === "name-asc") {
@@ -208,9 +206,11 @@ async function deleteProduct(productId: string): Promise<void> {
   try {
     await deleteProductService(productId);
 
-    sellerProducts = sellerProducts.filter((p) => p.id !== productId);
+    sellerProducts = sellerProducts.filter(
+      (product) => product.id !== productId
+    );
     currentRenderProducts = currentRenderProducts.filter(
-      (p) => p.id !== productId
+      (product) => product.id !== productId
     );
     resetProductsDisplay();
     loadMoreProducts();
