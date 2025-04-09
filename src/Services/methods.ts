@@ -1,7 +1,6 @@
 import { BASE_URL } from "../SignUp/constants";
 export async function GET<T>(url: string, options: object = {}): Promise<T> {
   const response = await fetch(`${BASE_URL}/${url}`);
-  console.log(response);
 
   if (!response.ok) {
     throw new Error(`Couldn't fetch data`);
