@@ -24,7 +24,7 @@ async function handleClickSignIn() {
   const password = (document.getElementById("password") as HTMLInputElement)
     .value;
   try {
-    const userData = (await GET("user")) as User[];
+    const userData = await GET<Array<User>>("user");
 
     const userObject = userData.find(
       (user: User) => user.email === userEmail && user.password === password
@@ -46,9 +46,9 @@ async function handleClickSignIn() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (localStorage.getItem("user-token")) {
-    const userObject = (await GET(
+    const userObject = await GET<Array<User>>(
       `user?userId=${localStorage.getItem("user-token")}`
-    )) as User[];
+    );
 
     handleRedirect(userObject[0]);
   }
