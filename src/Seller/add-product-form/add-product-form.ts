@@ -1,8 +1,4 @@
 import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
-<<<<<<< HEAD
-
-=======
->>>>>>> a06bcfac5c1b540b3d9a87ecde599f5609f93ecd
 import { User, Product, Role } from "../../SignUp/types";
 import {
   getAllProducts,
@@ -13,19 +9,6 @@ import { GET } from "../../Services/methods";
 import { RouteProtection } from "../../protectedRoute/routeProtection";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 
-<<<<<<< HEAD
-function getProductById(productId: string): Promise<Product | undefined> {
-  return getAllProducts().then((products) => {
-    if (!products) return undefined;
-    const found = products.find((p) => p.id === productId);
-    console.log("Looking for productId:", productId);
-    console.log("Matched product:", found);
-    return found;
-  });
-}
-
-=======
->>>>>>> a06bcfac5c1b540b3d9a87ecde599f5609f93ecd
 document.addEventListener("DOMContentLoaded", async () => {
   const navbarElement = document.getElementsByClassName(
     "navbar"
@@ -61,13 +44,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-<<<<<<< HEAD
-      const product = products.find((p) => p.id === editingProductId);
-=======
       const product = products.find(
         (product) => product.id === editingProductId
       );
->>>>>>> a06bcfac5c1b540b3d9a87ecde599f5609f93ecd
       if (product) {
         editingInternalId = product.id;
 
@@ -284,10 +263,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         image: imageValue,
         userId: String(userId),
         description: descriptionValue,
-<<<<<<< HEAD
-        productId: undefined,
-=======
->>>>>>> a06bcfac5c1b540b3d9a87ecde599f5609f93ecd
       };
 
       if (editingProductId && editingInternalId) {
