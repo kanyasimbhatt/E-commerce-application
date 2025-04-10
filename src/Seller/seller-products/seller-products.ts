@@ -31,11 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const userToken = localStorage.getItem("user-token");
 
-  if (!userToken) {
-    customAlert("error", "top-right", "You must be logged in as a Seller.");
-    return;
-  }
-
   try {
     const users = await GET<User[]>(`user?userId=${userToken}`);
     if (users.length === 0) {
