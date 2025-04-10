@@ -13,7 +13,7 @@ function initializeEventListener() {
 }
 
 function handleRedirect(userObject: User) {
-  if (userObject.role === "buyer") document.location.href = "../Buyer/allProduct/allProduct.html";
+  if (userObject.role === "buyer") document.location.href = "../Buyer/productList/productList.html";
   else
     document.location.href = "../Seller/add-product-form/add-product-form.html";
 }
