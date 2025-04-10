@@ -47,9 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const allProducts = await GET<Product[]>("products");
 
-    sellerProducts = allProducts.filter(
-      (product) => String(product.userId) === String(userToken)
-    );
+    sellerProducts = await GET<Product[]>(`products?userId=${userToken}`);
 
     currentRenderProducts = sellerProducts;
     resetProductsDisplay();
