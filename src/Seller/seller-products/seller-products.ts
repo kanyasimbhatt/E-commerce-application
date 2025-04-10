@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
 
   const userToken = localStorage.getItem("user-token");
-  console.log("Logged in seller userId:", userToken);
 
   if (!userToken) {
     customAlert("error", "top-right", "You must be logged in as a Seller.");
@@ -55,19 +54,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const allProducts = (await GET("products")) as unknown as Product[];
 
-    console.log(
-      "All products:",
-      allProducts.map((p) => ({
-        productId: p.id,
-        userId: p.userId,
-      }))
-    );
-
     sellerProducts = allProducts.filter(
       (p) => String(p.userId) === String(userToken)
     );
-
-    console.log("Filtered seller products:", sellerProducts);
 
     currentRenderProducts = sellerProducts;
     resetProductsDisplay();

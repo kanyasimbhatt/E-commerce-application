@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const data = await GET<Array<User>>(`user?userId=${userId}`);
       let productData = await GET<Product>(`products/${productId}`);
-      console.log("hello: ", productId);
+
 
       let productDataIndex = data[0].cart.findIndex(
         (product) => product.id === productData.id
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else {
         data[0].cart[productDataIndex].count! += 1;
       }
-      console.log(data[0]);
+
 
       await PUT(`user/${data[0].id}`, {
         method: "PUT",
