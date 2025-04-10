@@ -79,33 +79,47 @@ async function displayCartItems() {
     (
       document.getElementsByClassName("checkout-button")[0] as HTMLButtonElement
     ).disabled = false;
+
     let priceSum = 0;
+
     data[0].cart.forEach((cartItem) => {
       if (cartItem.count! > 0) {
-        htmlcode += `<tr class = "table-row">
-                <th scope="row">${index++}</th>
-                <td>${cartItem.name}</td>
-                <td>
-                  <img
-                    src="${cartItem.image}"
-                    alt="product image"
-                    class="img-fluid"
-                  />
-                </td>
-                <td>$${cartItem.price}</td>
-                <td>${cartItem.description}</td>
-
-                <td class = "d-flex gap-3 justify-content-center align-items-start quantity">
-                  <a href="#" class="btn btn-danger btn-sm inc-dec-button decrease" id="${
-                    cartItem.id
-                  }"> - </a>
-                  <p class="product-quantity m-0">${cartItem.count}</p>
-
-                  <a href="#" class="btn btn-primary btn-sm inc-dec-button increase" id="${
-                    cartItem.id
-                  }"> + </a>
-                </td>
-              </tr>`;
+        htmlcode += `
+            <tr class="table-row">
+              <th scope="row">${index++}</th>
+              <td>${cartItem.name}</td>
+              <td>
+                <img
+                  src="${cartItem.image}"
+                  alt="product image"
+                  class="img-fluid cart-product-img"
+                />
+              </td>
+              <td>$${cartItem.price}</td>
+              <td>${cartItem.description}</td>
+              <td class="text-center">
+                <div class="d-inline-flex align-items-center border rounded px-2 py-1 shadow-sm bg-light gap-2 justify-content-center action-container">
+                  <button
+                    class="btn btn-danger btn-sm square-button inc-dec-button decrease"
+                    id="${cartItem.id}"
+                    title="Decrease"
+                  >
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="product-quantity fw-semibold px-2">${
+                    cartItem.count
+                  }</span>
+                  <button
+                    class="btn btn-primary btn-sm square-button inc-dec-button increase"
+                    id="${cartItem.id}"
+                    title="Increase"
+                  >
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
 
         priceSum += +cartItem.count! * +cartItem.price;
       }
