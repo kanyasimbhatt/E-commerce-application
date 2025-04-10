@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const userId = userToken;
-      // Using GET with a generic to fetch an array of Users without type assertions
+
       const users = await GET<User[]>(`user?userId=${userId}`);
       if (users.length === 0) throw new Error("User not found.");
 
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         editingProductId ? "Product updated!" : "Product added successfully!"
       );
       setTimeout(() => {
-        window.location.assign("./seller-products.html");
+        window.location.assign("../seller-products/seller-products.html");
       }, 1000);
     } catch (error) {
       console.error("Error adding/updating product:", error);
