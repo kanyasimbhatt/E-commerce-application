@@ -37,7 +37,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-      const product = products.find((p) => p.id === editingProductId);
+      const product = products.find(
+        (product) => product.id === editingProductId
+      );
       if (product) {
         editingInternalId = product.id;
 
