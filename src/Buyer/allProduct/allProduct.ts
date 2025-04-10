@@ -126,4 +126,3 @@ function attachPopupCloseEvent(): void {
 }
 
 init();
-
