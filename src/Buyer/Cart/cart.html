@@ -34,7 +34,7 @@
       <!-- Table for displaying seller's products -->
       <div class="card shadow-sm">
         <div class="card-body">
-          <table class="table table-bordered table-striped table-hover">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -48,7 +48,13 @@
             </thead>
             <tbody></tbody>
           </table>
-          <button class="btn btn-primary checkout-button">Checkout</button>
+          <div class="d-flex gap-3 align-items-center">
+            <button class="btn btn-primary checkout-button">Checkout</button>
+            <button class="btn btn-primary clear-cart-button">
+              Clear Cart
+            </button>
+            <h4 class="m-0">Price: $<span class="total-price">0</span></h4>
+          </div>
         </div>
       </div>
     </div>

@@ -7,30 +7,46 @@ import customAlert from "@pranshupatel/custom-alert";
 document.addEventListener("DOMContentLoaded", () => {
   const navbarElement = document.querySelector(".navbar") as HTMLElement;
   induceNavbarCode(navbarElement, "buyer");
+  (
+    document.getElementsByClassName("navbar-brand")[0] as HTMLAnchorElement
+  ).href = "../allProduct/allProduct.html";
+
   updateBadgeCount();
   (document.getElementsByClassName("remove")[0] as HTMLElement).classList.add(
     "d-none"
   );
   document
     .getElementsByClassName("checkout-button")[0]
-    .addEventListener("click", () => {
-      handleClickOnCheckout();
+    .addEventListener("click", async () => {
+      await clearCart();
+      updateBadgeCount();
+      displayCartItems();
+      customAlert("success", "top-right", "Order Placed successfully");
+    });
+
+  document
+    .getElementsByClassName("clear-cart-button")[0]
+    .addEventListener("click", async () => {
+      await clearCart();
+      updateBadgeCount();
+      displayCartItems();
+      customAlert("success", "top-right", "Cart cleared successfully");
     });
   displayCartItems();
 });
 
-async function handleClickOnCheckout() {
+async function clearCart() {
   let userId = localStorage.getItem("user-token");
+  try {
+    let userData = await GET<Array<User>>(`user?userId=${userId}`);
 
-  let userData = await GET<Array<User>>(`user?userId=${userId}`);
-
-  userData[0].cart = [];
-  await PUT(`user/${userData[0].id}`, {
-    body: JSON.stringify(userData[0]),
-  });
-  updateBadgeCount();
-  displayCartItems();
-  customAlert("success", "top-right", "Order Placed successfully");
+    userData[0].cart = [];
+    await PUT(`user/${userData[0].id}`, {
+      body: JSON.stringify(userData[0]),
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function displayCartItems() {
@@ -46,17 +62,27 @@ async function displayCartItems() {
           "checkout-button"
         )[0] as HTMLButtonElement
       ).disabled = true;
+
+      (
+        document.getElementsByClassName(
+          "clear-cart-button"
+        )[0] as HTMLButtonElement
+      ).disabled = true;
       (
         document.getElementsByTagName("tbody") as unknown as HTMLElement
       )[0].innerHTML = "";
+      document.getElementsByClassName("total-price")[0].textContent = `0`;
+
       return;
     }
 
     (
       document.getElementsByClassName("checkout-button")[0] as HTMLButtonElement
     ).disabled = false;
+    let priceSum = 0;
     data[0].cart.forEach((cartItem) => {
-      htmlcode += `<tr class = "table-row">
+      if (cartItem.count! > 0) {
+        htmlcode += `<tr class = "table-row">
                 <th scope="row">${index++}</th>
                 <td>${cartItem.name}</td>
                 <td>
@@ -80,7 +106,14 @@ async function displayCartItems() {
                   }"> + </a>
                 </td>
               </tr>`;
+
+        priceSum += +cartItem.count! * +cartItem.price;
+      }
     });
+
+    document.getElementsByClassName(
+      "total-price"
+    )[0].textContent = `${priceSum}`;
 
     (
       document.getElementsByTagName("tbody") as unknown as HTMLElement
