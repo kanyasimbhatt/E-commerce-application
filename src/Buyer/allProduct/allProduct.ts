@@ -3,9 +3,16 @@ import type { Product } from "../../SignUp/types";
 import { filterProducts, sortProducts } from "../Sort/sort";
 import { GET } from "../../Services/methods";
 
-const productList = document.getElementById("product-list") as HTMLElement;
-const navbarElement = document.getElementsByClassName("navbar")[0] as HTMLElement;
-redirectNavbarRequest(navbarElement);
+let productList: HTMLElement;
+let navbarElement: HTMLElement;
+
+document.addEventListener("DOMContentLoaded", () => {
+  productList = document.getElementById("product-list") as HTMLElement;
+  navbarElement = document.getElementsByClassName("navbar")[0] as HTMLElement;
+  redirectNavbarRequest(navbarElement);
+
+  init();
+});
 
 const state = {
   products: [] as Product[],
@@ -73,7 +80,8 @@ function displayProducts(items: Product[]): void {
   }
 
   productList.innerHTML = items
-    .map((product) => `
+    .map(
+      (product) => `
       <div class="col-md-3 col-lg-2 mb-4 d-flex align-items-stretch" id="main-card">
         <div class="card product-card w-100 product-click" data-id="${product.id}">
           <img src="${product.image}" class="card-img-top product-img" alt="${product.name}">
@@ -86,7 +94,9 @@ function displayProducts(items: Product[]): void {
           </div>
         </div>
       </div>
-    `).join("");
+    `
+    )
+    .join("");
 
   attachProductClickEvents();
   attachPopupCloseEvent();
@@ -106,12 +116,18 @@ function attachProductClickEvents(): void {
 async function showProductPopup(productId: string): Promise<void> {
   try {
     const product = await GET<Product>(`products/${productId}`);
-    (document.getElementById("popupProductName") as HTMLElement).textContent = product.name;
-    (document.getElementById("popupProductImage") as HTMLImageElement).src = product.image;
-    (document.getElementById("popupProductDescription") as HTMLElement).textContent =
-      product.description || "No description";
-    (document.getElementById("popupProductPrice") as HTMLElement).textContent = `$${product.price}`;
-    (document.getElementById("productPopup") as HTMLElement).style.display = "flex";
+    (document.getElementById("popupProductName") as HTMLElement).textContent =
+      product.name;
+    (document.getElementById("popupProductImage") as HTMLImageElement).src =
+      product.image;
+    (
+      document.getElementById("popupProductDescription") as HTMLElement
+    ).textContent = product.description || "No description";
+    (
+      document.getElementById("popupProductPrice") as HTMLElement
+    ).textContent = `$${product.price}`;
+    (document.getElementById("productPopup") as HTMLElement).style.display =
+      "flex";
   } catch (err) {
     console.error("Error fetching product details:", err);
   }
@@ -120,7 +136,8 @@ async function showProductPopup(productId: string): Promise<void> {
 function attachPopupCloseEvent(): void {
   document.getElementById("productPopup")?.addEventListener("click", (e) => {
     if ((e.target as HTMLElement).id === "productPopup") {
-      (document.getElementById("productPopup") as HTMLElement).style.display = "none";
+      (document.getElementById("productPopup") as HTMLElement).style.display =
+        "none";
     }
   });
 }
