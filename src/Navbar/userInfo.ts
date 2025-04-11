@@ -1,5 +1,5 @@
 import { GET } from "../Services/methods";
-import { User } from "../SignUp/types";
+import { User } from "../Type/types";
 
 export async function populateUserPopup() {
   const userId = localStorage.getItem("user-token");
