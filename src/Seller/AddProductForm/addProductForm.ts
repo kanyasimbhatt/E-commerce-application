@@ -1,14 +1,21 @@
 import customAlert from "@pranshupatel/custom-alert";
-import { User, Product, Role } from "../../SignUp/types";
+import { User, Product, Role } from "../../Type/types";
 import {
   getAllProducts,
   updateProduct,
   createProduct,
 } from "../../Services/productservice";
 import { GET } from "../../Services/methods";
+import { redirectNavbarRequest } from "../../Navbar/navbarScript";
+import { RouteProtection } from "../../RouteProtection/routeProtection";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("productForm") as HTMLFormElement;
+  const navbarElement = document.getElementsByClassName(
+      "navbar"
+    )[0] as HTMLElement;
+    redirectNavbarRequest(navbarElement);
+    RouteProtection("seller");
   const productNameInput = document.getElementById(
     "productName"
   ) as HTMLInputElement;

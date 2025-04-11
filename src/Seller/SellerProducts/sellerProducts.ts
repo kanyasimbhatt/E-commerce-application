@@ -7,8 +7,9 @@ declare global {
 import customAlert from "@pranshupatel/custom-alert";
 import { GET } from "../../Services/methods";
 import { deleteProduct as deleteProductService } from "../../Services/productservice";
-import { Product, User, Role } from "../../SignUp/types";
+import { Product, User, Role } from "../../Type/types";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
+import { RouteProtection } from "../../RouteProtection/routeProtection";
 
 let sellerProducts: Product[] = [];
 let currentRenderProducts: Product[] = [];
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     "navbar"
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
-
+  RouteProtection("seller");
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;

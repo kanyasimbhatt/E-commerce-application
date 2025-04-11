@@ -1,8 +1,9 @@
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
-import type { Product } from "../../SignUp/types";
+import type { Product } from "../../Type/types";
 import { sortProducts } from "./sort";
 import { GET } from "../../Services/methods";
 import { filterProducts } from "./filter";
+import { RouteProtection } from "../../RouteProtection/routeProtection";
 
 interface ProductState {
   products: Product[];
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   navbarElement = document.getElementsByClassName("navbar")[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
   init();
+  RouteProtection("buyer");
 });
 
 function init(): void {
