@@ -20,11 +20,11 @@ export async function populateUserPopup() {
 }
 
 export function bindLogoutButton() {
-  document.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-    if (target.id === "logout-btn") {
-      localStorage.removeItem("user-token");
-      window.location.href = "../../SignIn/signIn.html";
-    }
-  });
-}
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target.id === "logout-btn") {
+        localStorage.removeItem("user-token");
+        window.location.replace("../../SignIn/signIn.html");
+      }
+    });
+  }
