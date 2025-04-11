@@ -12,7 +12,7 @@ export async function RouteProtection(pageType: string) {
     if (userObject[0].role !== pageType) {
       if (pageType === "buyer" && userObject[0].role === "seller") {
         document.location.href =
-          "../../Seller/addProductForm/addProductForm.html";
+          "../../Seller/addProductForm/addProduorm.html";
       } else {
         document.location.href = "../../Buyer/productList/productList.html";
       }
