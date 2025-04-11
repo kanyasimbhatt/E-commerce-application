@@ -10,6 +10,7 @@ import { deleteProduct as deleteProductService } from "../../Services/productser
 import { Product, User, Role } from "../../SignUp/types";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
+import { populateUserPopup , bindLogoutButton } from "../../Navbar/userInfo";
 
 let sellerProducts: Product[] = [];
 let currentRenderProducts: Product[] = [];
@@ -26,6 +27,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
   RouteProtection("seller");
+  populateUserPopup(); 
+  bindLogoutButton();
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
