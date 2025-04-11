@@ -1,4 +1,4 @@
-import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
+import customAlert from "@pranshupatel/custom-alert";
 import { User, Product, Role } from "../../SignUp/types";
 import {
   getAllProducts,
@@ -37,7 +37,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-      const product = products.find((p) => p.id === editingProductId);
+      const product = products.find(
+        (product) => product.id === editingProductId
+      );
       if (product) {
         editingInternalId = product.id;
 
@@ -209,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const userId = userToken;
-      // Using GET with a generic to fetch an array of Users without type assertions
+
       const users = await GET<User[]>(`user?userId=${userId}`);
       if (users.length === 0) throw new Error("User not found.");
 
@@ -256,7 +258,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         editingProductId ? "Product updated!" : "Product added successfully!"
       );
       setTimeout(() => {
-        window.location.assign("./seller-products.html");
+        window.location.assign("../SellerProducts/sellerProducts.html");
       }, 1000);
     } catch (error) {
       console.error("Error adding/updating product:", error);
