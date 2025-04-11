@@ -4,6 +4,7 @@ import { sortProducts } from "./sort";
 import { GET } from "../../Services/methods";
 import { filterProducts } from "./filter";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
+import { populateUserPopup , bindLogoutButton } from "../../Navbar/userInfo";
 
 interface ProductState {
   products: Product[];
@@ -27,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
   redirectNavbarRequest(navbarElement);
   init();
   RouteProtection("buyer");
+  populateUserPopup(); 
+  bindLogoutButton();
 });
 
 function init(): void {

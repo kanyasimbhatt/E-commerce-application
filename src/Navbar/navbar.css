@@ -1,39 +1,51 @@
+.profile-user-info-buyer,
 .profile-user-info-seller {
-  right: -16px;
-  margin-top: 15px;
-  height: 400px;
-  width: 300px;
-  background-color: pink;
-  position: absolute;
-  z-index: 1;
-  display: none;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+  min-width: 270px;
+  z-index: 1050;
+  top: 100%;
+  right: 0;
 }
 
-.profile-user-info-buyer {
-  right: -16px;
-  margin-top: 15px;
-  height: 400px;
-  width: 300px;
-  background-color: pink;
-  position: absolute;
-  z-index: 1;
-  display: none;
+.profile-user-info-buyer input,
+.profile-user-info-seller input {
+  font-size: 0.95rem;
+  padding: 8px;
+  border-radius: 8px;
 }
 
-.profile-logo-info-wrapper {
-  position: relative;
+.profile-user-info-buyer .form-label,
+.profile-user-info-seller .form-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
 }
 
-.selected {
-  display: block;
+#logout-btn {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  font-weight: 500;
+}
+#logout-btn:hover {
+  background-color: #e45866;
+  color: #fff;
+  border-color: #dc3545;
 }
 
-@media screen and (max-width: 625px) {
-  .profile-user-info-buyer {
-    margin-top: 9px;
+/* Hide popup by default */
+.d-none {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar .navbar-brand h3 {
+    font-size: 1.2rem;
   }
-
-  .profile-user-info-seller {
-    margin-top: 9px;
+  #search {
+    max-width: 150px;
   }
 }

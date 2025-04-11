@@ -8,14 +8,17 @@ import {
 import { GET } from "../../Services/methods";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("productForm") as HTMLFormElement;
   const navbarElement = document.getElementsByClassName(
-      "navbar"
-    )[0] as HTMLElement;
-    redirectNavbarRequest(navbarElement);
-    RouteProtection("seller");
+    "navbar"
+  )[0] as HTMLElement;
+  redirectNavbarRequest(navbarElement);
+  RouteProtection("seller");
+  populateUserPopup();
+  bindLogoutButton();
   const productNameInput = document.getElementById(
     "productName"
   ) as HTMLInputElement;
