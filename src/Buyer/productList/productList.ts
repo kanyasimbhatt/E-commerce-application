@@ -1,5 +1,5 @@
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
-import type { Product } from "../../SignUp/types";
+import type { Product } from "../../Type/types";
 import { sortProducts } from "./sort";
 import { GET } from "../../Services/methods";
 import { filterProducts } from "./filter";

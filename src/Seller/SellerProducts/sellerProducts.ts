@@ -7,7 +7,7 @@ declare global {
 import customAlert from "@pranshupatel/custom-alert";
 import { GET } from "../../Services/methods";
 import { deleteProduct as deleteProductService } from "../../Services/productservice";
-import { Product, User, Role } from "../../SignUp/types";
+import { Product, User, Role } from "../../Type/types";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 

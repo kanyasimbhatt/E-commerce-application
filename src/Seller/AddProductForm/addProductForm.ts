@@ -1,5 +1,5 @@
 import customAlert from "@pranshupatel/custom-alert";
-import { User, Product, Role } from "../../SignUp/types";
+import { User, Product, Role } from "../../Type/types";
 import {
   getAllProducts,
   updateProduct,

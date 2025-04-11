@@ -1,5 +1,5 @@
 import customAlert from "@pranshupatel/custom-alert";
-import { User } from "../SignUp/types.js";
+import { User } from "../Type/types.js";
 import { GET } from "../Services/methods.js";
 
 function initializeEventListener() {
