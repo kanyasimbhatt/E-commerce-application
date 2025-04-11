@@ -4,7 +4,7 @@ declare global {
   }
 }
 
-import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
+import customAlert from "@pranshupatel/custom-alert";
 import { GET } from "../../Services/methods";
 import { deleteProduct as deleteProductService } from "../../Services/productservice";
 import { Product, User, Role } from "../../SignUp/types";
@@ -45,8 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const allProducts = await GET<Product[]>("products");
-
     sellerProducts = await GET<Product[]>(`products?userId=${userToken}`);
 
     currentRenderProducts = sellerProducts;
@@ -56,6 +54,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     searchInputEl.addEventListener("input", handleSearchAndSort);
     sortSelectEl.addEventListener("change", handleSearchAndSort);
     window.addEventListener("scroll", handleScroll);
+
+    // Event delegation
+    productListEl.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const viewBtn = target.closest("[data-view]") as HTMLElement;
+      const editBtn = target.closest("[data-edit]") as HTMLElement;
+      const deleteBtn = target.closest("[data-delete]") as HTMLElement;
+
+      if (viewBtn) {
+        const productId = viewBtn.getAttribute("data-view");
+        if (productId) viewProduct(productId);
+      } else if (editBtn) {
+        const productId = editBtn.getAttribute("data-edit");
+        if (productId) editProduct(productId);
+      } else if (deleteBtn) {
+        const productId = deleteBtn.getAttribute("data-delete");
+        if (productId) deleteProduct(productId);
+      }
+    });
   } catch (error) {
     console.error("Error loading products:", error);
     customAlert("error", "top-right", "Failed to load products.");
@@ -106,56 +123,32 @@ function loadMoreProducts(): void {
     colDiv.className = "col-md-3 mb-4";
 
     colDiv.innerHTML = `
-        <div class="card h-100">
-          <img
-            src="${product.image}"
-            class="card-img-top"
-            alt="${product.name}"
-            style="object-fit: cover; height: 200px;"
-          />
-          <div class="card-body d-flex flex-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;">
-            <h5 class="card-title">${product.name}</h5>
-            <p class="card-text text-secondary mb-1">$${product.price.toFixed(
-              2
-            )}</p>
-            <div class="mt-auto" style="display: flex; flex-direction: row; justify-content: center; gap: 10px;">
-              <button class="btn btn-sm btn-info" data-view="${
-                product.id
-              }">View</button>
-              <button class="btn btn-sm btn-warning" data-edit="${
-                product.id
-              }">Edit</button>
-              <button class="btn btn-sm btn-danger" data-delete="${
-                product.id
-              }">Delete</button>
-            </div>
+      <div class="card h-100">
+        <img
+          src="${product.image}"
+          class="card-img-top"
+          alt="${product.name}"
+          style="object-fit: cover; height: 200px;"
+        />
+        <div class="card-body d-flex flex-column text-center">
+          <h5 class="card-title">${product.name}</h5>
+          <p class="card-text text-secondary mb-1">$${product.price.toFixed(
+            2
+          )}</p>
+          <div class="mt-auto d-flex justify-content-center gap-2">
+            <button class="btn btn-sm btn-info" data-view="${
+              product.id
+            }">View</button>
+            <button class="btn btn-sm btn-warning" data-edit="${
+              product.id
+            }">Edit</button>
+            <button class="btn btn-sm btn-danger" data-delete="${
+              product.id
+            }">Delete</button>
           </div>
         </div>
-      `;
-
-    const viewBtn = colDiv.querySelector("[data-view]") as HTMLElement;
-    viewBtn?.addEventListener("click", (e) => {
-      const productId = (e.currentTarget as HTMLElement).getAttribute(
-        "data-view"
-      );
-      if (productId) viewProduct(productId);
-    });
-
-    const editBtn = colDiv.querySelector("[data-edit]") as HTMLElement;
-    editBtn?.addEventListener("click", (e) => {
-      const productId = (e.currentTarget as HTMLElement).getAttribute(
-        "data-edit"
-      );
-      if (productId) editProduct(productId);
-    });
-
-    const deleteBtn = colDiv.querySelector("[data-delete]") as HTMLElement;
-    deleteBtn?.addEventListener("click", (e) => {
-      const productId = (e.currentTarget as HTMLElement).getAttribute(
-        "data-delete"
-      );
-      if (productId) deleteProduct(productId);
-    });
+      </div>
+    `;
 
     productListEl.appendChild(colDiv);
   });
@@ -193,7 +186,7 @@ function viewProduct(productId: string): void {
 }
 
 function editProduct(productId: string): void {
-  window.location.href = `../add-product-form/add-product-form.html?edit=${productId}`;
+  window.location.href = `../AddProductForm/addProductForm.html?edit=${productId}`;
 }
 
 async function deleteProduct(productId: string): Promise<void> {

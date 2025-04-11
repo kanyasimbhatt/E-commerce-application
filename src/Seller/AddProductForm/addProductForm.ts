@@ -1,4 +1,4 @@
-import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
+import customAlert from "@pranshupatel/custom-alert";
 import { User, Product, Role } from "../../SignUp/types";
 import {
   getAllProducts,
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         editingProductId ? "Product updated!" : "Product added successfully!"
       );
       setTimeout(() => {
-        window.location.assign("../seller-products/seller-products.html");
+        window.location.assign("../SellerProducts/sellerProducts.html");
       }, 1000);
     } catch (error) {
       console.error("Error adding/updating product:", error);
