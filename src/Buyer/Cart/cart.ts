@@ -164,11 +164,9 @@ function attachListenerForOperations() {
 
   document.querySelectorAll(".delete-item").forEach((element) => {
     element.addEventListener("click", (event: Event) => {
-      console.log("hell0");
-
-      if ("id" in event.target!) {
-        deleteItemFromCart(event.target!.id as string);
-        console.log(event.target!.id);
+      let closestButton = (event.target! as HTMLElement).closest("button");
+      if ("id" in closestButton!) {
+        deleteItemFromCart(closestButton.id as string);
       }
     });
   });
@@ -176,8 +174,6 @@ function attachListenerForOperations() {
 
 async function deleteItemFromCart(productId: string) {
   try {
-    console.log(productId);
-
     let data = await getUserData();
     let productIndex = data[0].cart.findIndex(
       (product) => product.id === productId
