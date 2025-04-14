@@ -171,10 +171,16 @@ function attachListenerForOperations() {
 
   document.querySelectorAll(".delete-item").forEach((element) => {
     element.addEventListener("click", (event: Event) => {
+<<<<<<< HEAD
       const target = event.currentTarget as HTMLElement;
       const productId = target.id;
       if (productId) {
         deleteItemFromCart(productId);
+=======
+      let closestButton = (event.target! as HTMLElement).closest("button");
+      if ("id" in closestButton!) {
+        deleteItemFromCart(closestButton.id as string);
+>>>>>>> cdbfe6e487b8b6c8a50f7d37f3981db3ca4e310a
       }
     });
   });
@@ -182,8 +188,6 @@ function attachListenerForOperations() {
 
 async function deleteItemFromCart(productId: string) {
   try {
-    console.log(productId);
-
     let data = await getUserData();
     let productIndex = data[0].cart.findIndex(
       (product) => product.id === productId
