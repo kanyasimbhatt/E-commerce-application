@@ -1,9 +1,11 @@
+import customAlert from "@pranshupatel/custom-alert";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
-import type { Product } from "../../Type/types";
+import type { Product, User } from "../../Type/types";
 import { sortProducts } from "./sort";
-import { GET } from "../../Services/methods";
+import { GET, PUT } from "../../Services/methods";
 import { filterProducts } from "./filter";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
+import { updateBadgeCount } from "./cardBadgeCount";
 
 interface ProductState {
   products: Product[];
@@ -96,6 +98,36 @@ async function fetchProducts(): Promise<void> {
   state.isFetching = false;
 }
 
+async function handleAddToCart(productId: string) {
+  const userId = localStorage.getItem("user-token");
+  try {
+    const data = await GET<Array<User>>(`user?userId=${userId}`);
+    let productData = await GET<Product>(`products/${productId}`);
+
+    let productDataIndex = data[0].cart.findIndex(
+      (product) => product.id === productData.id
+    );
+    if (productDataIndex === -1) {
+      productData = { ...productData, ...{ count: 1 } };
+      data[0].cart.push(productData);
+    } else {
+      data[0].cart[productDataIndex].count! += 1;
+    }
+
+    await PUT(`user/${data[0].id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data[0]),
+    });
+
+    customAlert("success", "top-right", "Item Added Successfully");
+
+    updateBadgeCount();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function displayProducts(items: Product[]): void {
   if (items.length === 0) {
     productList.innerHTML = `
@@ -125,8 +157,19 @@ function displayProducts(items: Product[]): void {
     )
     .join("");
 
+  attachAddToCartClickEvent();
   attachProductClickEvents();
   attachPopupCloseEvent();
+}
+
+function attachAddToCartClickEvent() {
+  document.querySelectorAll(".product-card button").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent card click
+      const button = event.currentTarget as HTMLButtonElement;
+      handleAddToCart(button.id);
+    });
+  });
 }
 
 function attachProductClickEvents(): void {

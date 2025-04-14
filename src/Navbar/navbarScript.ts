@@ -31,13 +31,15 @@ function induceNavbarCode(element: HTMLElement, pageType: string) {
           <div class="profile-user-info-buyer toggleClass"></div>
         </div>
         <!-- add to cart -->
-        <a href="../../allProduct/Cart/cart.html" class="me-3 remove">
-          <i
-            class="fa fa-shopping-cart"
-            aria-hidden="true"
-            style="font-size: 1.5rem"
-          ></i>
-        </a>
+        <a href="../Cart/cart.html" class="me-3 cart position-relative d-inline-block">
+  <i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 1.8rem;"></i>
+  <span
+    class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-flex justify-content-center align-items-center"
+    style="min-width: 1.25rem; height: 1.25rem; font-size: 0.75rem; padding: 0;"
+  >
+    0
+  </span>
+</a>
       </div>
    `;
 
