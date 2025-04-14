@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   redirectNavbarRequest(navbarElement);
   (
     document.getElementsByClassName("navbar-brand")[0] as HTMLAnchorElement
-  ).href = "../allProduct/allProduct.html";
+  ).href = "../productList/productList.html";
 
   updateBadgeCount();
   (document.getElementsByClassName("remove")[0] as HTMLElement).classList.add(
@@ -120,6 +120,14 @@ async function displayCartItems() {
                   >
                     <i class="fas fa-plus"></i>
                   </button>
+
+                  <button
+                    class="btn btn-danger btn-sm square-button delete-item"
+                    id="${cartItem.id}"
+                    title="delete"
+                  >
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -133,13 +141,13 @@ async function displayCartItems() {
       "total-price"
     )[0].textContent = `${priceSum.toFixed(2)}`;
 
-    attachListenerForIncDec();
+    attachListenerForOperations();
   } catch (err) {
     console.log(err);
   }
 }
 
-function attachListenerForIncDec() {
+function attachListenerForOperations() {
   document.querySelectorAll(".decrease").forEach((element) => {
     element.addEventListener("click", (event: Event) => {
       if ("id" in event.target!)
@@ -153,6 +161,41 @@ function attachListenerForIncDec() {
         incrementDecrementProductCount(event.target!.id as string, "increment");
     });
   });
+
+  document.querySelectorAll(".delete-item").forEach((element) => {
+    element.addEventListener("click", (event: Event) => {
+      console.log("hell0");
+
+      if ("id" in event.target!) {
+        deleteItemFromCart(event.target!.id as string);
+        console.log(event.target!.id);
+      }
+    });
+  });
+}
+
+async function deleteItemFromCart(productId: string) {
+  try {
+    console.log(productId);
+
+    let data = await getUserData();
+    let productIndex = data[0].cart.findIndex(
+      (product) => product.id === productId
+    );
+    if (productIndex === -1) return;
+    data[0].cart.splice(productIndex, 1);
+    if (data[0].cart.length === 0) {
+      handleClearCartScenario();
+    }
+    await PUT(`user/${data[0].id}`, {
+      body: JSON.stringify(data[0]),
+    });
+    updateBadgeCount();
+    displayCartItems();
+    customAlert("success", "top-right", "Item Removed successfully");
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function incrementDecrementProductCount(
