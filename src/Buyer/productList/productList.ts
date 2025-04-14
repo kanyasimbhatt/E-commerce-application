@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   productList = document.getElementById("product-list") as HTMLElement;
   navbarElement = document.getElementsByClassName("navbar")[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
+  updateBadgeCount();
   init();
   RouteProtection("buyer");
 });
@@ -147,7 +148,7 @@ function displayProducts(items: Product[]): void {
           <div class="card-body text-center">
             <h5 class="card-title">${product.name}</h5>
             <p class="text-success fw-bold">$${product.price}</p>
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary add-to-cart" id = "${product.id}">
               <i class="fa fa-shopping-cart me-2"></i> Add to Cart
             </button>
           </div>
@@ -163,11 +164,10 @@ function displayProducts(items: Product[]): void {
 }
 
 function attachAddToCartClickEvent() {
-  document.querySelectorAll(".product-card button").forEach((btn) => {
+  document.querySelectorAll(".add-to-cart").forEach((btn) => {
     btn.addEventListener("click", (event) => {
       event.stopPropagation(); // Prevent card click
-      const button = event.currentTarget as HTMLButtonElement;
-      handleAddToCart(button.id);
+      if ("id" in event.target!) handleAddToCart(event.target!.id as string);
     });
   });
 }
@@ -198,6 +198,12 @@ async function showProductPopup(productId: string): Promise<void> {
     ).textContent = `$${product.price}`;
     (document.getElementById("productPopup") as HTMLElement).style.display =
       "flex";
+    (document.getElementById("popupAddToCart") as HTMLElement).addEventListener(
+      "click",
+      (event: Event) => {
+        handleAddToCart(product.id);
+      }
+    );
   } catch (err) {
     console.error("Error fetching product details:", err);
   }

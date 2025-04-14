@@ -3,8 +3,10 @@ import { User } from "../../Type/types";
 import { updateBadgeCount } from "../productList/cardBadgeCount";
 import { GET, PUT } from "../../Services/methods";
 import customAlert from "@pranshupatel/custom-alert";
+import { RouteProtection } from "../../RouteProtection/routeProtection";
 
 document.addEventListener("DOMContentLoaded", () => {
+  RouteProtection("buyer");
   const navbarElement = document.querySelector(".navbar") as HTMLElement;
   redirectNavbarRequest(navbarElement);
   (
@@ -14,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateBadgeCount();
   (document.getElementsByClassName("remove")[0] as HTMLElement).classList.add(
     "d-none"
-  );
+  ); //to remove search bar
   document
     .getElementsByClassName("checkout-button")[0]
     .addEventListener("click", async () => {
@@ -35,10 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
   displayCartItems();
 });
 
+async function getUserData() {
+  const userId = localStorage.getItem("user-token");
+  return await GET<Array<User>>(`user?userId=${userId}`);
+}
+
 async function clearCart() {
-  let userId = localStorage.getItem("user-token");
   try {
-    let userData = await GET<Array<User>>(`user?userId=${userId}`);
+    let userData = await getUserData();
 
     userData[0].cart = [];
     await PUT(`user/${userData[0].id}`, {
@@ -49,30 +55,28 @@ async function clearCart() {
   }
 }
 
+function handleClearCartScenario() {
+  (
+    document.getElementsByClassName("checkout-button")[0] as HTMLButtonElement
+  ).disabled = true;
+
+  (
+    document.getElementsByClassName("clear-cart-button")[0] as HTMLButtonElement
+  ).disabled = true;
+  (
+    document.getElementsByTagName("tbody") as unknown as HTMLElement
+  )[0].innerHTML = "";
+  document.getElementsByClassName("total-price")[0].textContent = `0`;
+}
+
 async function displayCartItems() {
-  const userId = localStorage.getItem("user-token");
   try {
-    let data = await GET<Array<User>>(`user?userId=${userId}`);
+    let data = await getUserData();
     let index = 0;
     let htmlcode = "";
 
     if (data[0].cart.length === 0) {
-      (
-        document.getElementsByClassName(
-          "checkout-button"
-        )[0] as HTMLButtonElement
-      ).disabled = true;
-
-      (
-        document.getElementsByClassName(
-          "clear-cart-button"
-        )[0] as HTMLButtonElement
-      ).disabled = true;
-      (
-        document.getElementsByTagName("tbody") as unknown as HTMLElement
-      )[0].innerHTML = "";
-      document.getElementsByClassName("total-price")[0].textContent = `0`;
-
+      handleClearCartScenario();
       return;
     }
 
@@ -124,46 +128,40 @@ async function displayCartItems() {
         priceSum += +cartItem.count! * +cartItem.price;
       }
     });
-
+    document.getElementsByTagName("tbody")[0].innerHTML = htmlcode;
     document.getElementsByClassName(
       "total-price"
     )[0].textContent = `${priceSum}`;
 
-    (
-      document.getElementsByTagName("tbody") as unknown as HTMLElement
-    )[0].innerHTML = htmlcode;
-    document.querySelectorAll(".decrease").forEach((element) => {
-      element.addEventListener("click", (event: Event) => {
-        if ("id" in event.target!)
-          incrementDecrementProductCount(
-            event.target!.id as string,
-            "decrement"
-          );
-      });
-    });
-
-    document.querySelectorAll(".increase").forEach((element) => {
-      element.addEventListener("click", (event: Event) => {
-        if ("id" in event.target!)
-          incrementDecrementProductCount(
-            event.target!.id as string,
-            "increment"
-          );
-      });
-    });
+    attachListenerForIncDec();
   } catch (err) {
     console.log(err);
   }
+}
+
+function attachListenerForIncDec() {
+  document.querySelectorAll(".decrease").forEach((element) => {
+    element.addEventListener("click", (event: Event) => {
+      if ("id" in event.target!)
+        incrementDecrementProductCount(event.target!.id as string, "decrement");
+    });
+  });
+
+  document.querySelectorAll(".increase").forEach((element) => {
+    element.addEventListener("click", (event: Event) => {
+      if ("id" in event.target!)
+        incrementDecrementProductCount(event.target!.id as string, "increment");
+    });
+  });
 }
 
 async function incrementDecrementProductCount(
   productId: string,
   action: string
 ) {
-  let userId = localStorage.getItem("user-token");
   let index = 0;
   try {
-    let data = await GET<Array<User>>(`user?userId=${userId}`);
+    let data = await getUserData();
     data[0].cart = data[0].cart.map((element) => {
       if (element.id === productId) {
         if (action === "decrement") element.count!--;
