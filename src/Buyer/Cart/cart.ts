@@ -131,7 +131,7 @@ async function displayCartItems() {
     document.getElementsByTagName("tbody")[0].innerHTML = htmlcode;
     document.getElementsByClassName(
       "total-price"
-    )[0].textContent = `${priceSum}`;
+    )[0].textContent = `${priceSum.toFixed(2)}`;
 
     attachListenerForIncDec();
   } catch (err) {

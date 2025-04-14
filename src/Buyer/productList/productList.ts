@@ -201,6 +201,7 @@ async function showProductPopup(productId: string): Promise<void> {
     (document.getElementById("popupAddToCart") as HTMLElement).addEventListener(
       "click",
       (event: Event) => {
+
         handleAddToCart(product.id);
       }
     );
