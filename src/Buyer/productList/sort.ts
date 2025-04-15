@@ -1,4 +1,4 @@
-import type { Product } from "../../SignUp/types";
+import { Product } from "../../Type/types";
 
 interface SortOptions {
   sortKey: "name" | "price" | "none";

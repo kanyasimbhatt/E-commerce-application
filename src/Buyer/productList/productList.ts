@@ -1,10 +1,12 @@
+import customAlert from "@pranshupatel/custom-alert";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
-import type { Product } from "../../Type/types";
+import type { Product, User } from "../../Type/types";
 import { sortProducts } from "./sort";
-import { GET } from "../../Services/methods";
+import { GET, PUT } from "../../Services/methods";
 import { filterProducts } from "./filter";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
-import { populateUserPopup , bindLogoutButton } from "../../Navbar/userInfo";
+import { updateBadgeCount } from "./cardBadgeCount";
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 interface ProductState {
   products: Product[];
@@ -26,9 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   productList = document.getElementById("product-list") as HTMLElement;
   navbarElement = document.getElementsByClassName("navbar")[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
+  updateBadgeCount();
   init();
   RouteProtection("buyer");
-  populateUserPopup(); 
+  populateUserPopup();
   bindLogoutButton();
 });
 
@@ -99,6 +102,36 @@ async function fetchProducts(): Promise<void> {
   state.isFetching = false;
 }
 
+async function handleAddToCart(productId: string) {
+  const userId = localStorage.getItem("user-token");
+  try {
+    const data = await GET<Array<User>>(`user?userId=${userId}`);
+    let productData = await GET<Product>(`products/${productId}`);
+
+    let productDataIndex = data[0].cart.findIndex(
+      (product) => product.id === productData.id
+    );
+    if (productDataIndex === -1) {
+      productData = { ...productData, ...{ count: 1 } };
+      data[0].cart.push(productData);
+    } else {
+      data[0].cart[productDataIndex].count! += 1;
+    }
+
+    await PUT(`user/${data[0].id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data[0]),
+    });
+
+    customAlert("success", "top-right", "Item Added Successfully");
+
+    updateBadgeCount();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function displayProducts(items: Product[]): void {
   if (items.length === 0) {
     productList.innerHTML = `
@@ -118,7 +151,7 @@ function displayProducts(items: Product[]): void {
           <div class="card-body text-center">
             <h5 class="card-title">${product.name}</h5>
             <p class="text-success fw-bold">$${product.price}</p>
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary add-to-cart" id = "${product.id}">
               <i class="fa fa-shopping-cart me-2"></i> Add to Cart
             </button>
           </div>
@@ -128,8 +161,18 @@ function displayProducts(items: Product[]): void {
     )
     .join("");
 
+  attachAddToCartClickEvent();
   attachProductClickEvents();
   attachPopupCloseEvent();
+}
+
+function attachAddToCartClickEvent() {
+  document.querySelectorAll(".add-to-cart").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent card click
+      if ("id" in event.target!) handleAddToCart(event.target!.id as string);
+    });
+  });
 }
 
 function attachProductClickEvents(): void {
@@ -158,6 +201,12 @@ async function showProductPopup(productId: string): Promise<void> {
     ).textContent = `$${product.price}`;
     (document.getElementById("productPopup") as HTMLElement).style.display =
       "flex";
+    (document.getElementById("popupAddToCart") as HTMLElement).addEventListener(
+      "click",
+      (event: Event) => {
+        handleAddToCart(product.id);
+      }
+    );
   } catch (err) {
     console.error("Error fetching product details:", err);
   }
