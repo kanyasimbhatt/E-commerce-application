@@ -1,7 +1,7 @@
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { User } from "../../Type/types";
 import { updateBadgeCount } from "../productList/cardBadgeCount";
-import { GET, PUT } from "../../Services/methods";
+import { GET, PUT, POST } from "../../Services/methods";
 import customAlert from "@pranshupatel/custom-alert";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 
@@ -20,6 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementsByClassName("checkout-button")[0]
     .addEventListener("click", async () => {
+      let userData = getUserData();
+
+      POST("orders", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: new Date(),
+          userId: localStorage.getItem("user-token"),
+          orderItems: userData[0].cart,
+        }),
+      });
       await clearCart();
       updateBadgeCount();
       displayCartItems();

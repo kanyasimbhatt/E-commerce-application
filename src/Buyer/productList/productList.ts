@@ -6,6 +6,7 @@ import { GET, PUT } from "../../Services/methods";
 import { filterProducts } from "./filter";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 import { updateBadgeCount } from "./cardBadgeCount";
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 interface ProductState {
   products: Product[];
@@ -30,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updateBadgeCount();
   init();
   RouteProtection("buyer");
+  populateUserPopup();
+  bindLogoutButton();
 });
 
 function init(): void {
@@ -201,7 +204,6 @@ async function showProductPopup(productId: string): Promise<void> {
     (document.getElementById("popupAddToCart") as HTMLElement).addEventListener(
       "click",
       (event: Event) => {
-
         handleAddToCart(product.id);
       }
     );
