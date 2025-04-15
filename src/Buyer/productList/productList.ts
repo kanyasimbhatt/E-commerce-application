@@ -11,6 +11,7 @@ interface ProductState {
   sortDirection: "asc" | "desc";
 }
 
+let loaderElement: HTMLElement;
 let productList: HTMLElement;
 let navbarElement: HTMLElement;
 let state: ProductState = {
@@ -23,6 +24,7 @@ let state: ProductState = {
 document.addEventListener("DOMContentLoaded", () => {
   productList = document.getElementById("product-list") as HTMLElement;
   navbarElement = document.getElementsByClassName("navbar")[0] as HTMLElement;
+  loaderElement = document.getElementById("loader") as HTMLElement;
   redirectNavbarRequest(navbarElement);
   init();
 });
@@ -91,7 +93,7 @@ function Sort(): void {
 async function fetchProducts(): Promise<void> {
   if (state.isFetching) return;
   state.isFetching = true;
-
+  loaderElement.style.display = "block"; 
   const data = await GET<Product[]>("products");
   state.products = [...state.products, ...data];
 
@@ -104,6 +106,7 @@ async function fetchProducts(): Promise<void> {
 
   displayProducts(sorted);
   state.isFetching = false;
+  loaderElement.style.display = "none";
 }
 
 function displayProducts(items: Product[]): void {
