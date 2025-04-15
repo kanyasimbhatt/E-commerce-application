@@ -5,6 +5,7 @@ import { GET, PUT, POST } from "../../Services/methods";
 import customAlert from "@pranshupatel/custom-alert";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 
+let loaderElement: HTMLElement;
 document.addEventListener("DOMContentLoaded", () => {
   RouteProtection("buyer");
   const navbarElement = document.querySelector(".navbar") as HTMLElement;
@@ -34,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       displayCartItems();
       customAlert("success", "top-right", "Cart cleared successfully");
     });
+  loaderElement = document.getElementById("loader") as HTMLElement;
   displayCartItems();
 });
 
@@ -43,6 +45,7 @@ async function getUserData() {
 }
 
 async function clearCart() {
+  loaderElement.style.display = "block";
   try {
     let userData = await getUserData();
 
@@ -52,6 +55,8 @@ async function clearCart() {
     });
   } catch (err) {
     console.log(err);
+  } finally {
+    loaderElement.style.display = "none";
   }
 }
 
@@ -70,6 +75,7 @@ function handleClearCartScenario() {
 }
 
 async function displayCartItems() {
+  loaderElement.style.display = "block";
   try {
     let data = await getUserData();
     let index = 0;
@@ -144,6 +150,8 @@ async function displayCartItems() {
     attachListenerForOperations();
   } catch (err) {
     console.log(err);
+  } finally {
+    loaderElement.style.display = "none";
   }
 }
 
@@ -173,6 +181,7 @@ function attachListenerForOperations() {
 }
 
 async function deleteItemFromCart(productId: string) {
+  loaderElement.style.display = "none";
   try {
     let data = await getUserData();
     let productIndex = data[0].cart.findIndex(
@@ -191,6 +200,8 @@ async function deleteItemFromCart(productId: string) {
     customAlert("success", "top-right", "Item Removed successfully");
   } catch (err) {
     console.log(err);
+  } finally {
+    loaderElement.style.display = "none";
   }
 }
 
