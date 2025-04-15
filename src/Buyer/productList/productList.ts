@@ -6,7 +6,11 @@ import { GET, PUT } from "../../Services/methods";
 import { filterProducts } from "./filter";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 import { updateBadgeCount } from "./cardBadgeCount";
-import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
+import {
+  populateUserPopup,
+  bindLogoutButton,
+  bindAnalysisButton,
+} from "../../Navbar/userInfo";
 
 interface ProductState {
   products: Product[];
@@ -33,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   RouteProtection("buyer");
   populateUserPopup();
   bindLogoutButton();
+  bindAnalysisButton();
 });
 
 function init(): void {

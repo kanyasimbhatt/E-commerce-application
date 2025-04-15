@@ -20,6 +20,7 @@
   "homepage": "https://github.com/kanyasimbhatt/E-commerce-application#readme",
   "dependencies": {
     "@pranshupatel/custom-alert": "^1.0.7",
+    "apexcharts": "^4.5.0",
     "echarts": "^5.6.0",
     "react-toastify": "^11.0.5"
   },
