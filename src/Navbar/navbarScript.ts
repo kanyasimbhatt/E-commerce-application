@@ -34,14 +34,17 @@ export function induceNavbarCode(element: HTMLElement, pageType: string) {
             </label>
             <input type="email" id="popup-email" class="form-control" readonly />
           </div>
+          <button class="btn btn-primary w-100 mb-2 remove" id="analysis-btn">
+            <i class="bi bi-bar-chart-fill me-2"></i>Analysis
+          </button>
           <button class="btn btn-danger w-100" id="logout-btn">
             <i class="bi bi-box-arrow-right me-2"></i>Logout
           </button>
         </div>
       </div>
 
-      <!-- Cart -->
-       <a href="../Cart/cart.html" class="me-3 cart position-relative d-inline-block">
+      <!-- add to cart -->
+        <a href="../Cart/cart.html" class="me-3 cart position-relative d-inline-block">
   <i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 1.8rem;"></i>
   <span
     class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-flex justify-content-center remove align-items-center"
