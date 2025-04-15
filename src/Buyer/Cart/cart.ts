@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
       updateBadgeCount();
       displayCartItems();
       customAlert("success", "top-right", "Order Placed successfully");
+      setTimeout(
+        () => (document.location.href = "../productList/productList.html"),
+        2000
+      );
     });
 
   document

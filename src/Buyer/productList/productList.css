@@ -85,12 +85,12 @@ main {
 .analysis-popup {
   padding: 10px 10px 50px 10px;
   z-index: 1000;
-  height: 50vh;
-  width: 50vw;
+  height: 50%;
+  width: 50%;
   position: fixed;
-  top: 20%;
-  left: 30%;
+  top: calc(100vh - 75%);
+  left: calc(100vw - 75%);
   border-radius: 14px;
-  box-shadow: 4px 3px rgba(128, 128, 128, 0.452);
+  box-shadow: 0px 0px 1000px rgba(0, 0, 0, 0.418);
   display: none;
 }
