@@ -76,9 +76,6 @@ function Sort(): void {
           state.sortKey = "price";
           state.sortDirection = "desc";
           break;
-        default:
-          state.sortKey = "none";
-          state.sortDirection = "asc";
       }
       const searchInput = document.getElementById("search") as HTMLInputElement;
       const filtered = filterProducts(searchInput?.value || "", state.products);
