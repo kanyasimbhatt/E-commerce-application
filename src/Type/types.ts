@@ -5,13 +5,16 @@ export interface Product {
   image: string;
   userId: string;
   description: string;
+  count?: number;
 }
 
 export enum Role {
   Buyer = "buyer",
   Seller = "seller",
 }
+
 export interface User {
+  id?: string;
   userId: string;
   fullName: string;
   email: string;

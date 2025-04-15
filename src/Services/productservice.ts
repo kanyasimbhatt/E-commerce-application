@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE } from "./methods";
-import { Product } from "../SignUp/types";
+import { Product } from "../Type/types";
 
 // Create Product
 export async function createProduct(product: Product) {

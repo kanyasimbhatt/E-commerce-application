@@ -1,14 +1,24 @@
-import customAlert from "../../../node_modules/@pranshupatel/custom-alert/script";
-import { User, Product, Role } from "../../SignUp/types";
+import customAlert from "@pranshupatel/custom-alert";
+import { User, Product, Role } from "../../Type/types";
 import {
   getAllProducts,
   updateProduct,
   createProduct,
 } from "../../Services/productservice";
 import { GET } from "../../Services/methods";
+import { redirectNavbarRequest } from "../../Navbar/navbarScript";
+import { RouteProtection } from "../../RouteProtection/routeProtection";
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("productForm") as HTMLFormElement;
+  const navbarElement = document.getElementsByClassName(
+    "navbar"
+  )[0] as HTMLElement;
+  redirectNavbarRequest(navbarElement);
+  RouteProtection("seller");
+  populateUserPopup();
+  bindLogoutButton();
   const productNameInput = document.getElementById(
     "productName"
   ) as HTMLInputElement;
@@ -37,7 +47,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const products = await getAllProducts();
       if (!products) throw new Error("No products found");
 
-      const product = products.find((p) => p.id === editingProductId);
+      const product = products.find(
+        (product) => product.id === editingProductId
+      );
       if (product) {
         editingInternalId = product.id;
 
@@ -209,7 +221,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const userId = userToken;
-      // Using GET with a generic to fetch an array of Users without type assertions
+
       const users = await GET<User[]>(`user?userId=${userId}`);
       if (users.length === 0) throw new Error("User not found.");
 
@@ -256,7 +268,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         editingProductId ? "Product updated!" : "Product added successfully!"
       );
       setTimeout(() => {
-        window.location.assign("./seller-products.html");
+        window.location.assign("../SellerProducts/sellerProducts.html");
       }, 1000);
     } catch (error) {
       console.error("Error adding/updating product:", error);

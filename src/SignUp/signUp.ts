@@ -1,6 +1,6 @@
 import customAlert from "../../node_modules/@pranshupatel/custom-alert/script";
 import { GET, POST } from "../Services/methods";
-import { User, Role } from "./types";
+import { User, Role } from "../Type/types";
 import { emailValidator, passwordValidator } from "./constants";
 
 function initSignUp(): void {
