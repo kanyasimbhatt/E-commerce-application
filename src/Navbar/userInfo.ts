@@ -44,7 +44,6 @@ export async function bindAnalysisButton() {
 
       productCountPerMonth[month] += totalCount;
     });
-    console.log(productCountPerMonth);
 
     let chartOptions = {
       chart: {
