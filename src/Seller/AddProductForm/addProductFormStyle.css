@@ -57,3 +57,10 @@ label {
   margin-bottom: 0.5rem;
   color: #343a40;
 }
+
+#loader {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
