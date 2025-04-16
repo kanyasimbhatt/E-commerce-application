@@ -90,6 +90,9 @@ function handleClearCartScenario() {
     document.getElementsByTagName("tbody") as unknown as HTMLElement
   )[0].innerHTML = "";
   document.getElementsByClassName("total-price")[0].textContent = `0`;
+  document.getElementsByClassName(
+    "empty-cart-text"
+  )[0].innerHTML = `<p class = 'mt-4 text-center'><b>No Products added</b></p>`;
 }
 
 async function displayCartItems() {
