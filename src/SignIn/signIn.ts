@@ -103,12 +103,12 @@ async function handleClickSignIn() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (localStorage.getItem("user-token")) {
-    const userObject = await GET<Array<User>>(
+    const userData = await GET<Array<User>>(
       `user?userId=${localStorage.getItem("user-token")}`
     );
 
-    if (userObject.length > 0) {
-      handleRedirect(userObject[0]);
+    if (userData.length > 0) {
+      handleRedirect(userData[0]);
     }
   }
 
