@@ -24,7 +24,7 @@
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light px-3 shadow"
     ></nav>
-    <main>
+    <main class="hide">
       <div
         class="main-heading card mb-3 d-flex flex-row justify-content-between align-items-center p-3"
       >
@@ -113,15 +113,17 @@
           </div>
         </div>
       </div>
-      <div class="analysis-popup-wrapper">
-        <div class="analysis-popup bg-light">
-          <button class="btn btn-light remove-analysis-popup">
-            <i class="bi bi-x-circle"></i>
-          </button>
-          <div class="chart-display"></div>
-        </div>
-      </div>
     </main>
+    <div class="analysis-popup bg-light">
+      <div class="d-flex gap-2 align-items-center">
+        <button class="btn btn-light remove-analysis-popup">
+          <i class="bi bi-x-circle"></i>
+        </button>
+
+        <h5 class="mb-0">Products bought per month</h5>
+      </div>
+      <div class="chart-display"></div>
+    </div>
   </body>
   <script src="./productList.ts" type="module"></script>
 </html>
