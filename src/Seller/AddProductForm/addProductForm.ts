@@ -10,15 +10,29 @@ import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
 
+const showLoader = () => {
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "flex";
+};
+
+const hideLoader = () => {
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
+  showLoader();
+
   const form = document.getElementById("productForm") as HTMLFormElement;
   const navbarElement = document.getElementsByClassName(
     "navbar"
   )[0] as HTMLElement;
+
   redirectNavbarRequest(navbarElement);
   RouteProtection("seller");
   populateUserPopup();
   bindLogoutButton();
+
   const productNameInput = document.getElementById(
     "productName"
   ) as HTMLInputElement;
@@ -80,6 +94,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  hideLoader();
+
+  // Validation and Input Handling
   productNameInput.addEventListener("input", () => {
     const value = productNameInput.value.trim();
     if (value === "") {
@@ -160,7 +177,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Submit Handling
+  // Form submission and product creation or update
   form.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
     let isValid = true;
@@ -220,8 +237,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-      const userId = userToken;
+      showLoader();
 
+      const userId = userToken;
       const users = await GET<User[]>(`user?userId=${userId}`);
       if (users.length === 0) throw new Error("User not found.");
 
@@ -277,6 +295,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         "top-right",
         "Failed to save product. Please try again."
       );
+    } finally {
+      hideLoader();
     }
   });
 });
