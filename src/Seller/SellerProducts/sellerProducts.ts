@@ -10,7 +10,16 @@ import { deleteProduct as deleteProductService } from "../../Services/productser
 import { Product, User, Role } from "../../Type/types";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
-import { populateUserPopup , bindLogoutButton } from "../../Navbar/userInfo";
+import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
+
+const showLoader = () => {
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "flex";
+};
+const hideLoader = () => {
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
+};
 
 let sellerProducts: Product[] = [];
 let currentRenderProducts: Product[] = [];
@@ -27,8 +36,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   )[0] as HTMLElement;
   redirectNavbarRequest(navbarElement);
   RouteProtection("seller");
-  populateUserPopup(); 
+  populateUserPopup();
   bindLogoutButton();
+
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
@@ -36,6 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const userToken = localStorage.getItem("user-token");
 
   try {
+    showLoader();
+
     const users = await GET<User[]>(`user?userId=${userToken}`);
     if (users.length === 0) {
       customAlert("error", "top-right", "User not found.");
@@ -80,6 +92,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     console.error("Error loading products:", error);
     customAlert("error", "top-right", "Failed to load products.");
+  } finally {
+    hideLoader();
   }
 });
 
@@ -127,32 +141,32 @@ function loadMoreProducts(): void {
     colDiv.className = "col-md-3 mb-4";
 
     colDiv.innerHTML = `
-      <div class="card h-100">
-        <img
-          src="${product.image}"
-          class="card-img-top"
-          alt="${product.name}"
-          style="object-fit: cover; height: 200px;"
-        />
-        <div class="card-body d-flex flex-column text-center">
-          <h5 class="card-title">${product.name}</h5>
-          <p class="card-text text-secondary mb-1">$${product.price.toFixed(
-            2
-          )}</p>
-          <div class="mt-auto d-flex justify-content-center gap-2">
-            <button class="btn btn-sm btn-info" data-view="${
-              product.id
-            }">View</button>
-            <button class="btn btn-sm btn-warning" data-edit="${
-              product.id
-            }">Edit</button>
-            <button class="btn btn-sm btn-danger" data-delete="${
-              product.id
-            }">Delete</button>
+        <div class="card h-100">
+          <img
+            src="${product.image}"
+            class="card-img-top"
+            alt="${product.name}"
+            style="object-fit: cover; height: 200px;"
+          />
+          <div class="card-body d-flex flex-column text-center">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text text-secondary mb-1">$${product.price.toFixed(
+              2
+            )}</p>
+            <div class="mt-auto d-flex justify-content-center gap-2">
+              <button class="btn btn-sm btn-info" data-view="${
+                product.id
+              }">View</button>
+              <button class="btn btn-sm btn-warning" data-edit="${
+                product.id
+              }">Edit</button>
+              <button class="btn btn-sm btn-danger" data-delete="${
+                product.id
+              }">Delete</button>
+            </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
 
     productListEl.appendChild(colDiv);
   });
@@ -197,6 +211,7 @@ async function deleteProduct(productId: string): Promise<void> {
   if (!window.confirm("Are you sure you want to delete this product?")) return;
 
   try {
+    showLoader();
     await deleteProductService(productId);
 
     sellerProducts = sellerProducts.filter(
@@ -212,5 +227,7 @@ async function deleteProduct(productId: string): Promise<void> {
   } catch (error) {
     console.error("Error deleting product:", error);
     customAlert("error", "top-right", "Failed to delete product.");
+  } finally {
+    hideLoader();
   }
 }
