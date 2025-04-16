@@ -107,9 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       `user?userId=${localStorage.getItem("user-token")}`
     );
 
-    if (userData.length > 0) {
-      handleRedirect(userData[0]);
-    }
+    handleRedirect(userData[0]);
   }
 
   initializeEventListener();
