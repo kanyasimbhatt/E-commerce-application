@@ -22,31 +22,38 @@
   <body>
     <div class="form-container">
       <h2>Login</h2>
-      <form id="sign-in-form">
-        <div class="input-field">
+      <form id="sign-in-form" novalidate>
+        <div class="input-field mb-3">
           <label for="email">Email</label>
           <input
             type="email"
             id="email"
+            class="form-control w-100"
             required
             placeholder="Enter your Email"
           />
+          <div id="email-error" class="text-danger small mt-1"></div>
         </div>
-        <div class="input-field">
+        <div class="input-field mb-3">
           <label for="password">Password</label>
           <input
             type="password"
             id="password"
+            class="form-control w-100"
             required
             placeholder="Enter your Password"
           />
+          <div id="password-error" class="text-danger small mt-1"></div>
         </div>
-        <button type="submit" class="btn-submit">Login</button>
+        <button type="submit" class="btn btn-primary btn-submit w-100">
+          Login
+        </button>
       </form>
 
-      <div class="text-center">
+      <div class="text-center mt-3">
         <p>
-          Don't have an account? <a href="../SignUp/signUp.html">Sign Up</a>
+          Don't have an account?
+          <a href="../SignUp/signUp.html">Sign Up</a>
         </p>
       </div>
     </div>
