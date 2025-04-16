@@ -45,7 +45,7 @@
                 <th scope="col">Actions</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody style="overflow: scroll"></tbody>
           </table>
           <div id="loader">
             <div class="spinner-border text-primary" role="status">
@@ -61,6 +61,12 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="analysis-popup bg-light">
+      <button class="btn btn-light remove-analysis-popup">
+        <i class="bi bi-x-circle"></i>
+      </button>
+      <div class="chart-display"></div>
     </div>
     <script type="module" src="./cart.ts"></script>
   </body>

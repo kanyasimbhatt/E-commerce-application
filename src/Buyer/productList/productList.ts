@@ -6,7 +6,11 @@ import { GET, PUT } from "../../Services/methods";
 import { filterProducts } from "./filter";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
 import { updateBadgeCount } from "./cardBadgeCount";
-import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
+import {
+  populateUserPopup,
+  bindLogoutButton,
+  bindAnalysisButton,
+} from "../../Navbar/userInfo";
 
 interface ProductState {
   products: Product[];
@@ -33,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   RouteProtection("buyer");
   populateUserPopup();
   bindLogoutButton();
+  bindAnalysisButton();
 });
 
 function init(): void {
@@ -63,16 +68,28 @@ function Sort(): void {
       e.preventDefault();
       const selectedSort = (e.target as HTMLElement).dataset.sort;
       if (!selectedSort) return;
-
-      if (selectedSort === "none") {
-        state.sortKey = "none";
-        state.sortDirection = "asc";
-      } else {
-        const isNameSort = selectedSort.startsWith("name");
-        state.sortKey = isNameSort ? "name" : "price";
-        state.sortDirection = selectedSort.endsWith("Asc") ? "asc" : "desc";
+      switch (selectedSort) {
+        case "none":
+          state.sortKey = "none";
+          state.sortDirection = "asc";
+          break;
+        case "nameAsc":
+          state.sortKey = "name";
+          state.sortDirection = "asc";
+          break;
+        case "nameDesc":
+          state.sortKey = "name";
+          state.sortDirection = "desc";
+          break;
+        case "lowToHigh":
+          state.sortKey = "price";
+          state.sortDirection = "asc";
+          break;
+        case "highToLow":
+          state.sortKey = "price";
+          state.sortDirection = "desc";
+          break;
       }
-
       const searchInput = document.getElementById("search") as HTMLInputElement;
       const filtered = filterProducts(searchInput?.value || "", state.products);
       const sorted = sortProducts(filtered, {
