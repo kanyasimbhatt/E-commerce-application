@@ -58,3 +58,8 @@ table.table td {
   min-width: 24px;
   text-align: center;
 }
+
+#loader{
+  display: none;
+  text-align: center;
+}
