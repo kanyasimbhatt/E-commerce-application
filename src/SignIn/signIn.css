@@ -29,7 +29,7 @@ body {
 
 .form-container .input-field input,
 .form-container .input-field select {
-  width: 95%;
+  width: 100%;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
