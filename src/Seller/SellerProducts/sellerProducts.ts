@@ -29,6 +29,7 @@ const itemsPerPage = 6;
 let productListEl: HTMLDivElement;
 let searchInputEl: HTMLInputElement;
 let sortSelectEl: HTMLSelectElement;
+let noProductsMessageEl: HTMLDivElement;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const navbarElement = document.getElementsByClassName(
@@ -42,6 +43,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
   sortSelectEl = document.getElementById("sortSelect") as HTMLSelectElement;
+
+  // Create and append the noProductsMessageEl
+  noProductsMessageEl = document.createElement("div");
+  noProductsMessageEl.id = "noProductsMessage";
+  noProductsMessageEl.style.display = "none";
+  noProductsMessageEl.style.textAlign = "center";
+  noProductsMessageEl.style.marginTop = "2rem";
+  noProductsMessageEl.innerHTML = `<h5>No products found.</h5>`;
+  productListEl.parentElement?.insertBefore(noProductsMessageEl, productListEl);
 
   const userToken = localStorage.getItem("user-token");
 
@@ -128,6 +138,12 @@ function handleSearchAndSort(): void {
 function resetProductsDisplay(): void {
   productListEl.innerHTML = "";
   currentDisplayIndex = 0;
+
+  if (currentRenderProducts.length === 0) {
+    noProductsMessageEl.style.display = "block";
+  } else {
+    noProductsMessageEl.style.display = "none";
+  }
 }
 
 function loadMoreProducts(): void {
