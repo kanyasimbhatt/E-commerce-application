@@ -30,6 +30,8 @@ export function bindLogoutButton() {
 
 export async function bindAnalysisButton() {
   try {
+    let bodyElement = document.getElementsByClassName("hide")[0] as HTMLElement;
+
     let visibleFlag = false;
     let userData: Array<Order> = await GET(
       `orders?userId=${localStorage.getItem("user-token")}`
@@ -93,6 +95,7 @@ export async function bindAnalysisButton() {
           );
           charts.render();
           visibleFlag = true;
+          bodyElement.style.display = "none";
         }
       });
 
@@ -104,6 +107,7 @@ export async function bindAnalysisButton() {
         "analysis-popup"
       )[0] as HTMLElement;
       analysisElement.style.display = "none";
+      bodyElement.style.display = "block";
       visibleFlag = false;
     });
   } catch (err) {
