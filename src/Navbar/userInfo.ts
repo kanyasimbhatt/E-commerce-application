@@ -1,6 +1,7 @@
 import ApexCharts from "apexcharts";
 import { GET } from "../Services/methods";
 import { Order, User } from "../Type/types";
+import { bodyElement, analysisElement, removePopupButton } from "./constants";
 
 export async function populateUserPopup() {
   const userId = localStorage.getItem("user-token");
@@ -28,65 +29,66 @@ export function bindLogoutButton() {
   });
 }
 
+async function fetchChartOptions() {
+  let userData: Array<Order> = await GET(
+    `orders?userId=${localStorage.getItem("user-token")}`
+  );
+  let productCountPerMonth = new Array(12).fill(0);
+  userData.forEach((order) => {
+    let month = new Date(order.date).getMonth();
+    let totalCount = order.orderItems.reduce(
+      (accumulator, product) => product.count! + accumulator,
+      0
+    );
+
+    productCountPerMonth[month] += totalCount;
+  });
+
+  return {
+    chart: {
+      height: "100%",
+      width: "100%",
+      type: "bar",
+      background: "transparent",
+      color: "black",
+      foreColor: "#333",
+    },
+    series: [
+      {
+        name: "Products Bought",
+        data: productCountPerMonth,
+      },
+    ],
+
+    xaxis: {
+      categories: [
+        "January",
+        "Feburary",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+    },
+  };
+}
+
 export async function bindAnalysisButton() {
   try {
-    let bodyElement = document.getElementsByClassName("hide")[0] as HTMLElement;
-
+    const searchDiv = document.getElementById("search") as HTMLInputElement;
     let visibleFlag = false;
-    let userData: Array<Order> = await GET(
-      `orders?userId=${localStorage.getItem("user-token")}`
-    );
-    let productCountPerMonth = new Array(12).fill(0);
-    userData.forEach((order) => {
-      let month = new Date(order.date).getMonth();
-      let totalCount = order.orderItems.reduce(
-        (accumulator, product) => product.count! + accumulator,
-        0
-      );
+    let chartOptions = await fetchChartOptions();
 
-      productCountPerMonth[month] += totalCount;
-    });
-
-    let chartOptions = {
-      chart: {
-        height: "100%",
-        width: "100%",
-        type: "bar",
-        background: "transparent",
-        color: "black",
-        foreColor: "#333",
-      },
-      series: [
-        {
-          name: "Products Bought",
-          data: productCountPerMonth,
-        },
-      ],
-
-      xaxis: {
-        categories: [
-          "January",
-          "Feburary",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ],
-      },
-    };
     document
       .getElementById("analysis-btn")
       ?.addEventListener("click", (event: Event) => {
         if (!visibleFlag) {
-          const analysisElement = document.getElementsByClassName(
-            "analysis-popup"
-          )[0] as HTMLElement;
           analysisElement.style.display = "block";
 
           const charts = new ApexCharts(
@@ -96,19 +98,15 @@ export async function bindAnalysisButton() {
           charts.render();
           visibleFlag = true;
           bodyElement.style.display = "none";
+          searchDiv.disabled = true;
         }
       });
 
-    const removePopupButton = document.getElementsByClassName(
-      "remove-analysis-popup"
-    )[0] as HTMLElement;
     removePopupButton.addEventListener("click", () => {
-      const analysisElement = document.getElementsByClassName(
-        "analysis-popup"
-      )[0] as HTMLElement;
       analysisElement.style.display = "none";
       bodyElement.style.display = "block";
       visibleFlag = false;
+      searchDiv.disabled = false;
     });
   } catch (err) {
     console.log(err);
