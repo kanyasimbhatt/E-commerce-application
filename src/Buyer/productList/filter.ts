@@ -1,4 +1,4 @@
-import { Product } from "../../SignUp/types";
+import { Product } from "../../Type/types";
 
 export function filterProducts(query: string, products: Product[]): Product[] {
   return products.filter((product) =>

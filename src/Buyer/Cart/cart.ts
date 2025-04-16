@@ -4,15 +4,17 @@ import { updateBadgeCount } from "../productList/cardBadgeCount";
 import { GET, PUT, POST } from "../../Services/methods";
 import customAlert from "@pranshupatel/custom-alert";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
+import { bindAnalysisButton } from "../../Navbar/userInfo";
 
 document.addEventListener("DOMContentLoaded", () => {
   RouteProtection("buyer");
+
   const navbarElement = document.querySelector(".navbar") as HTMLElement;
   redirectNavbarRequest(navbarElement);
   (
     document.getElementsByClassName("navbar-brand")[0] as HTMLAnchorElement
   ).href = "../productList/productList.html";
-
+  bindAnalysisButton();
   updateBadgeCount();
   (document.getElementsByClassName("remove")[0] as HTMLElement).classList.add(
     "d-none"
@@ -20,10 +22,26 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementsByClassName("checkout-button")[0]
     .addEventListener("click", async () => {
+      let userData = await getUserData();
+
+      POST("orders", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: new Date(),
+          userId: localStorage.getItem("user-token"),
+          orderItems: userData[0].cart,
+        }),
+      });
       await clearCart();
       updateBadgeCount();
       displayCartItems();
       customAlert("success", "top-right", "Order Placed successfully");
+      setTimeout(
+        () => (document.location.href = "../productList/productList.html"),
+        2000
+      );
     });
 
   document

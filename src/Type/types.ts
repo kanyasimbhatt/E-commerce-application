@@ -22,3 +22,9 @@ export interface User {
   role: Role;
   cart: Array<Product>;
 }
+
+export interface Order {
+  userId: string;
+  date: Date;
+  orderItems: Product[];
+}
