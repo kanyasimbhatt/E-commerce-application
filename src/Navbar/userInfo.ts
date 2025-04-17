@@ -126,16 +126,16 @@ export async function bindAnalysisButton() {
 
 async function fetchSellerChartOptions(sellerId: string) {
   const orders: Order[] = await GET("orders");
-  const productCountPerMonth = orders.reduce((acc, order) => {
-    const month = new Date(order.date).getMonth();
 
+  const productCountPerMonth = new Array(12).fill(0);
+
+  orders.forEach((order) => {
+    const month = new Date(order.date).getMonth();
     const monthlyCount = order.orderItems.reduce((sum, product) => {
       return product.userId === sellerId ? sum + (product.count ?? 1) : sum;
     }, 0);
-
-    acc[month] += monthlyCount;
-    return acc;
-  }, new Array(12).fill(0));
+    productCountPerMonth[month] += monthlyCount;
+  });
 
   return {
     chart: {
