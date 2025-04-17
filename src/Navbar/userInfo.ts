@@ -2,6 +2,7 @@ import ApexCharts from "apexcharts";
 import { GET } from "../Services/methods";
 import { Order, User } from "../Type/types";
 import { bodyElement, analysisElement, removePopupButton } from "./constants";
+import { Role, Product } from "../Type/types";
 
 export async function populateUserPopup() {
   const userId = localStorage.getItem("user-token");
@@ -29,18 +30,16 @@ export function bindLogoutButton() {
   });
 }
 
-async function fetchChartOptions() {
-  let userData: Array<Order> = await GET(
-    `orders?userId=${localStorage.getItem("user-token")}`
-  );
-  let productCountPerMonth = new Array(12).fill(0);
+async function fetchChartOptions(userId: string) {
+  const userData: Array<Order> = await GET(`orders?userId=${userId}`);
+  const productCountPerMonth = new Array(12).fill(0);
+
   userData.forEach((order) => {
-    let month = new Date(order.date).getMonth();
-    let totalCount = order.orderItems.reduce(
-      (accumulator, product) => product.count! + accumulator,
+    const month = new Date(order.date).getMonth();
+    const totalCount = order.orderItems.reduce(
+      (accumulator, product) => accumulator + (product.count ?? 1),
       0
     );
-
     productCountPerMonth[month] += totalCount;
   });
 
@@ -59,11 +58,10 @@ async function fetchChartOptions() {
         data: productCountPerMonth,
       },
     ],
-
     xaxis: {
       categories: [
         "January",
-        "Feburary",
+        "February",
         "March",
         "April",
         "May",
@@ -82,25 +80,36 @@ async function fetchChartOptions() {
 export async function bindAnalysisButton() {
   try {
     const searchDiv = document.getElementById("search") as HTMLInputElement;
+    const userId = localStorage.getItem("user-token");
+    if (!userId) return;
+    const currentUser: User = (
+      (await GET(`user?userId=${userId}`)) as User[]
+    )[0];
     let visibleFlag = false;
-    let chartOptions = await fetchChartOptions();
+    let chartInstance: ApexCharts | null = null;
 
-    document
-      .getElementById("analysis-btn")
-      ?.addEventListener("click", (event: Event) => {
-        if (!visibleFlag) {
-          analysisElement.style.display = "block";
+    const chartOptions =
+      currentUser.role === Role.Buyer
+        ? await fetchChartOptions(userId)
+        : await fetchSellerChartOptions(userId);
 
-          const charts = new ApexCharts(
-            document.querySelector(".chart-display"),
-            chartOptions
-          );
-          charts.render();
-          visibleFlag = true;
-          bodyElement.style.display = "none";
-          searchDiv.disabled = true;
-        }
-      });
+    document.getElementById("analysis-btn")?.addEventListener("click", () => {
+      if (!visibleFlag) {
+        analysisElement.style.display = "block";
+
+        if (chartInstance) chartInstance.destroy();
+
+        chartInstance = new ApexCharts(
+          document.querySelector(".chart-display"),
+          chartOptions
+        );
+        chartInstance.render();
+
+        visibleFlag = true;
+        bodyElement.style.display = "none";
+        searchDiv.disabled = true;
+      }
+    });
 
     removePopupButton.addEventListener("click", () => {
       analysisElement.style.display = "none";
@@ -109,6 +118,53 @@ export async function bindAnalysisButton() {
       searchDiv.disabled = false;
     });
   } catch (err) {
-    console.log(err);
+    console.error("Error binding analysis button:", err);
   }
+}
+
+async function fetchSellerChartOptions(sellerId: string) {
+  const orders: Order[] = await GET("orders");
+  const productCountPerMonth = new Array(12).fill(0);
+
+  orders.forEach((order) => {
+    const month = new Date(order.date).getMonth();
+
+    order.orderItems.forEach((product) => {
+      if (product.userId === sellerId) {
+        productCountPerMonth[month] += product.count ?? 1;
+      }
+    });
+  });
+
+  return {
+    chart: {
+      height: "100%",
+      width: "100%",
+      type: "line",
+      background: "transparent",
+      foreColor: "#333",
+    },
+    series: [
+      {
+        name: "Products Sold",
+        data: productCountPerMonth,
+      },
+    ],
+    xaxis: {
+      categories: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+    },
+  };
 }

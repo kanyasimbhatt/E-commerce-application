@@ -10,7 +10,11 @@ import { deleteProduct as deleteProductService } from "../../Services/productser
 import { Product, User, Role } from "../../Type/types";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
-import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
+import {
+  populateUserPopup,
+  bindLogoutButton,
+  bindAnalysisButton,
+} from "../../Navbar/userInfo";
 
 const showLoader = () => {
   const loader = document.getElementById("loader");
@@ -39,6 +43,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("seller");
   populateUserPopup();
   bindLogoutButton();
+  console.log("hello")
+  bindAnalysisButton();
 
   productListEl = document.getElementById("productList") as HTMLDivElement;
   searchInputEl = document.getElementById("searchInput") as HTMLInputElement;
