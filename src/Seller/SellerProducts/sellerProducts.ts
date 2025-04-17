@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("seller");
   populateUserPopup();
   bindLogoutButton();
-  console.log("hello")
   bindAnalysisButton();
 
   productListEl = document.getElementById("productList") as HTMLDivElement;
