@@ -82,10 +82,11 @@ export async function bindAnalysisButton() {
     const searchDiv = document.getElementById("search") as HTMLInputElement;
     const userId = localStorage.getItem("user-token");
     if (!userId) return;
+
     const currentUser: User = (
       (await GET(`user?userId=${userId}`)) as User[]
     )[0];
-    let visibleFlag = false;
+
     let chartInstance: ApexCharts | null = null;
 
     const chartOptions =
@@ -94,10 +95,8 @@ export async function bindAnalysisButton() {
         : await fetchSellerChartOptions(userId);
 
     document.getElementById("analysis-btn")?.addEventListener("click", () => {
-      if (!visibleFlag) {
+      if (!chartInstance) {
         analysisElement.style.display = "block";
-
-        if (chartInstance) chartInstance.destroy();
 
         chartInstance = new ApexCharts(
           document.querySelector(".chart-display"),
@@ -105,7 +104,6 @@ export async function bindAnalysisButton() {
         );
         chartInstance.render();
 
-        visibleFlag = true;
         bodyElement.style.display = "none";
         searchDiv.disabled = true;
       }
@@ -114,8 +112,12 @@ export async function bindAnalysisButton() {
     removePopupButton.addEventListener("click", () => {
       analysisElement.style.display = "none";
       bodyElement.style.display = "block";
-      visibleFlag = false;
       searchDiv.disabled = false;
+
+      if (chartInstance) {
+        chartInstance.destroy();
+        chartInstance = null;
+      }
     });
   } catch (err) {
     console.error("Error binding analysis button:", err);
