@@ -8,7 +8,11 @@ import {
 import { GET } from "../../Services/methods";
 import { redirectNavbarRequest } from "../../Navbar/navbarScript";
 import { RouteProtection } from "../../RouteProtection/routeProtection";
-import { populateUserPopup, bindLogoutButton } from "../../Navbar/userInfo";
+import {
+  populateUserPopup,
+  bindLogoutButton,
+  bindAnalysisButton,
+} from "../../Navbar/userInfo";
 
 const showLoader = () => {
   const loader = document.getElementById("loader");
@@ -32,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   RouteProtection("seller");
   populateUserPopup();
   bindLogoutButton();
+  bindAnalysisButton();
 
   const productNameInput = document.getElementById(
     "productName"

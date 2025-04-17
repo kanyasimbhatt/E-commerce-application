@@ -34,7 +34,7 @@ export function induceNavbarCode(element: HTMLElement, pageType: string) {
             </label>
             <input type="email" id="popup-email" class="form-control" readonly />
           </div>
-          <button class="btn btn-primary w-100 mb-2 remove" id="analysis-btn">
+          <button class="btn btn-primary w-100 mb-2" id="analysis-btn">
             <i class="bi bi-bar-chart-fill me-2"></i>Analysis
           </button>
           <button class="btn btn-danger w-100" id="logout-btn">
