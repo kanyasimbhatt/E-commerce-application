@@ -17,7 +17,6 @@ function initializeEventListener() {
       handleClickSignIn();
     });
 
-  passwordInput.addEventListener("input", validatePassword);
   emailInput.addEventListener("input", validateEmail);
 }
 
@@ -43,20 +42,6 @@ function validateEmail(): boolean {
   }
 }
 
-const validatePassword = (): boolean => {
-  const password = passwordInput.value.trim();
-  if (!passwordValidator.test(password)) {
-    passwordError.textContent =
-      "Password must be at least 7 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
-    passwordInput.classList.add("is-invalid");
-    return false;
-  } else {
-    passwordError.textContent = "";
-    passwordInput.classList.remove("is-invalid");
-    return true;
-  }
-};
-
 function clearErrors() {
   emailError.textContent = "";
   passwordError.textContent = "";
@@ -66,9 +51,8 @@ function clearErrors() {
 
 async function handleClickSignIn() {
   const emailValid = validateEmail();
-  const passwordValid = validatePassword();
 
-  if (!emailValid || !passwordValid) {
+  if (!emailValid) {
     return;
   }
 
