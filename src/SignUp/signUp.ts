@@ -152,15 +152,16 @@ function initSignUp(): void {
 
 document.addEventListener("DOMContentLoaded", async () => {
   initSignUp();
+
   if (localStorage.getItem("user-token")) {
     const userObject = await GET<Array<User>>(
       `user?userId=${localStorage.getItem("user-token")}`
     );
 
     if (userObject[0].role === "buyer") {
-      document.location.href = "#";
+      document.location.href = "../Buyer/productList/productList.html";
     } else {
-      document.location.href = "#";
+      document.location.href = "../Seller/AddProductForm/addProductForm.html";
     }
   }
 });
