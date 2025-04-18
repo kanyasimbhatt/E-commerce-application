@@ -7,12 +7,16 @@ const passwordInput = document.getElementById("password") as HTMLInputElement;
 const emailInput = document.getElementById("email") as HTMLInputElement;
 const emailError = document.getElementById("email-error")!;
 const passwordError = document.getElementById("password-error")!;
+const submitButton = document.getElementsByClassName(
+  "btn"
+)[0] as HTMLButtonElement;
 
 function initializeEventListener() {
   document
     .getElementById("sign-in-form")!
     .addEventListener("submit", (event) => {
       event.preventDefault();
+      submitButton.disabled = true;
       clearErrors();
       handleClickSignIn();
     });
@@ -74,6 +78,7 @@ async function handleClickSignIn() {
       }, 1000);
     } else {
       customAlert("error", "top-right", "Invalid username or password");
+      submitButton.disabled = false;
     }
   } catch (err) {
     console.error("Login error:", err);
