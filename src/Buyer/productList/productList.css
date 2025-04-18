@@ -1,3 +1,6 @@
+body {
+  min-width: 320px;
+}
 .product-card {
   padding: 5px;
   border-radius: 10px;
@@ -95,7 +98,7 @@ main {
   display: none;
 }
 
-#loader{
+#loader {
   display: none;
   text-align: center;
   margin-top: 10px;
