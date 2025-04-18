@@ -76,3 +76,10 @@ table.table td {
   display: none;
   text-align: center;
 }
+
+@media screen and (max-width: 550px) {
+  .analysis-popup {
+    width: 100%;
+    left: 0;
+  }
+}
