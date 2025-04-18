@@ -167,7 +167,7 @@ function displayProducts(items: Product[]): void {
       (product) => `
       <div class="col-md-3 col-lg-2 mb-4 d-flex align-items-stretch" id="main-card">
         <div class="card product-card w-100 product-click" data-id="${product.id}">
-          <img src="${product.image}" class="card-img-top product-img" alt="${product.name}">
+          <img src="${product.image}" class="card-img-top product-img" alt="${product.name} loading="lazy">
           <div class="card-body text-center">
             <h5 class="card-title">${product.name}</h5>
             <p class="text-success fw-bold">$${product.price}</p>
