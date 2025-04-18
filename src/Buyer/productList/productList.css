@@ -1,3 +1,6 @@
+body {
+  min-width: 320px;
+}
 .product-card {
   padding: 5px;
   border-radius: 10px;
@@ -96,196 +99,198 @@ main {
 }
 
 #loader {
-  display: none;
-  text-align: center;
-  margin-top: 10px;
-}
-
-@media (max-width: 420px) {
-  table thead {
-    display: none;
-  }
-
-  table tbody tr {
-    display: block;
-    margin-bottom: 1rem;
-    border: 1px solid #dee2e6;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    background-color: #fff;
-  }
-
-  table tbody td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    border: none;
-    border-bottom: 1px solid #f1f1f1;
-    font-size: 0.9rem;
-  }
-
-  table tbody td:last-child {
-    border-bottom: none;
-  }
-
-  table tbody td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    text-transform: capitalize;
-    flex-basis: 50%;
-    text-align: left;
-    color: #444;
-  }
-
-  table tbody td:nth-child(1)::before {
-    content: "#";
-  }
-  table tbody td:nth-child(2)::before {
-    content: "Product Name";
-  }
-  table tbody td:nth-child(3)::before {
-    content: "Image";
-  }
-  table tbody td:nth-child(4)::before {
-    content: "Price";
-  }
-  table tbody td:nth-child(5)::before {
-    content: "Description";
-  }
-  table tbody td:nth-child(6)::before {
-    content: "Actions";
-  }
-
-  .checkout-button,
-  .clear-cart-button {
-    width: 100%;
-  }
-
-  .d-flex.gap-3.align-items-center {
-    flex-direction: column;
-    align-items: stretch !important;
-    gap: 1rem !important;
-    margin-top: 1rem;
-  }
-
-  .total-price {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-}
-
-@media (max-width: 420px) {
-  .main-heading {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 1rem;
-  }
-
-  .main-heading h3 {
-    font-size: 1.25rem;
-  }
-
-  .sort {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .sort .dropdown {
-    width: 100%;
-  }
-
-  .sort .dropdown .btn {
-    width: 100%;
-    font-size: 0.95rem;
-  }
-
-  #product-list {
-    padding: 0 0.5rem;
-  }
-
-  .allProduct .card {
-    margin-bottom: 1rem;
-    padding: 0.75rem;
-    font-size: 0.9rem;
-  }
-
-  .popup-content {
-    width: 95% !important;
-    max-width: 100% !important;
-    padding: 1rem;
-  }
-
-  .popup-body {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .popup-img {
-    width: 100%;
-    height: auto;
-    max-height: 250px;
-    object-fit: contain;
-  }
-
-  .popup-details h3,
-  .popup-details h5 {
-    text-align: center;
-  }
-
-  .popup-details p {
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .popup-details button {
-    width: 100%;
-  }
-
-  .analysis-popup {
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .analysis-popup h5 {
-    font-size: 1rem;
-  }
-
-  .chart-display {
-    overflow-x: auto;
-  }
-
   #loader {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0;
+    display: none;
+    text-align: center;
+    margin-top: 10px;
   }
 
-  .spinner-border {
-    width: 2rem;
-    height: 2rem;
+  @media (max-width: 420px) {
+    table thead {
+      display: none;
+    }
+
+    table tbody tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid #dee2e6;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background-color: #fff;
+    }
+
+    table tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border: none;
+      border-bottom: 1px solid #f1f1f1;
+      font-size: 0.9rem;
+    }
+
+    table tbody td:last-child {
+      border-bottom: none;
+    }
+
+    table tbody td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      text-transform: capitalize;
+      flex-basis: 50%;
+      text-align: left;
+      color: #444;
+    }
+
+    table tbody td:nth-child(1)::before {
+      content: "#";
+    }
+    table tbody td:nth-child(2)::before {
+      content: "Product Name";
+    }
+    table tbody td:nth-child(3)::before {
+      content: "Image";
+    }
+    table tbody td:nth-child(4)::before {
+      content: "Price";
+    }
+    table tbody td:nth-child(5)::before {
+      content: "Description";
+    }
+    table tbody td:nth-child(6)::before {
+      content: "Actions";
+    }
+
+    .checkout-button,
+    .clear-cart-button {
+      width: 100%;
+    }
+
+    .d-flex.gap-3.align-items-center {
+      flex-direction: column;
+      align-items: stretch !important;
+      gap: 1rem !important;
+      margin-top: 1rem;
+    }
+
+    .total-price {
+      font-size: 1.2rem;
+      text-align: center;
+    }
   }
 
-  .sort {
-    flex-direction: column !important;
-    gap: 0.5rem !important;
-    width: 100%;
-    align-items: stretch;
-    margin-top: 0.5rem;
-  }
+  @media (max-width: 420px) {
+    .main-heading {
+      flex-direction: column;
+      align-items: flex-start !important;
+      gap: 1rem;
+    }
 
-  .sort .dropdown {
-    width: 100%;
-  }
+    .main-heading h3 {
+      font-size: 1.25rem;
+    }
 
-  .sort .dropdown .btn {
-    width: 100%;
-    font-size: 0.9rem;
-  }
+    .sort {
+      width: 100%;
+      flex-direction: column;
+    }
 
-  .sort .dropdown-menu {
-    width: 100%;
+    .sort .dropdown {
+      width: 100%;
+    }
+
+    .sort .dropdown .btn {
+      width: 100%;
+      font-size: 0.95rem;
+    }
+
+    #product-list {
+      padding: 0 0.5rem;
+    }
+
+    .allProduct .card {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .popup-content {
+      width: 95% !important;
+      max-width: 100% !important;
+      padding: 1rem;
+    }
+
+    .popup-body {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .popup-img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: contain;
+    }
+
+    .popup-details h3,
+    .popup-details h5 {
+      text-align: center;
+    }
+
+    .popup-details p {
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .popup-details button {
+      width: 100%;
+    }
+
+    .analysis-popup {
+      padding: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .analysis-popup h5 {
+      font-size: 1rem;
+    }
+
+    .chart-display {
+      overflow-x: auto;
+    }
+
+    #loader {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .spinner-border {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .sort {
+      flex-direction: column !important;
+      gap: 0.5rem !important;
+      width: 100%;
+      align-items: stretch;
+      margin-top: 0.5rem;
+    }
+
+    .sort .dropdown {
+      width: 100%;
+    }
+
+    .sort .dropdown .btn {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .sort .dropdown-menu {
+      width: 100%;
+    }
   }
 }
