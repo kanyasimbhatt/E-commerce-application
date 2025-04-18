@@ -7,17 +7,20 @@ const passwordInput = document.getElementById("password") as HTMLInputElement;
 const emailInput = document.getElementById("email") as HTMLInputElement;
 const emailError = document.getElementById("email-error")!;
 const passwordError = document.getElementById("password-error")!;
+const submitButton = document.getElementsByClassName(
+  "btn"
+)[0] as HTMLButtonElement;
 
 function initializeEventListener() {
   document
     .getElementById("sign-in-form")!
     .addEventListener("submit", (event) => {
       event.preventDefault();
+      submitButton.disabled = true;
       clearErrors();
       handleClickSignIn();
     });
 
-  passwordInput.addEventListener("input", validatePassword);
   emailInput.addEventListener("input", validateEmail);
 }
 
@@ -43,20 +46,6 @@ function validateEmail(): boolean {
   }
 }
 
-const validatePassword = (): boolean => {
-  const password = passwordInput.value.trim();
-  if (!passwordValidator.test(password)) {
-    passwordError.textContent =
-      "Password must be at least 7 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
-    passwordInput.classList.add("is-invalid");
-    return false;
-  } else {
-    passwordError.textContent = "";
-    passwordInput.classList.remove("is-invalid");
-    return true;
-  }
-};
-
 function clearErrors() {
   emailError.textContent = "";
   passwordError.textContent = "";
@@ -66,9 +55,8 @@ function clearErrors() {
 
 async function handleClickSignIn() {
   const emailValid = validateEmail();
-  const passwordValid = validatePassword();
 
-  if (!emailValid || !passwordValid) {
+  if (!emailValid) {
     return;
   }
 
@@ -90,6 +78,7 @@ async function handleClickSignIn() {
       }, 1000);
     } else {
       customAlert("error", "top-right", "Invalid username or password");
+      submitButton.disabled = false;
     }
   } catch (err) {
     console.error("Login error:", err);

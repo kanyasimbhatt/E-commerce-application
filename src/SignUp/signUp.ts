@@ -10,6 +10,9 @@ function initSignUp(): void {
   const emailInput = document.getElementById("email") as HTMLInputElement;
   const passwordInput = document.getElementById("password") as HTMLInputElement;
   const roleSelect = document.getElementById("role") as HTMLSelectElement;
+  const submitButton = document.getElementsByClassName(
+    "btn-submit"
+  )[0] as HTMLButtonElement;
 
   // Error message containers
   const nameError = document.getElementById("nameError") as HTMLElement;
@@ -89,7 +92,7 @@ function initSignUp(): void {
   // Form submission handler
   form.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
-
+    submitButton.disabled = true;
     // Run all custom validations
     const isNameValid = validateName();
     const isEmailValid = validateEmail();
@@ -152,15 +155,16 @@ function initSignUp(): void {
 
 document.addEventListener("DOMContentLoaded", async () => {
   initSignUp();
+
   if (localStorage.getItem("user-token")) {
     const userObject = await GET<Array<User>>(
       `user?userId=${localStorage.getItem("user-token")}`
     );
 
     if (userObject[0].role === "buyer") {
-      document.location.href = "#";
+      document.location.href = "../Buyer/productList/productList.html";
     } else {
-      document.location.href = "#";
+      document.location.href = "../Seller/AddProductForm/addProductForm.html";
     }
   }
 });

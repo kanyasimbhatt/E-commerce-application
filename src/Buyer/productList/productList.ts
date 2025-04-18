@@ -17,6 +17,8 @@ interface ProductState {
   isFetching: boolean;
   sortKey: "name" | "price" | "none";
   sortDirection: "asc" | "desc";
+  currentIndex: number;
+  chunkSize: number;
 }
 
 let loaderElement: HTMLElement;
@@ -27,6 +29,8 @@ let state: ProductState = {
   isFetching: false,
   sortKey: "none",
   sortDirection: "asc",
+  currentIndex: 0,
+  chunkSize: 12,
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,6 +50,7 @@ function init(): void {
   Search();
   Sort();
   fetchProducts();
+  window.addEventListener("scroll", handleScroll);
 }
 
 function Search(): void {
@@ -105,21 +110,46 @@ function Sort(): void {
 
 async function fetchProducts(): Promise<void> {
   if (state.isFetching) return;
+
   state.isFetching = true;
-  loaderElement.style.display = "block"; 
+  loaderElement.style.display = "block";
+
   const data = await GET<Product[]>("products");
-  state.products = [...state.products, ...data];
+  state.products = data;
+
+  state.currentIndex = 0; 
+  displayNextChunk();
+
+  loaderElement.style.display = "none";
+  state.isFetching = false;
+}
+
+function handleScroll(): void {
+  const scrollBottom =
+    window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+
+  if (
+    scrollBottom &&
+    state.currentIndex < state.products.length &&
+    !state.isFetching
+  ) {
+    displayNextChunk();
+  }
+}
+
+function displayNextChunk(): void {
+  const nextIndex = state.currentIndex + state.chunkSize;
+  const slicedProducts = state.products.slice(0, nextIndex);
 
   const searchInput = document.getElementById("search") as HTMLInputElement;
-  const filtered = filterProducts(searchInput?.value || "", state.products);
+  const filtered = filterProducts(searchInput?.value || "", slicedProducts);
   const sorted = sortProducts(filtered, {
     sortKey: state.sortKey,
     sortDirection: state.sortDirection,
   });
 
   displayProducts(sorted);
-  state.isFetching = false;
-  loaderElement.style.display = "none";
+  state.currentIndex = nextIndex;
 }
 
 async function handleAddToCart(productId: string) {
@@ -167,7 +197,7 @@ function displayProducts(items: Product[]): void {
       (product) => `
       <div class="col-md-3 col-lg-2 mb-4 d-flex align-items-stretch" id="main-card">
         <div class="card product-card w-100 product-click" data-id="${product.id}">
-          <img src="${product.image}" class="card-img-top product-img" alt="${product.name}">
+          <img src="${product.image}" class="card-img-top product-img" alt="${product.name} loading="lazy">
           <div class="card-body text-center">
             <h5 class="card-title">${product.name}</h5>
             <p class="text-success fw-bold">$${product.price}</p>
